@@ -1,0 +1,35 @@
+{
+  "name": "tourn-grid-view",
+  "version": "0.1.0",
+  "description": "Render chess tournament grids in Material UI with interactive features",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "start": "npm run clean && webpack-dev-server --mode development --env=dev",
+    "transpile": "npm run clean && babel src -d dist --copy-files",
+    "build": "npm run clean && webpack --mode production --env=prod && rm dist/index.html && mv dist/main.js dist/tourn-grid-view.js"
+  },
+  "author": {
+    "name": "Anton Telechev",
+    "url": "https://github.com/atelechev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "@material-ui/core": "^4.6.1",
+    "d3": "^3.5.17"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^3.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
