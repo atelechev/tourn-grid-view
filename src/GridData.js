@@ -7,13 +7,14 @@ import TableCell from '@material-ui/core/TableCell';
 export class GridData extends React.Component {
 
   render() {
+    const classes = this.props.useStyles;
     return (
       <TableBody>
         {this.props.rowData.map((row, iRow) => {
           return (
             <TableRow key={iRow}>
               {row.map((cellValue, iCell) => {
-                return <TableCell key={iCell}>{cellValue}</TableCell>;
+                return <TableCell key={iCell} className={classes.tablecell}>{cellValue}</TableCell>;
               })}
             </TableRow>
           );

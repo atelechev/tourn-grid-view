@@ -8,11 +8,12 @@ import PropTypes from 'prop-types';
 export class GridHeader extends React.Component {
 
   render() {
+    const classes = this.props.useStyles;
     return (
       <TableHead>
         <TableRow>
           {this.props.columnNames.map((columnName, index) => {
-            return <TableCell key={index}>{columnName}</TableCell>;
+            return <TableCell key={index} className={classes.tablecell}>{columnName}</TableCell>;
           })}
         </TableRow>
       </TableHead>
