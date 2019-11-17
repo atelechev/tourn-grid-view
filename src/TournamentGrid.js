@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
   tablecell: {
     fontSize: 'smaller'
+  },
+  hidden: {
+    display: 'none'
   }
 }));
 
@@ -34,8 +37,11 @@ export default function TournamentGrid(props) {
       <Paper className={classes.paper}>
         <Table className={classes.table} size="small" aria-label='Tournament grid table'>
           <GridHeader columnNames={csvProcessor.header}
+            hideColumns={props.hideColumns}
             useStyles={classes} />
           <GridData rowData={csvProcessor.data}
+            columnNames={csvProcessor.header}
+            hideColumns={props.hideColumns}
             useStyles={classes} />
         </Table>
       </Paper>
@@ -45,9 +51,10 @@ export default function TournamentGrid(props) {
 }
 
 TournamentGrid.propTypes = {
-  csvElementId: PropTypes.string.isRequired
+  csvElementId: PropTypes.string.isRequired,
+  hideColumns: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 TournamentGrid.defaultProps = {
-
+  hideColumns: ['Cat', 'Ligue']
 };

@@ -7,23 +7,41 @@ import PropTypes from 'prop-types';
 
 export class GridHeader extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.classes = this.props.useStyles;
+  }
+
   render() {
-    const classes = this.props.useStyles;
     return (
       <TableHead>
         <TableRow>
           {this.props.columnNames.map((columnName, index) => {
-            return <TableCell key={index} className={classes.tablecell}>{columnName}</TableCell>;
+            return (<TableCell key={index}
+              className={this.calculateCellClasses(columnName)}>
+              {columnName}
+            </TableCell>);
           })}
         </TableRow>
       </TableHead>
     );
   }
 
+  calculateCellClasses(columnName) {
+    const isVisible = this.props.hideColumns.filter((item) => item === columnName).length === 0;
+    const visibilityClass = isVisible ? '' : this.classes.hidden;
+    return [this.classes.tablecell, visibilityClass].join(' ');
+  }
+
 }
 
 GridHeader.propTypes = {
-  columnNames: PropTypes.arrayOf(PropTypes.string).isRequired
+  columnNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  hideColumns: PropTypes.arrayOf(PropTypes.string).isRequired
+};
+
+GridHeader.defaultProps = {
+  hideColumns: []
 };
 
 export default GridHeader;
