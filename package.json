@@ -4,7 +4,7 @@
   "description": "Render chess tournament grids in Material UI with interactive features",
   "scripts": {
     "clean": "rm -rf dist",
-    "start": "webpack-dev-server --mode development --env=dev",
+    "start": "npm run clean && webpack-dev-server --mode development --env=dev",
     "transpile": "npm run clean && babel src -d dist --copy-files",
     "build": "npm run clean && webpack --mode production --env=prod && rm dist/index.html && mv dist/main.js dist/tourn-grid-view.js"
   },
