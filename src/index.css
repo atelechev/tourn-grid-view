@@ -1,0 +1,12 @@
+body {
+  background-color: white;
+  border: 0;
+  border-radius: 0;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tourn-grid-table {
+  min-width: 600px;
+  font-size: smaller;
+}

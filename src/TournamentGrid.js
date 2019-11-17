@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CsvProcessor from './CsvProcessor';
-
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import GridHeader from './GridHeader';
+import GridData from './GridData';
+import './index.css';
 
 class TournamentGrid extends React.Component {
 
@@ -12,7 +16,12 @@ class TournamentGrid extends React.Component {
 
   render() {
     return (
-      <p>TODO grid</p>
+      <Paper>
+        <Table className={'tourn-grid-table'} aria-label='Tournament grid table'>
+          <GridHeader columnNames={this.csvProcessor.header} />
+          <GridData rowData={this.csvProcessor.data} />
+        </Table>
+      </Paper>
     );
   }
 
