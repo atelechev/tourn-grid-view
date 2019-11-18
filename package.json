@@ -12,6 +12,9 @@
     "name": "Anton Telechev",
     "url": "https://github.com/atelechev"
   },
+  "keywords": [
+    "react", "chess", "tournament", "grid"
+  ],
   "license": "MIT",
   "dependencies": {
     "react": "^16.11.0",
