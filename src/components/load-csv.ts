@@ -1,5 +1,5 @@
-import { Csv } from './Csv';
 import * as d3 from 'd3';
+import { Csv } from './Csv';
 
 export const loadCsv = (idCsvWrapper: string): Csv => {
   const csvElement = d3.select(`#${idCsvWrapper}`);
@@ -7,8 +7,9 @@ export const loadCsv = (idCsvWrapper: string): Csv => {
     throw Error(`Target element with id='${idCsvWrapper}' not found!`);
   }
   const rawCsv = csvElement.text();
-  const parsedCSV = Array.from(d3.csv.parseRows(rawCsv))
-    .filter((row: Array<any>) => row && row.length > 0);
+  const parsedCSV = Array.from(d3.csv.parseRows(rawCsv)).filter(
+    (row: Array<any>) => row && row.length > 0,
+  );
   if (!parsedCSV || parsedCSV.length < 1) {
     throw Error('No CSV data found!');
   }
@@ -18,7 +19,7 @@ export const loadCsv = (idCsvWrapper: string): Csv => {
     data = parsedCSV.slice(1, parsedCSV.length);
   }
   return {
-    header: header,
-    data: data
-  }
-}
+    header,
+    data,
+  };
+};
