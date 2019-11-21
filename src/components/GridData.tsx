@@ -1,7 +1,10 @@
+/** @jsx jsx */
 import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import { calculateColumnVisibility } from './column-visibility';
+import { jsx } from '@emotion/core';
 
 interface GridDataProps {
   columnNames: Array<string>;
@@ -10,9 +13,6 @@ interface GridDataProps {
 }
 
 export default class GridData extends React.Component<GridDataProps> {
-  constructor(props: GridDataProps) {
-    super(props);
-  }
 
   public render(): ReactNode {
     return (
@@ -21,8 +21,9 @@ export default class GridData extends React.Component<GridDataProps> {
           <TableRow key={iRow}>
             {row.map((cellValue, iCell) => {
               const columnName = this.props.columnNames[iCell];
+              const visibilityClass = calculateColumnVisibility(columnName, this.props.hideColumns);
               return (
-                <TableCell key={iCell} className={this.calculateCellClasses(columnName)}>
+                <TableCell key={iCell} css={visibilityClass}>
                   {cellValue}
                 </TableCell>
               );
@@ -33,8 +34,4 @@ export default class GridData extends React.Component<GridDataProps> {
     );
   }
 
-  private calculateCellClasses(columnName: string): string {
-    const isVisible = this.props.hideColumns.filter((item) => item === columnName).length === 0;
-    return isVisible ? '' : 'hidden-item';
-  }
 }

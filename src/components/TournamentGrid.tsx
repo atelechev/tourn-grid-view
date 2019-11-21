@@ -14,7 +14,7 @@ const tableStyle = css({
 export default class TournamentGrid extends React.Component {
   public render(): ReactNode {
     const csv = loadCsv('grid-raw-csv');
-    const hiddenColumns: Array<string> = [];
+    const hiddenColumns: Array<string> = ['Rapide', 'Cat', 'Ligue'];
     return (
       <div>
         <Paper>
