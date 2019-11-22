@@ -5,32 +5,31 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { calculateColumnVisibility } from './column-visibility';
 import { jsx } from '@emotion/core';
+import { GridContext } from './GridContext';
 
-interface GridDataProps {
-  columnNames: Array<string>;
-  rowData: Array<Array<any>>;
-  hideColumns: Array<string>;
-}
-
-export default class GridData extends React.Component<GridDataProps> {
+export default class GridData extends React.Component {
 
   public render(): ReactNode {
     return (
-      <TableBody>
-        {this.props.rowData.map((row, iRow) => (
-          <TableRow key={iRow}>
-            {row.map((cellValue, iCell) => {
-              const columnName = this.props.columnNames[iCell];
-              const visibilityClass = calculateColumnVisibility(columnName, this.props.hideColumns);
-              return (
-                <TableCell key={iCell} css={visibilityClass}>
-                  {cellValue}
-                </TableCell>
-              );
-            })}
-          </TableRow>
-        ))}
-      </TableBody>
+      <GridContext.Consumer>
+        {ctx => (
+          <TableBody>
+            {ctx.csv.data.map((row, iRow) => (
+              <TableRow key={iRow}>
+                {row.map((cellValue, iCell) => {
+                  const columnName = ctx.csv.header[iCell];
+                  const visibilityClass = calculateColumnVisibility(columnName, ctx.hiddenColumns);
+                  return (
+                    <TableCell key={iCell} css={visibilityClass}>
+                      {cellValue}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
+      </GridContext.Consumer>
     );
   }
 

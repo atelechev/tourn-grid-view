@@ -5,28 +5,28 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { calculateColumnVisibility } from './column-visibility';
 import { jsx } from '@emotion/core';
+import { GridContext } from './GridContext';
 
-interface GridHeaderProps {
-  columnNames: Array<string>;
-  hideColumns: Array<string>;
-}
-
-export default class GridHeader extends React.Component<GridHeaderProps> {
+export default class GridHeader extends React.Component {
 
   public render(): ReactNode {
     return (
-      <TableHead>
-        <TableRow>
-          {this.props.columnNames.map((columnName, index) => {
-            const visibilityClass = calculateColumnVisibility(columnName, this.props.hideColumns);
-            return (
-              <TableCell key={index} css={visibilityClass}>
-                {columnName}
-              </TableCell>
-            );
-          })}
-        </TableRow>
-      </TableHead>
+      <GridContext.Consumer>
+        {ctx => (
+          <TableHead>
+            <TableRow>
+              {ctx.csv.header.map((columnName, index) => {
+                const visibilityClass = calculateColumnVisibility(columnName, ctx.hiddenColumns);
+                return (
+                  <TableCell key={index} css={visibilityClass}>
+                    {columnName}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          </TableHead>
+        )}
+      </GridContext.Consumer>
     );
   }
 

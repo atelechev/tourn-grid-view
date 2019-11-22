@@ -6,24 +6,43 @@ import { css, jsx } from '@emotion/core';
 import GridHeader from './GridHeader';
 import GridData from './GridData';
 import { loadCsv } from './load-csv';
+import { GridContext, GridStateProperties } from './GridContext';
+import { Csv } from './Csv';
 
 const tableStyle = css({
   minWidth: 600,
 });
 
-export default class TournamentGrid extends React.Component {
+interface GridProperties {
+  idCsvElement: string,
+  hiddenColumns: Array<string>
+}
+
+export default class TournamentGrid extends React.Component<GridProperties> {
+
+  private readonly csv: Csv;
+
+  constructor(props: GridProperties) {
+    super(props);
+    this.csv = loadCsv(props.idCsvElement);
+  }
+
   public render(): ReactNode {
-    const csv = loadCsv('grid-raw-csv');
-    const hiddenColumns: Array<string> = ['Rapide', 'Cat', 'Ligue'];
+    const context = {
+      csv: this.csv,
+      hiddenColumns: this.props.hiddenColumns
+    } as GridStateProperties;
     return (
-      <div>
-        <Paper>
-          <Table css={tableStyle} size="small" aria-label="Tournament grid table">
-            <GridHeader columnNames={csv.header} hideColumns={hiddenColumns} />
-            <GridData rowData={csv.data} columnNames={csv.header} hideColumns={hiddenColumns} />
-          </Table>
-        </Paper>
-      </div>
+      <GridContext.Provider value={context}>
+        <div>
+          <Paper>
+            <Table css={tableStyle} size="small" aria-label="Tournament grid table">
+              <GridHeader />
+              <GridData />
+            </Table>
+          </Paper>
+        </div>
+      </GridContext.Provider>
     );
   }
 }
