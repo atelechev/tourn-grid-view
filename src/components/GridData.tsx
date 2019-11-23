@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { calculateColumnVisibility } from './column-visibility';
+import { calculateColumnVisibility } from './column-utils';
 import { jsx } from '@emotion/core';
 import { GridContext } from './GridContext';
 
@@ -18,7 +18,7 @@ export default class GridData extends React.Component {
               <TableRow key={iRow}>
                 {row.map((cellValue, iCell) => {
                   const columnName = ctx.csv.header[iCell];
-                  const visibilityClass = calculateColumnVisibility(columnName, ctx.hiddenColumns);
+                  const visibilityClass = calculateColumnVisibility(columnName, ctx.shownColumns);
                   return (
                     <TableCell key={iCell} css={visibilityClass}>
                       {cellValue}
