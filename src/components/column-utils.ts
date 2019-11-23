@@ -7,7 +7,7 @@ const hiddenStyle = css({
 const visibleStyle = css({});
 
 
-const isRoundColumn =
+export const isRoundColumn =
   (column: string): boolean => {
     const roundColumnRegex = /[Rr][0-9]+/g;
     const matchResult = column.match(roundColumnRegex);
