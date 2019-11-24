@@ -6,7 +6,7 @@ import { FiltersManager } from '../filters/FiltersManager';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
 const selectorStyle = css({
-  minWidth: '100px'
+  minWidth: '120px'
 });
 
 export default class FilterTypeSelector extends React.Component {

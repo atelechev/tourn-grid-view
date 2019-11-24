@@ -2,6 +2,7 @@ import { Filter } from './Filter';
 import { NoFilter } from './NoFilter';
 import { SimpleFilter } from './SimpleFilter';
 import { Csv } from '../Csv';
+import RatingFilter from './RatingFilter';
 
 
 export class FiltersManager {
@@ -28,13 +29,20 @@ export class FiltersManager {
       if (columnIndex < 0) {
         console.warn(`Filter ${filterName} not found among CSV columns. Skipping it.`);
       } else {
-        const filter = new SimpleFilter(filterName);
+        const filter = this.initFilter(filterName);
         filter.filteredColumnIndex = columnIndex;
         filter.selectableOptions = this._csv.data.map(row => row[columnIndex]);
         this._enabledFilters.set(filterName, filter);
       }
     });
     this._enabledFilters.set(this._noFilter.name, this._noFilter);
+  }
+
+  private initFilter(filterName: string): SimpleFilter | RatingFilter {
+    if (filterName === 'Rating') {
+      return new RatingFilter();
+    }
+    return new SimpleFilter(filterName);
   }
 
   public get activeFilter(): Filter {
