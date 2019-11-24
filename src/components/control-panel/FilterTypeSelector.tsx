@@ -1,9 +1,15 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { GridContext, GridState } from '../GridContext';
 import { FiltersManager } from '../filters/FiltersManager';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
-export default class FiltersSelector extends React.Component {
+const selectorStyle = css({
+  minWidth: '100px'
+});
+
+export default class FilterTypeSelector extends React.Component {
 
   public render(): ReactNode {
     return (
@@ -13,11 +19,12 @@ export default class FiltersSelector extends React.Component {
           const filterNames = filterManager.availableFilters;
           return (
             <FormControl>
-              <InputLabel id="selector-filters-label">Filters</InputLabel>
+              <InputLabel id="selector-filters-label">Filter by</InputLabel>
               <Select labelId="selector-filters-label"
                 id="selector-filters"
                 value={filterManager.activeFilter.name}
                 onChange={(evt) => this.filtersSelectionChanged(evt, ctx)}
+                css={selectorStyle}
               >
                 {filterNames.map((opt, i) => (
                   <MenuItem key={i} value={opt}>{opt}</MenuItem>

@@ -30,7 +30,7 @@ export class FiltersManager {
       } else {
         const filter = new SimpleFilter(filterName);
         filter.filteredColumnIndex = columnIndex;
-        filter.filteredValue = undefined;
+        filter.selectableOptions = this._csv.data.map(row => row[columnIndex]);
         this._enabledFilters.set(filterName, filter);
       }
     });

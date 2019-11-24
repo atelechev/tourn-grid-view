@@ -12,7 +12,7 @@ export class ColumnsSelector extends React.Component {
           const selectableOptions = buildSelectableColumns(ctx.csv.header);
           return (
             <FormControl>
-              <InputLabel id="selector-columns-label">Columns</InputLabel>
+              <InputLabel id="selector-columns-label">Shown Columns</InputLabel>
               <Select multiple
                 labelId="selector-columns-label"
                 id="selector-columns"

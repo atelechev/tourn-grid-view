@@ -1,4 +1,4 @@
-import { Filter } from './Filter';
+import { Filter, VALUE_NO_FILTER } from './Filter';
 
 export class NoFilter implements Filter {
 
@@ -6,6 +6,20 @@ export class NoFilter implements Filter {
     return true;
   }
 
-  public readonly name = '---';
+  public get name(): string {
+    return VALUE_NO_FILTER;
+  };
+
+  public get selectableOptions(): Array<any> {
+    return [VALUE_NO_FILTER];
+  }
+
+  public set selectedValue(_: any) {
+    // nothing
+  }
+
+  public get selectedValue(): any {
+    return VALUE_NO_FILTER;
+  }
 
 }

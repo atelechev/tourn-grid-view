@@ -2,7 +2,8 @@
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { ColumnsSelector } from './ColumnsSelector';
-import FiltersSelector from './FiltersSelector';
+import FilterTypeSelector from './FilterTypeSelector';
+import FilteredItemsSelector from './FilteredItemsSelector';
 
 const panelStyle = css({
   display: 'flex',
@@ -16,7 +17,8 @@ export class ControlPanel extends React.Component {
   public render(): ReactNode {
     return (
       <div css={panelStyle}>
-        <FiltersSelector />
+        <FilterTypeSelector />
+        <FilteredItemsSelector />
         <ColumnsSelector />
       </div>
     );
