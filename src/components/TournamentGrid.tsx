@@ -7,7 +7,7 @@ import { css, jsx } from '@emotion/core';
 import GridHeader from './GridHeader';
 import GridData from './GridData';
 import { GridContext, GridState } from './GridContext';
-import { ControlPanel } from './ControlPanel';
+import { ControlPanel } from './control-panel/ControlPanel';
 import { calculateVisibleColumns, buildSelectableColumns } from './column-utils';
 import { gridState } from './GridContext';
 
@@ -17,7 +17,8 @@ const tableStyle = css({
 
 interface GridProperties {
   idCsvElement: string,
-  hiddenColumns: Array<string>
+  hiddenColumns: Array<string>,
+  useFilters: Array<string>
 }
 
 export default class TournamentGrid extends React.Component<GridProperties> {
@@ -29,6 +30,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     this._state.loadCsv(this.props.idCsvElement);
     const selectableColumns = buildSelectableColumns(this._state.csv.header);
     this._state.setShownColumns(calculateVisibleColumns(selectableColumns, this.props.hiddenColumns));
+    this._state.setEnabledFilters(this.props.useFilters);
     this._state.updateView = () => this.forceUpdate();
   }
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import { GridContext, GridState } from './GridContext';
+import { GridContext, GridState } from '../GridContext';
 import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
-import { buildSelectableColumns } from './column-utils';
+import { buildSelectableColumns } from '../column-utils';
 
 export class ColumnsSelector extends React.Component {
 
