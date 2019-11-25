@@ -1,9 +1,9 @@
 /** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
-import { css, jsx } from '@emotion/core';
 import GridHeader from './GridHeader';
 import GridData from './GridData';
 import { GridContext, GridState } from './GridContext';

@@ -1,10 +1,10 @@
 /** @jsx jsx */
+import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { calculateColumnVisibility } from './column-utils';
-import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GridContext } from './GridContext';
 import { columnStyles } from './column-styles';
 

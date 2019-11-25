@@ -2,6 +2,7 @@ import React from 'react';
 import { Csv, emptyCsv } from './Csv';
 import { loadCsv } from './load-csv';
 import { FiltersManager } from './filters/FiltersManager';
+import { VALUE_NO_FILTER } from './filters/Filter';
 
 export interface GridState {
   csv: Csv,
@@ -11,7 +12,9 @@ export interface GridState {
   updateView: () => void,
   filtersManager: FiltersManager | undefined,
   setEnabledFilters: (filterNames: Array<string>) => void,
-  useFilter: (filterName: string) => void
+  useFilter: (filterName: string) => void,
+  selectedRow: Array<any> | undefined,
+  selectRow: (row: Array<any>) => void
 };
 
 export const gridState: GridState = {
@@ -40,6 +43,20 @@ export const gridState: GridState = {
     } else {
       throw Error('Attempted to set enabled filters before filtersManager was initialized.');
     }
+  },
+  selectedRow: undefined,
+  selectRow: (row: Array<any>) => {
+    if (row === gridState.selectedRow) {
+      gridState.selectedRow = undefined;
+    } else {
+      gridState.selectedRow = row;
+      if (gridState.filtersManager) {
+        gridState.filtersManager.useFilter(VALUE_NO_FILTER);
+      } else {
+        throw Error('Attempted to use filter before filtersManager was initialized.');
+      }
+    }
+    gridState.updateView();
   }
 };
 

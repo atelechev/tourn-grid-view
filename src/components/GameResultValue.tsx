@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import React, { ReactNode } from 'react';
 import { css, jsx, SerializedStyles } from '@emotion/core';
+import React, { ReactNode } from 'react';
 
 interface GameResultValueProps {
   rawResult: string

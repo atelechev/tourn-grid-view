@@ -1,9 +1,9 @@
 /** @jsx jsx */
+import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { isRoundColumn, calculateColumnVisibility } from './column-utils';
 import { TableCell } from '@material-ui/core';
 import { columnStyles } from './column-styles';
-import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GridContext, GridState } from './GridContext';
 import { GameResultValue } from './GameResultValue';
 

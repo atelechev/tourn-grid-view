@@ -1,4 +1,4 @@
-import { Filter } from './Filter';
+import { Filter, VALUE_NO_FILTER } from './Filter';
 import { NoFilter } from './NoFilter';
 import { SimpleFilter } from './SimpleFilter';
 import { Csv } from '../Csv';
@@ -50,7 +50,10 @@ export class FiltersManager {
   }
 
   public useFilter(filterName: string): void {
-    if (this._enabledFilters.has(filterName)) {
+    if (!filterName || filterName === VALUE_NO_FILTER) {
+      this._activeFilter = this._noFilter;
+    }
+    else if (this._enabledFilters.has(filterName)) {
       this._activeFilter = (this._enabledFilters.get(filterName)) as Filter;
     } else {
       console.warn(`Unexpected filter '${filterName}', skipping it.`);

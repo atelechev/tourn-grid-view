@@ -1,4 +1,5 @@
 /** @jsx jsx */
+// eslint-disable-next-line
 import { css, jsx, SerializedStyles } from '@emotion/core';
 
 const nameColumnStyle = css({
