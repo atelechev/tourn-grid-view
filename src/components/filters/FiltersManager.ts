@@ -4,9 +4,7 @@ import { SimpleFilter } from './SimpleFilter';
 import { Csv } from '../Csv';
 import RatingFilter from './RatingFilter';
 
-
 export class FiltersManager {
-
   private readonly _noFilter: Filter;
 
   private _activeFilter: Filter;
@@ -24,14 +22,14 @@ export class FiltersManager {
 
   public enableFilters(filterNames: Array<string>): void {
     this._enabledFilters.clear();
-    filterNames.forEach(filterName => {
-      const columnIndex = this._csv.header.findIndex(colName => colName === filterName);
+    filterNames.forEach((filterName) => {
+      const columnIndex = this._csv.header.findIndex((colName) => colName === filterName);
       if (columnIndex < 0) {
         console.warn(`Filter ${filterName} not found among CSV columns. Skipping it.`);
       } else {
         const filter = this.initFilter(filterName);
         filter.filteredColumnIndex = columnIndex;
-        filter.selectableOptions = this._csv.data.map(row => row[columnIndex]);
+        filter.selectableOptions = this._csv.data.map((row) => row[columnIndex]);
         this._enabledFilters.set(filterName, filter);
       }
     });
@@ -52,9 +50,8 @@ export class FiltersManager {
   public useFilter(filterName: string): void {
     if (!filterName || filterName === VALUE_NO_FILTER) {
       this._activeFilter = this._noFilter;
-    }
-    else if (this._enabledFilters.has(filterName)) {
-      this._activeFilter = (this._enabledFilters.get(filterName)) as Filter;
+    } else if (this._enabledFilters.has(filterName)) {
+      this._activeFilter = this._enabledFilters.get(filterName) as Filter;
     } else {
       console.warn(`Unexpected filter '${filterName}', skipping it.`);
       this._activeFilter = this._noFilter;
@@ -64,5 +61,4 @@ export class FiltersManager {
   public get availableFilters(): Array<string> {
     return Array.from(this._enabledFilters.keys());
   }
-
 }

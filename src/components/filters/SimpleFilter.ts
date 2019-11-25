@@ -1,8 +1,6 @@
 import { Filter, VALUE_NO_FILTER } from './Filter';
 
-
 export class SimpleFilter implements Filter {
-
   public readonly name: string;
 
   private _selectedValue: any;
@@ -34,10 +32,12 @@ export class SimpleFilter implements Filter {
     if (!row || row.length === 0) {
       return false;
     }
-    if (!this._selectedValue ||
-      this._selectedValue === VALUE_NO_FILTER ||
-      this._filteredColumnIndex < 0 ||
-      this._filteredColumnIndex >= row.length) {
+    if (
+      !this._selectedValue
+      || this._selectedValue === VALUE_NO_FILTER
+      || this._filteredColumnIndex < 0
+      || this._filteredColumnIndex >= row.length
+    ) {
       return true;
     }
     return row[this._filteredColumnIndex] === this._selectedValue;
@@ -52,5 +52,4 @@ export class SimpleFilter implements Filter {
     const options = [VALUE_NO_FILTER].concat(Array.from(uniqueItems).sort());
     this._selectableOptions = options;
   }
-
 }

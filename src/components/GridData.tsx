@@ -10,39 +10,38 @@ import { isRoundColumn } from './column-utils';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
-  backgroundColor: '#f5f5f5'
+  backgroundColor: '#f5f5f5',
 });
 
 const rowStyle = css({
-  ':hover,:focus': rowHoverStyle
+  ':hover,:focus': rowHoverStyle,
 });
 
 const hiddenRow = css({
-  display: 'none'
+  display: 'none',
 });
 
-
 export default class GridData extends React.Component {
-
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
         {(ctx: GridState) => {
-          const placeColumnIndex = ctx.csv.header.findIndex(col => col === 'Pl');
+          const placeColumnIndex = ctx.csv.header.findIndex((col) => col === 'Pl');
           const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
           return (
             <TableBody>
               {ctx.csv.data.map((row, iShownRow) => {
-                const rowStyles = this.calculateRowStyles(row, ctx, placeColumnIndex, opponentPlacesOfSelected);
+                const rowStyles = this.calculateRowStyles(
+                  row,
+                  ctx,
+                  placeColumnIndex,
+                  opponentPlacesOfSelected,
+                );
                 return (
-                  <TableRow key={iShownRow}
-                    css={rowStyles}
-                    onClick={(_) => ctx.selectRow(row)}>
+                  <TableRow key={iShownRow} css={rowStyles} onClick={(_) => ctx.selectRow(row)}>
                     {row.map((cellValue, iCell) => {
                       const column = ctx.csv.header[iCell];
-                      return (
-                        <CellValue key={iCell} column={column} cellValue={cellValue} />
-                      );
+                      return <CellValue key={iCell} column={column} cellValue={cellValue} />;
                     })}
                   </TableRow>
                 );
@@ -54,13 +53,15 @@ export default class GridData extends React.Component {
     );
   }
 
-  private calculateRowStyles(row: Array<any>,
+  private calculateRowStyles(
+    row: Array<any>,
     ctx: GridState,
     placeColumnIndex: number,
-    opponentPlacesOfSelected: Set<number>): Array<SerializedStyles> {
+    opponentPlacesOfSelected: Set<number>,
+  ): Array<SerializedStyles> {
     const isRowVisible = this.isRowVisible(row, ctx, placeColumnIndex, opponentPlacesOfSelected);
     const isSelected = ctx.selectedRow === row;
-    const styles = new Array<SerializedStyles>()
+    const styles = new Array<SerializedStyles>();
     if (isRowVisible) {
       styles.push(rowStyle);
     } else {
@@ -72,46 +73,47 @@ export default class GridData extends React.Component {
     return styles;
   }
 
-  private isRowVisible(row: Array<any>,
+  private isRowVisible(
+    row: Array<any>,
     ctx: GridState,
     placeColumnIndex: number,
-    opponentPlacesOfSelected: Set<number>): boolean {
+    opponentPlacesOfSelected: Set<number>,
+  ): boolean {
     if (ctx.selectedRow) {
       const selectedPlace = parseInt(ctx.selectedRow[placeColumnIndex].toString());
       const candidatePlace = parseInt(row[placeColumnIndex].toString());
       return this.isOpponent(selectedPlace, candidatePlace, opponentPlacesOfSelected);
-    } else {
-      const filter = (ctx.filtersManager as FiltersManager).activeFilter;
-      return filter.shouldShowRow(row);
     }
+    const filter = (ctx.filtersManager as FiltersManager).activeFilter;
+    return filter.shouldShowRow(row);
   }
 
   private extractOpponentPlaces(ctx: GridState): Set<any> {
     if (ctx.selectedRow) {
       const extractPosition = /\d+/g;
-      const roundColumns = ctx.csv.header.filter(col => isRoundColumn(col));
-      const roundColumnIndices = roundColumns.map(roundCol => {
-        return ctx.csv.header.findIndex(headerCol => headerCol === roundCol);
-      });
-      const gameResultValues =
-        roundColumnIndices.map(indexRoundColumn => (ctx.selectedRow as Array<any>)[indexRoundColumn])
-          .filter(gameResult => !!gameResult)
-          .map(gameResult => {
-            const matchResult = gameResult.toString().match(extractPosition);
-            if (matchResult && matchResult.length > 0) {
-              return parseInt(matchResult[0]);
-            }
-            return -1;
-          })
-          .filter(pos => pos > -1);
+      const roundColumns = ctx.csv.header.filter((col) => isRoundColumn(col));
+      const roundColumnIndices = roundColumns.map((roundCol) => ctx.csv.header.findIndex((headerCol) => headerCol === roundCol));
+      const gameResultValues = roundColumnIndices
+        .map((indexRoundColumn) => (ctx.selectedRow as Array<any>)[indexRoundColumn])
+        .filter((gameResult) => !!gameResult)
+        .map((gameResult) => {
+          const matchResult = gameResult.toString().match(extractPosition);
+          if (matchResult && matchResult.length > 0) {
+            return parseInt(matchResult[0]);
+          }
+          return -1;
+        })
+        .filter((pos) => pos > -1);
       return new Set(gameResultValues);
     }
     return new Set();
   }
 
-  private isOpponent(selectedPlace: number, candidatePlace: number, opponentPlacesOfSelected: Set<number>): boolean {
-    return selectedPlace === candidatePlace ||
-      opponentPlacesOfSelected.has(candidatePlace);
+  private isOpponent(
+    selectedPlace: number,
+    candidatePlace: number,
+    opponentPlacesOfSelected: Set<number>,
+  ): boolean {
+    return selectedPlace === candidatePlace || opponentPlacesOfSelected.has(candidatePlace);
   }
-
 }

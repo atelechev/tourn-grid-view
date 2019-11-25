@@ -3,9 +3,7 @@
 import { css, jsx, SerializedStyles } from '@emotion/core';
 
 const nameColumnStyle = css({
-  fontWeight: 'bolder'
+  fontWeight: 'bolder',
 });
 
-export const columnStyles: Map<string, SerializedStyles> = new Map([
-  ['Nom', nameColumnStyle]
-]);
+export const columnStyles: Map<string, SerializedStyles> = new Map([['Nom', nameColumnStyle]]);

@@ -9,16 +9,14 @@ import { GridContext } from './GridContext';
 import { columnStyles } from './column-styles';
 
 const headerCellStyle = css({
-  fontSize: '12px'
+  fontSize: '12px',
 });
 
-
 export default class GridHeader extends React.Component {
-
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
-        {ctx => (
+        {(ctx) => (
           <TableHead>
             <TableRow>
               {ctx.csv.header.map((columnName, index) => {
@@ -45,5 +43,4 @@ export default class GridHeader extends React.Component {
     }
     return styles;
   }
-
 }

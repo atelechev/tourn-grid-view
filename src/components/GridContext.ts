@@ -5,17 +5,17 @@ import { FiltersManager } from './filters/FiltersManager';
 import { VALUE_NO_FILTER } from './filters/Filter';
 
 export interface GridState {
-  csv: Csv,
-  shownColumns: Array<string>,
-  loadCsv: (idCsvElement: string) => void,
-  setShownColumns: (columns: Array<string>) => void,
-  updateView: () => void,
-  filtersManager: FiltersManager | undefined,
-  setEnabledFilters: (filterNames: Array<string>) => void,
-  useFilter: (filterName: string) => void,
-  selectedRow: Array<any> | undefined,
-  selectRow: (row: Array<any>) => void
-};
+  csv: Csv;
+  shownColumns: Array<string>;
+  loadCsv: (idCsvElement: string) => void;
+  setShownColumns: (columns: Array<string>) => void;
+  updateView: () => void;
+  filtersManager: FiltersManager | undefined;
+  setEnabledFilters: (filterNames: Array<string>) => void;
+  useFilter: (filterName: string) => void;
+  selectedRow: Array<any> | undefined;
+  selectRow: (row: Array<any>) => void;
+}
 
 export const gridState: GridState = {
   csv: emptyCsv,
@@ -26,9 +26,9 @@ export const gridState: GridState = {
     gridState.filtersManager = new FiltersManager(csv);
   },
   setShownColumns: (columns: Array<string>) => {
-    gridState.shownColumns = columns ? columns : [];
+    gridState.shownColumns = columns || [];
   },
-  updateView: () => { },
+  updateView: () => {},
   filtersManager: undefined,
   useFilter: (filterName: string) => {
     if (gridState.filtersManager) {
@@ -57,8 +57,7 @@ export const gridState: GridState = {
       }
     }
     gridState.updateView();
-  }
+  },
 };
-
 
 export const GridContext = React.createContext<GridState>(gridState);

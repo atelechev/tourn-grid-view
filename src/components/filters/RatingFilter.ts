@@ -1,7 +1,6 @@
 import { Filter, VALUE_NO_FILTER } from './Filter';
 
 export default class RatingFilter implements Filter {
-
   private readonly _allRatingGroups: Array<string> = [
     '<1000',
     '1000 - 1199',
@@ -12,7 +11,7 @@ export default class RatingFilter implements Filter {
     '2000 - 2199',
     '2200 - 2399',
     '2400 - 2599',
-    '>2600'
+    '>2600',
   ];
 
   public readonly name = 'Rating';
@@ -36,10 +35,12 @@ export default class RatingFilter implements Filter {
     if (!row || row.length === 0) {
       return false;
     }
-    if (!this._selectedValue ||
-      this._selectedValue === VALUE_NO_FILTER ||
-      this._filteredColumnIndex < 0 ||
-      this._filteredColumnIndex >= row.length) {
+    if (
+      !this._selectedValue
+      || this._selectedValue === VALUE_NO_FILTER
+      || this._filteredColumnIndex < 0
+      || this._filteredColumnIndex >= row.length
+    ) {
       return true;
     }
     const groupIndex = this.getGroupIndexForRating(row[this._filteredColumnIndex]);
@@ -65,18 +66,18 @@ export default class RatingFilter implements Filter {
 
   public set selectableOptions(allItems: Array<any>) {
     const uniqueGroupIndices = new Set<number>();
-    allItems.forEach(rating => {
+    allItems.forEach((rating) => {
       if (rating) {
         uniqueGroupIndices.add(this.getGroupIndexForRating(rating));
       }
-    })
+    });
     const indicesOrdered = Array.from(uniqueGroupIndices).sort();
     this._selectableOptions = [VALUE_NO_FILTER];
-    indicesOrdered.forEach(index => this._selectableOptions.push(this._allRatingGroups[index]));
+    indicesOrdered.forEach((index) => this._selectableOptions.push(this._allRatingGroups[index]));
   }
 
   public set selectedValue(value: any) {
-    this._selectedIndex = this._allRatingGroups.findIndex(group => group === value);
+    this._selectedIndex = this._allRatingGroups.findIndex((group) => group === value);
     if (this._selectedIndex > -1) {
       this._selectedValue = value;
     } else {
@@ -87,5 +88,4 @@ export default class RatingFilter implements Filter {
   public get selectedValue(): any {
     return this._selectedValue;
   }
-
 }

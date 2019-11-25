@@ -1,14 +1,13 @@
 import { Filter, VALUE_NO_FILTER } from './Filter';
 
 export class NoFilter implements Filter {
-
   public shouldShowRow(_: Array<any>): boolean {
     return true;
   }
 
   public get name(): string {
     return VALUE_NO_FILTER;
-  };
+  }
 
   public get selectableOptions(): Array<any> {
     return [VALUE_NO_FILTER];
@@ -21,5 +20,4 @@ export class NoFilter implements Filter {
   public get selectedValue(): any {
     return VALUE_NO_FILTER;
   }
-
 }

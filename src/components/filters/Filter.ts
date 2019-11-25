@@ -1,4 +1,3 @@
-
 export interface Filter {
   name: string;
   shouldShowRow(row: Array<any>): boolean;

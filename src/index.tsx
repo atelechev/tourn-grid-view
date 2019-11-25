@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 const element = React.createElement(TournamentGrid, {
   idCsvElement: 'grid-raw-csv',
   hiddenColumns: ['Rapide', 'Cat', 'Ligue', 'Club'],
-  useFilters: ['Cat', 'Ligue', 'Club', 'Rating']
+  useFilters: ['Cat', 'Ligue', 'Club', 'Rating'],
 });
 
 ReactDOM.render(element, document.getElementById('root'));

@@ -3,7 +3,7 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 
 interface GameResultValueProps {
-  rawResult: string
+  rawResult: string;
 }
 
 const cellStyle = css({
@@ -11,8 +11,8 @@ const cellStyle = css({
   height: '24px',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
-})
+  alignItems: 'center',
+});
 
 const cellFrameStyle = css({
   borderRadius: '3px',
@@ -33,13 +33,10 @@ const voidGameStyle = css({
 
 // const resultPattern = /([+-=])(\d+)([BbNn])/g;
 
-
 export class GameResultValue extends React.Component<GameResultValueProps> {
-
   private readonly _rawNormalized: string | undefined;
 
   private readonly _resultExists: boolean;
-
 
   constructor(props: GameResultValueProps) {
     super(props);
@@ -49,7 +46,10 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
 
   private normalizeRawResult(): string | undefined {
     if (this.props.rawResult) {
-      const normalized = this.props.rawResult.trim().toUpperCase().replace(/\s/g, '');
+      const normalized = this.props.rawResult
+        .trim()
+        .toUpperCase()
+        .replace(/\s/g, '');
       return normalized.length > 0 ? normalized : undefined;
     }
     return undefined;
@@ -57,11 +57,7 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
 
   public render(): ReactNode {
     const cellStyles = this.calculateStyles();
-    return (
-      <div css={cellStyles}>
-        {this.getResultForOutput()}
-      </div>
-    );
+    return <div css={cellStyles}>{this.getResultForOutput()}</div>;
   }
 
   private getResultForOutput(): string {
@@ -82,8 +78,8 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
 
   private isForfeitGame(): boolean {
     const rawResult = this._rawNormalized as string;
-    return (rawResult &&
-      (rawResult === 'EXE' || rawResult.startsWith('>') || rawResult.startsWith('<'))) as boolean;
+    return (rawResult
+      && (rawResult === 'EXE' || rawResult.startsWith('>') || rawResult.startsWith('<'))) as boolean;
   }
 
   private calculateStyles(): Array<SerializedStyles> {
@@ -93,16 +89,13 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
       const rawResult = this._rawNormalized as string;
       if (this.isForfeitGame()) {
         styles.push(voidGameStyle);
-      }
-      else if (rawResult.endsWith('B')) {
+      } else if (rawResult.endsWith('B')) {
         styles.push(whiteColorStyle);
-      }
-      else if (rawResult.endsWith('N')) {
+      } else if (rawResult.endsWith('N')) {
         styles.push(blackColorStyle);
       }
     }
 
     return styles;
   }
-
 }

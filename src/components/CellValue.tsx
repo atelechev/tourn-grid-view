@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { isRoundColumn, calculateColumnVisibility, isCountryColumn } from './column-utils';
 import { TableCell } from '@material-ui/core';
+import { isRoundColumn, calculateColumnVisibility, isCountryColumn } from './column-utils';
 import { columnStyles } from './column-styles';
 import { GridContext, GridState } from './GridContext';
 import { GameResultValue } from './GameResultValue';
@@ -13,12 +13,11 @@ const dataCellStyle = css({
 });
 
 interface CellValueProps {
-  column: string,
-  cellValue: any
+  column: string;
+  cellValue: any;
 }
 
 export class CellValue extends React.Component<CellValueProps> {
-
   public render(): ReactNode {
     const { column, cellValue } = this.props;
     return (
@@ -26,9 +25,7 @@ export class CellValue extends React.Component<CellValueProps> {
         {(ctx: GridState) => {
           const calculatedStyles = this.calculateStyles(column, ctx.shownColumns);
           return (
-            <TableCell css={calculatedStyles}>
-              {this.renderValue(column, cellValue)}
-            </TableCell>
+            <TableCell css={calculatedStyles}>{this.renderValue(column, cellValue)}</TableCell>
           );
         }}
       </GridContext.Consumer>
@@ -42,7 +39,7 @@ export class CellValue extends React.Component<CellValueProps> {
     if (isCountryColumn(column)) {
       return <CountryFlag countryCode={cellValue} />;
     }
-    return (cellValue);
+    return cellValue;
   }
 
   private calculateStyles(column: string, shownColumns: Array<string>): Array<SerializedStyles> {
@@ -54,5 +51,4 @@ export class CellValue extends React.Component<CellValueProps> {
     }
     return styles;
   }
-
 }

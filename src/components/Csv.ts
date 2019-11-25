@@ -5,5 +5,5 @@ export interface Csv {
 
 export const emptyCsv = {
   header: [],
-  data: []
+  data: [],
 } as Csv;

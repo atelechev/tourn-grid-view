@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
+import {
+  InputLabel, Select, FormControl, MenuItem,
+} from '@material-ui/core';
 import { GridContext, GridState } from '../GridContext';
-import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
 import { buildSelectableColumns } from '../column-utils';
 
 export class ColumnsSelector extends React.Component {
-
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
@@ -13,14 +14,17 @@ export class ColumnsSelector extends React.Component {
           return (
             <FormControl>
               <InputLabel id="selector-columns-label">Shown Columns</InputLabel>
-              <Select multiple
+              <Select
+                multiple
                 labelId="selector-columns-label"
                 id="selector-columns"
                 value={ctx.shownColumns}
                 onChange={(evt) => this.columnsSelectionChanged(evt, ctx)}
               >
                 {selectableOptions.map((opt, i) => (
-                  <MenuItem key={i} value={opt}>{opt}</MenuItem>
+                  <MenuItem key={i} value={opt}>
+                    {opt}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -30,13 +34,15 @@ export class ColumnsSelector extends React.Component {
     );
   }
 
-  private columnsSelectionChanged(event: React.ChangeEvent<{ value: unknown }>, ctx: GridState): void {
+  private columnsSelectionChanged(
+    event: React.ChangeEvent<{ value: unknown }>,
+    ctx: GridState,
+  ): void {
     const newSelection = event.target.value as Array<string>;
     ctx.setShownColumns(newSelection);
     this.setState({
-      selectedColumns: newSelection
+      selectedColumns: newSelection,
     });
     ctx.updateView();
   }
-
 }
