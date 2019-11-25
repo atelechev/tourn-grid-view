@@ -6,6 +6,10 @@ const hiddenStyle = css({
 
 const visibleStyle = css({});
 
+export const isCountryColumn =
+  (column: string): boolean => {
+    return column === 'Fede';
+  }
 
 export const isRoundColumn =
   (column: string): boolean => {

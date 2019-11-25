@@ -1,17 +1,16 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { isRoundColumn, calculateColumnVisibility } from './column-utils';
+import { isRoundColumn, calculateColumnVisibility, isCountryColumn } from './column-utils';
 import { TableCell } from '@material-ui/core';
 import { columnStyles } from './column-styles';
 import { GridContext, GridState } from './GridContext';
 import { GameResultValue } from './GameResultValue';
-
+import { CountryFlag } from './CountryFlag';
 
 const dataCellStyle = css({
   fontSize: '11px',
 });
-
 
 interface CellValueProps {
   column: string,
@@ -28,16 +27,22 @@ export class CellValue extends React.Component<CellValueProps> {
           const calculatedStyles = this.calculateStyles(column, ctx.shownColumns);
           return (
             <TableCell css={calculatedStyles}>
-              {isRoundColumn(column) ? (
-                <GameResultValue rawResult={cellValue} />
-              ) : (
-                  cellValue
-                )}
+              {this.renderValue(column, cellValue)}
             </TableCell>
           );
         }}
       </GridContext.Consumer>
     );
+  }
+
+  private renderValue(column: string, cellValue: any) {
+    if (isRoundColumn(column)) {
+      return <GameResultValue rawResult={cellValue} />;
+    }
+    if (isCountryColumn(column)) {
+      return <CountryFlag countryCode={cellValue} />;
+    }
+    return (cellValue);
   }
 
   private calculateStyles(column: string, shownColumns: Array<string>): Array<SerializedStyles> {
