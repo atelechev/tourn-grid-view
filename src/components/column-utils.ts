@@ -21,16 +21,16 @@ export const calculateColumnVisibility = (
   shownColumns: Array<string>,
 ): SerializedStyles => {
   const isColumnVisible = isAlwaysVisibleColumn(column)
-    || shownColumns.find((shownColumn) => shownColumn === column || (shownColumn === 'Rounds' && isRoundColumn(column))) !== undefined;
+    || shownColumns.find(
+      (shownColumn) => shownColumn === column || (shownColumn === 'Rounds' && isRoundColumn(column)),
+    ) !== undefined;
   return isColumnVisible ? visibleStyle : hiddenStyle;
 };
 
 export const calculateVisibleColumns = (
   allColumns: Array<string>,
   hiddenColumns: Array<string>,
-): Array<string> => allColumns.filter(
-  (column) => hiddenColumns.find((hidden) => column === hidden) === undefined,
-);
+): Array<string> => allColumns.filter((column) => hiddenColumns.find((hidden) => column === hidden) === undefined);
 
 export const buildSelectableColumns = (allHeaderColumns: Array<string>): Array<string> => {
   const firstRoundColumnIndex = allHeaderColumns.findIndex((colName) => isRoundColumn(colName));

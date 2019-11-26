@@ -8,6 +8,7 @@ const element = React.createElement(TournamentGrid, {
   idCsvElement: 'grid-raw-csv',
   hiddenColumns: ['Rapide', 'Cat', 'Ligue', 'Club'],
   useFilters: ['Cat', 'Ligue', 'Club', 'Rating'],
+  enableOrderingColumns: ['Pl', 'Nom', 'Rating', 'Pts', 'Perf', 'Club', 'Fede'],
 });
 
 ReactDOM.render(element, document.getElementById('root'));

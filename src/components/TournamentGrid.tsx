@@ -10,7 +10,6 @@ import { GridContext, GridState, gridState } from './GridContext';
 import { ControlPanel } from './control-panel/ControlPanel';
 import { calculateVisibleColumns, buildSelectableColumns } from './column-utils';
 
-
 const tableStyle = css({
   minWidth: 600,
 });
@@ -19,6 +18,7 @@ interface GridProperties {
   idCsvElement: string;
   hiddenColumns: Array<string>;
   useFilters: Array<string>;
+  enableOrderingColumns: Array<string>;
 }
 
 export default class TournamentGrid extends React.Component<GridProperties> {
@@ -33,6 +33,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     );
     this._state.setEnabledFilters(this.props.useFilters);
     this._state.updateView = () => this.forceUpdate();
+    this._state.orderEnabledColumns = this.props.enableOrderingColumns;
   }
 
   public render(): ReactNode {

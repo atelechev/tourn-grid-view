@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import { TableSortLabel } from '@material-ui/core';
 import { calculateColumnVisibility } from './column-utils';
 import { GridContext } from './GridContext';
 import { columnStyles } from './column-styles';
@@ -22,8 +23,19 @@ export default class GridHeader extends React.Component {
               {ctx.csv.header.map((columnName, index) => {
                 const calculatedStyles = this.calculateStyles(columnName, ctx.shownColumns);
                 return (
-                  <TableCell key={index} css={calculatedStyles}>
-                    {columnName}
+                  <TableCell
+                    key={index}
+                    css={calculatedStyles}
+                    sortDirection={ctx.orderBy === columnName ? ctx.order : false}
+                  >
+                    <TableSortLabel
+                      active={ctx.orderBy === columnName}
+                      hideSortIcon
+                      direction={ctx.order}
+                      onClick={(_) => ctx.executeSort(columnName)}
+                    >
+                      {columnName}
+                    </TableSortLabel>
                   </TableCell>
                 );
               })}

@@ -3,6 +3,9 @@ import { Csv, emptyCsv } from './Csv';
 import { loadCsv } from './load-csv';
 import { FiltersManager } from './filters/FiltersManager';
 import { VALUE_NO_FILTER } from './filters/Filter';
+import { compareOptionalValues } from './ordering-util';
+
+export type Order = 'asc' | 'desc';
 
 export interface GridState {
   csv: Csv;
@@ -15,6 +18,10 @@ export interface GridState {
   useFilter: (filterName: string) => void;
   selectedRow: Array<any> | undefined;
   selectRow: (row: Array<any>) => void;
+  orderBy: string;
+  order: Order;
+  orderEnabledColumns: Array<string>;
+  executeSort: (column: string) => void;
 }
 
 export const gridState: GridState = {
@@ -56,6 +63,24 @@ export const gridState: GridState = {
         throw Error('Attempted to use filter before filtersManager was initialized.');
       }
     }
+    gridState.updateView();
+  },
+  orderBy: 'Pl',
+  order: 'desc',
+  orderEnabledColumns: [],
+  executeSort: (column: string) => {
+    const indexSortColumn = gridState.orderEnabledColumns.findIndex(
+      (headerColumn) => headerColumn === column,
+    );
+    if (indexSortColumn < 0) {
+      return;
+    }
+    gridState.order = gridState.order === 'desc' ? 'asc' : 'desc';
+    gridState.orderBy = column;
+    gridState.csv.data.sort((row1, row2) => {
+      const compare = compareOptionalValues(row1[indexSortColumn], row2[indexSortColumn]);
+      return gridState.order === 'desc' ? compare : -compare;
+    });
     gridState.updateView();
   },
 };

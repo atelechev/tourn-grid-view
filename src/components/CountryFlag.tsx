@@ -34,6 +34,7 @@ export class CountryFlag extends React.Component<CountryFlagProps> {
         width={COUNTRY_FLAG_WIDTH}
         height={COUNTRY_FLAG_HEIGHT}
         title={this.props.countryCode}
+        alt={`Country flag: ${this.props.countryCode}`}
       />
     );
   }
