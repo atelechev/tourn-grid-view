@@ -4,6 +4,7 @@ import { loadCsv } from './load-csv';
 import { FiltersManager } from './filters/FiltersManager';
 import { VALUE_NO_FILTER } from './filters/Filter';
 import { compareOptionalValues } from './ordering-util';
+import { COLUMN_PLACE } from './column-utils';
 
 export type Order = 'asc' | 'desc';
 
@@ -35,7 +36,7 @@ export const gridState: GridState = {
   setShownColumns: (columns: Array<string>) => {
     gridState.shownColumns = columns || [];
   },
-  updateView: () => {},
+  updateView: () => { },
   filtersManager: undefined,
   useFilter: (filterName: string) => {
     if (gridState.filtersManager) {
@@ -65,7 +66,7 @@ export const gridState: GridState = {
     }
     gridState.updateView();
   },
-  orderBy: 'Pl',
+  orderBy: COLUMN_PLACE,
   order: 'desc',
   orderEnabledColumns: [],
   executeSort: (column: string) => {

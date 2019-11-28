@@ -3,6 +3,7 @@ import { NoFilter } from './NoFilter';
 import { SimpleFilter } from './SimpleFilter';
 import { Csv } from '../Csv';
 import RatingFilter from './RatingFilter';
+import { COLUMN_RATING } from '../column-utils';
 
 export class FiltersManager {
   private readonly _noFilter: Filter;
@@ -37,7 +38,7 @@ export class FiltersManager {
   }
 
   private initFilter(filterName: string): SimpleFilter | RatingFilter {
-    if (filterName === 'Rating') {
+    if (filterName === COLUMN_RATING) {
       return new RatingFilter();
     }
     return new SimpleFilter(filterName);

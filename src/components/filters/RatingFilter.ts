@@ -1,4 +1,5 @@
 import { Filter, VALUE_NO_FILTER } from './Filter';
+import { COLUMN_RATING } from '../column-utils';
 
 export default class RatingFilter implements Filter {
   private readonly _allRatingGroups: Array<string> = [
@@ -14,7 +15,7 @@ export default class RatingFilter implements Filter {
     '>2600',
   ];
 
-  public readonly name = 'Rating';
+  public readonly name = COLUMN_RATING;
 
   private _selectedValue: any;
 
