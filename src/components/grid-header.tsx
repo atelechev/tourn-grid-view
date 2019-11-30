@@ -6,7 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 import { calculateColumnVisibility } from './column-utils';
-import { GridContext } from './GridContext';
+import { GridContext } from './grid-context';
 import { columnStyles } from './column-styles';
 
 const headerCellStyle = css({

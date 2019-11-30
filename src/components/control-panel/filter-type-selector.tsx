@@ -4,8 +4,8 @@ import React, { ReactNode } from 'react';
 import {
   FormControl, InputLabel, Select, MenuItem,
 } from '@material-ui/core';
-import { GridContext, GridState } from '../GridContext';
-import { FiltersManager } from '../filters/FiltersManager';
+import { GridContext, GridState } from '../grid-context';
+import { FiltersManager } from '../filters/filters-manager';
 
 const selectorStyle = css({
   minWidth: '120px',

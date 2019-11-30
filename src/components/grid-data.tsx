@@ -3,9 +3,9 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import { GridContext, GridState } from './GridContext';
-import { CellValue } from './CellValue';
-import { FiltersManager } from './filters/FiltersManager';
+import { GridContext, GridState } from './grid-context';
+import { CellValue } from './cell-value';
+import { FiltersManager } from './filters/filters-manager';
 import { isRoundColumn, COLUMN_PLACE } from './column-utils';
 
 const rowHoverStyle = css({

@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { ColumnsSelector } from './ColumnsSelector';
-import FilterTypeSelector from './FilterTypeSelector';
-import FilteredItemsSelector from './FilteredItemsSelector';
+import { ColumnsSelector } from './columns-selector';
+import FilterTypeSelector from './filter-type-selector';
+import FilteredItemsSelector from './filtered-items-selector';
 
 const panelStyle = css({
   display: 'flex',

@@ -4,9 +4,9 @@ import React, { ReactNode } from 'react';
 import { TableCell } from '@material-ui/core';
 import { isRoundColumn, calculateColumnVisibility, isCountryColumn } from './column-utils';
 import { columnStyles } from './column-styles';
-import { GridContext, GridState } from './GridContext';
-import { GameResultValue } from './GameResultValue';
-import { CountryFlag } from './CountryFlag';
+import { GridContext, GridState } from './grid-context';
+import { GameResultValue } from './game-result-value';
+import { CountryFlag } from './country-flag';
 
 const dataCellStyle = css({
   fontSize: '11px',

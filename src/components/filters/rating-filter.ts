@@ -1,4 +1,4 @@
-import { Filter, VALUE_NO_FILTER } from './Filter';
+import { Filter, VALUE_NO_FILTER } from './filter';
 import { COLUMN_RATING } from '../column-utils';
 
 export default class RatingFilter implements Filter {

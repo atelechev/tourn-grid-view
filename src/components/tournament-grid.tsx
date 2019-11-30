@@ -4,10 +4,10 @@ import React, { ReactNode } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
-import GridHeader from './GridHeader';
-import GridData from './GridData';
-import { GridContext, GridState, gridState } from './GridContext';
-import { ControlPanel } from './control-panel/ControlPanel';
+import GridHeader from './grid-header';
+import GridData from './grid-data';
+import { GridContext, GridState, gridState } from './grid-context';
+import { ControlPanel } from './control-panel/control-panel';
 import { calculateVisibleColumns, buildSelectableColumns } from './column-utils';
 
 const tableStyle = css({

@@ -1,8 +1,8 @@
-import { Filter, VALUE_NO_FILTER } from './Filter';
-import { NoFilter } from './NoFilter';
-import { SimpleFilter } from './SimpleFilter';
-import { Csv } from '../Csv';
-import RatingFilter from './RatingFilter';
+import { Filter, VALUE_NO_FILTER } from './filter';
+import { NoFilter } from './no-filter';
+import { SimpleFilter } from './simple-filter';
+import { Csv } from '../csv';
+import RatingFilter from './rating-filter';
 import { COLUMN_RATING } from '../column-utils';
 
 export class FiltersManager {

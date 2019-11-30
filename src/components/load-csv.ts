@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { Csv } from './Csv';
+import { Csv } from './csv';
 
 export const loadCsv = (idCsvWrapper: string): Csv => {
   const csvElement = d3.select(`#${idCsvWrapper}`);

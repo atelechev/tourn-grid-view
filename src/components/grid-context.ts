@@ -1,8 +1,8 @@
 import React from 'react';
-import { Csv, emptyCsv } from './Csv';
+import { Csv, emptyCsv } from './csv';
 import { loadCsv } from './load-csv';
-import { FiltersManager } from './filters/FiltersManager';
-import { VALUE_NO_FILTER } from './filters/Filter';
+import { FiltersManager } from './filters/filters-manager';
+import { VALUE_NO_FILTER } from './filters/filter';
 import { compareOptionalValues } from './ordering-util';
 import { COLUMN_PLACE } from './column-utils';
 

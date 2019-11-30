@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TournamentGrid from './components/TournamentGrid';
+import TournamentGrid from './components/tournament-grid';
 import * as serviceWorker from './serviceWorker';
 import { COLUMN_PLACE, COLUMN_RATING, COLUMN_NAME } from './components/column-utils';
 
