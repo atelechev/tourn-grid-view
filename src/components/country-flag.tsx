@@ -11,7 +11,7 @@ interface CountryFlagProps {
 }
 
 const flagStyle = css({
-  border: '1px solid #f5f5f5',
+  border: '1px solid #f5f5f5'
 });
 
 export class CountryFlag extends React.Component<CountryFlagProps> {
@@ -42,7 +42,10 @@ export class CountryFlag extends React.Component<CountryFlagProps> {
   private calculateTargetCountryCode(): string {
     const { countryCode } = this.props;
     if (countryCode) {
-      return this._ffeToAlpha2Codes.get(countryCode.trim().toUpperCase()) || this._codeUnknown;
+      return (
+        this._ffeToAlpha2Codes.get(countryCode.trim().toUpperCase()) ||
+        this._codeUnknown
+      );
     }
     return this._codeUnknown;
   }
@@ -310,7 +313,7 @@ export class CountryFlag extends React.Component<CountryFlagProps> {
       ['ZMB', 'zm'],
       ['ZWE', 'zw'],
       ['FID', 'fd'],
-      ['FIDE', 'fd'],
+      ['FIDE', 'fd']
     ]);
     return codes;
   }

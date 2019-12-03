@@ -22,7 +22,10 @@ const compareAsNumbers = (val1: any, val2: any): number => {
   return num1 > num2 ? 1 : -1;
 };
 
-export const compareOptionalValues = (val1: any | undefined, val2: any | undefined): number => {
+export const compareOptionalValues = (
+  val1: any | undefined,
+  val2: any | undefined
+): number => {
   if (val1 === undefined) {
     if (val2 === undefined) {
       return 0;

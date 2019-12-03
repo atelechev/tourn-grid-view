@@ -12,7 +12,7 @@ export default class RatingFilter implements Filter {
     '2000 - 2199',
     '2200 - 2399',
     '2400 - 2599',
-    '>2600',
+    '>2600'
   ];
 
   public readonly name = COLUMN_RATING;
@@ -37,14 +37,16 @@ export default class RatingFilter implements Filter {
       return false;
     }
     if (
-      !this._selectedValue
-      || this._selectedValue === VALUE_NO_FILTER
-      || this._filteredColumnIndex < 0
-      || this._filteredColumnIndex >= row.length
+      !this._selectedValue ||
+      this._selectedValue === VALUE_NO_FILTER ||
+      this._filteredColumnIndex < 0 ||
+      this._filteredColumnIndex >= row.length
     ) {
       return true;
     }
-    const groupIndex = this.getGroupIndexForRating(row[this._filteredColumnIndex]);
+    const groupIndex = this.getGroupIndexForRating(
+      row[this._filteredColumnIndex]
+    );
     return groupIndex === this._selectedIndex;
   }
 
@@ -58,7 +60,10 @@ export default class RatingFilter implements Filter {
     const inverseRatingMax = (rawIndex * 2 + 10) * 100;
     const diff = value - inverseRatingMax;
     const offset = diff >= 0 ? 1 : 0;
-    return Math.min(Math.max(rawIndex + offset, 0), this._allRatingGroups.length - 1);
+    return Math.min(
+      Math.max(rawIndex + offset, 0),
+      this._allRatingGroups.length - 1
+    );
   }
 
   public get selectableOptions(): Array<any> {
@@ -67,18 +72,22 @@ export default class RatingFilter implements Filter {
 
   public set selectableOptions(allItems: Array<any>) {
     const uniqueGroupIndices = new Set<number>();
-    allItems.forEach((rating) => {
+    allItems.forEach(rating => {
       if (rating) {
         uniqueGroupIndices.add(this.getGroupIndexForRating(rating));
       }
     });
     const indicesOrdered = Array.from(uniqueGroupIndices).sort();
     this._selectableOptions = [VALUE_NO_FILTER];
-    indicesOrdered.forEach((index) => this._selectableOptions.push(this._allRatingGroups[index]));
+    indicesOrdered.forEach(index =>
+      this._selectableOptions.push(this._allRatingGroups[index])
+    );
   }
 
   public set selectedValue(value: any) {
-    this._selectedIndex = this._allRatingGroups.findIndex((group) => group === value);
+    this._selectedIndex = this._allRatingGroups.findIndex(
+      group => group === value
+    );
     if (this._selectedIndex > -1) {
       this._selectedValue = value;
     } else {

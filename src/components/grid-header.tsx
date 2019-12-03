@@ -10,29 +10,34 @@ import { GridContext } from './grid-context';
 import { columnStyles } from './column-styles';
 
 const headerCellStyle = css({
-  fontSize: '12px',
+  fontSize: '12px'
 });
 
 export default class GridHeader extends React.Component {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
-        {(ctx) => (
+        {ctx => (
           <TableHead>
             <TableRow>
               {ctx.csv.header.map((columnName, index) => {
-                const calculatedStyles = this.calculateStyles(columnName, ctx.shownColumns);
+                const calculatedStyles = this.calculateStyles(
+                  columnName,
+                  ctx.shownColumns
+                );
                 return (
                   <TableCell
                     key={index}
                     css={calculatedStyles}
-                    sortDirection={ctx.orderBy === columnName ? ctx.order : false}
+                    sortDirection={
+                      ctx.orderBy === columnName ? ctx.order : false
+                    }
                   >
                     <TableSortLabel
                       active={ctx.orderBy === columnName}
                       hideSortIcon
                       direction={ctx.order}
-                      onClick={(_) => ctx.executeSort(columnName)}
+                      onClick={_ => ctx.executeSort(columnName)}
                     >
                       {columnName}
                     </TableSortLabel>
@@ -46,7 +51,10 @@ export default class GridHeader extends React.Component {
     );
   }
 
-  private calculateStyles(column: string, shownColumns: Array<string>): Array<SerializedStyles> {
+  private calculateStyles(
+    column: string,
+    shownColumns: Array<string>
+  ): Array<SerializedStyles> {
     const visibilityClass = calculateColumnVisibility(column, shownColumns);
     const styles: Array<SerializedStyles> = [headerCellStyle, visibilityClass];
     const columnStyle = columnStyles.get(column);

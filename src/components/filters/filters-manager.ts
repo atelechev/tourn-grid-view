@@ -14,7 +14,9 @@ export class FiltersManager {
 
   constructor(private _csv: Csv) {
     if (!this._csv || !this._csv.header || this._csv.header.length === 0) {
-      throw Error('CSV and its header must be defined and not empty for filters initialization.');
+      throw Error(
+        'CSV and its header must be defined and not empty for filters initialization.'
+      );
     }
     this._noFilter = new NoFilter();
     this._activeFilter = this._noFilter;
@@ -23,14 +25,18 @@ export class FiltersManager {
 
   public enableFilters(filterNames: Array<string>): void {
     this._enabledFilters.clear();
-    filterNames.forEach((filterName) => {
-      const columnIndex = this._csv.header.findIndex((colName) => colName === filterName);
+    filterNames.forEach(filterName => {
+      const columnIndex = this._csv.header.findIndex(
+        colName => colName === filterName
+      );
       if (columnIndex < 0) {
-        console.warn(`Filter ${filterName} not found among CSV columns. Skipping it.`);
+        console.warn(
+          `Filter ${filterName} not found among CSV columns. Skipping it.`
+        );
       } else {
         const filter = this.initFilter(filterName);
         filter.filteredColumnIndex = columnIndex;
-        filter.selectableOptions = this._csv.data.map((row) => row[columnIndex]);
+        filter.selectableOptions = this._csv.data.map(row => row[columnIndex]);
         this._enabledFilters.set(filterName, filter);
       }
     });

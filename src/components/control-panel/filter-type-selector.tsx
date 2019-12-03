@@ -1,14 +1,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import {
-  FormControl, InputLabel, Select, MenuItem,
-} from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { GridContext, GridState } from '../grid-context';
 import { FiltersManager } from '../filters/filters-manager';
 
 const selectorStyle = css({
-  minWidth: '120px',
+  minWidth: '120px'
 });
 
 export default class FilterTypeSelector extends React.Component {
@@ -25,7 +23,7 @@ export default class FilterTypeSelector extends React.Component {
                 labelId="selector-filters-label"
                 id="selector-filters"
                 value={filterManager.activeFilter.name}
-                onChange={(evt) => this.filtersSelectionChanged(evt, ctx)}
+                onChange={evt => this.filtersSelectionChanged(evt, ctx)}
                 css={selectorStyle}
               >
                 {filterNames.map((opt, i) => (
@@ -43,12 +41,12 @@ export default class FilterTypeSelector extends React.Component {
 
   private filtersSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    ctx: GridState,
+    ctx: GridState
   ): void {
     const newSelection = event.target.value as string;
     ctx.useFilter(newSelection);
     this.setState({
-      selectedFilter: newSelection,
+      selectedFilter: newSelection
     });
     ctx.updateView();
   }

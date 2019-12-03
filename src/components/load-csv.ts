@@ -8,7 +8,7 @@ export const loadCsv = (idCsvWrapper: string): Csv => {
   }
   const rawCsv = csvElement.text();
   const parsedCSV: Array<any> = Array.from(d3.csv.parseRows(rawCsv)).filter(
-    (row: Array<any>) => row && row.length > 0,
+    (row: Array<any>) => row && row.length > 0
   );
   if (!parsedCSV || parsedCSV.length < 1) {
     throw Error('No CSV data found!');
@@ -20,6 +20,6 @@ export const loadCsv = (idCsvWrapper: string): Csv => {
   }
   return {
     header,
-    data,
+    data
   };
 };

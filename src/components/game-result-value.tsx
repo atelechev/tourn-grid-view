@@ -11,24 +11,24 @@ const cellStyle = css({
   height: '24px',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'center'
 });
 
 const cellFrameStyle = css({
   borderRadius: '3px',
-  border: '1px solid #e0e0e0',
+  border: '1px solid #e0e0e0'
 });
 
 const whiteColorStyle = css({
-  backgroundColor: '#ffffff',
+  backgroundColor: '#ffffff'
 });
 
 const blackColorStyle = css({
-  backgroundColor: '#e0e0e0',
+  backgroundColor: '#e0e0e0'
 });
 
 const voidGameStyle = css({
-  backgroundColor: '#f5deb3',
+  backgroundColor: '#f5deb3'
 });
 
 // const resultPattern = /([+-=])(\d+)([BbNn])/g;
@@ -41,7 +41,8 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
   constructor(props: GameResultValueProps) {
     super(props);
     this._rawNormalized = this.normalizeRawResult();
-    this._resultExists = (this._rawNormalized && this._rawNormalized.length > 0) as boolean;
+    this._resultExists = (this._rawNormalized &&
+      this._rawNormalized.length > 0) as boolean;
   }
 
   private normalizeRawResult(): string | undefined {
@@ -73,13 +74,16 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
 
   private isGameColorKnown(): boolean {
     const rawResult = this._rawNormalized as string;
-    return (rawResult && (rawResult.endsWith('B') || rawResult.endsWith('N'))) as boolean;
+    return (rawResult &&
+      (rawResult.endsWith('B') || rawResult.endsWith('N'))) as boolean;
   }
 
   private isForfeitGame(): boolean {
     const rawResult = this._rawNormalized as string;
-    return (rawResult
-      && (rawResult === 'EXE' || rawResult.startsWith('>') || rawResult.startsWith('<'))) as boolean;
+    return (rawResult &&
+      (rawResult === 'EXE' ||
+        rawResult.startsWith('>') ||
+        rawResult.startsWith('<'))) as boolean;
   }
 
   private calculateStyles(): Array<SerializedStyles> {

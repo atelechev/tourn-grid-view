@@ -33,10 +33,10 @@ export class SimpleFilter implements Filter {
       return false;
     }
     if (
-      !this._selectedValue
-      || this._selectedValue === VALUE_NO_FILTER
-      || this._filteredColumnIndex < 0
-      || this._filteredColumnIndex >= row.length
+      !this._selectedValue ||
+      this._selectedValue === VALUE_NO_FILTER ||
+      this._filteredColumnIndex < 0 ||
+      this._filteredColumnIndex >= row.length
     ) {
       return true;
     }

@@ -9,7 +9,7 @@ const panelStyle = css({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'space-evenly',
+  justifyContent: 'space-evenly'
 });
 
 export class ControlPanel extends React.Component {

@@ -36,20 +36,24 @@ export const gridState: GridState = {
   setShownColumns: (columns: Array<string>) => {
     gridState.shownColumns = columns || [];
   },
-  updateView: () => { },
+  updateView: () => {},
   filtersManager: undefined,
   useFilter: (filterName: string) => {
     if (gridState.filtersManager) {
       gridState.filtersManager.useFilter(filterName);
     } else {
-      throw Error('Attempted to use filter before filtersManager was initialized.');
+      throw Error(
+        'Attempted to use filter before filtersManager was initialized.'
+      );
     }
   },
   setEnabledFilters: (filterNames: Array<string>) => {
     if (gridState.filtersManager) {
       gridState.filtersManager.enableFilters(filterNames);
     } else {
-      throw Error('Attempted to set enabled filters before filtersManager was initialized.');
+      throw Error(
+        'Attempted to set enabled filters before filtersManager was initialized.'
+      );
     }
   },
   selectedRow: undefined,
@@ -61,7 +65,9 @@ export const gridState: GridState = {
       if (gridState.filtersManager) {
         gridState.filtersManager.useFilter(VALUE_NO_FILTER);
       } else {
-        throw Error('Attempted to use filter before filtersManager was initialized.');
+        throw Error(
+          'Attempted to use filter before filtersManager was initialized.'
+        );
       }
     }
     gridState.updateView();
@@ -71,7 +77,7 @@ export const gridState: GridState = {
   orderEnabledColumns: [],
   executeSort: (column: string) => {
     const indexSortColumn = gridState.orderEnabledColumns.findIndex(
-      (headerColumn) => headerColumn === column,
+      headerColumn => headerColumn === column
     );
     if (indexSortColumn < 0) {
       return;
@@ -79,11 +85,14 @@ export const gridState: GridState = {
     gridState.order = gridState.order === 'desc' ? 'asc' : 'desc';
     gridState.orderBy = column;
     gridState.csv.data.sort((row1, row2) => {
-      const compare = compareOptionalValues(row1[indexSortColumn], row2[indexSortColumn]);
+      const compare = compareOptionalValues(
+        row1[indexSortColumn],
+        row2[indexSortColumn]
+      );
       return gridState.order === 'desc' ? compare : -compare;
     });
     gridState.updateView();
-  },
+  }
 };
 
 export const GridContext = React.createContext<GridState>(gridState);

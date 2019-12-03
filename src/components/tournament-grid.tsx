@@ -8,11 +8,14 @@ import GridHeader from './grid-header';
 import GridData from './grid-data';
 import { GridContext, GridState, gridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
-import { calculateVisibleColumns, buildSelectableColumns } from './column-utils';
+import {
+  calculateVisibleColumns,
+  buildSelectableColumns
+} from './column-utils';
 import { GridProperties } from './grid-properties';
 
 const tableStyle = css({
-  minWidth: 600,
+  minWidth: 600
 });
 
 export default class TournamentGrid extends React.Component<GridProperties> {
@@ -23,7 +26,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     this._state.loadCsv(this.props.idCsvElement);
     const selectableColumns = buildSelectableColumns(this._state.csv.header);
     this._state.setShownColumns(
-      calculateVisibleColumns(selectableColumns, this.props.hiddenColumns),
+      calculateVisibleColumns(selectableColumns, this.props.hiddenColumns)
     );
     this._state.setEnabledFilters(this.props.useFilters);
     this._state.updateView = () => this.forceUpdate();
@@ -39,7 +42,11 @@ export default class TournamentGrid extends React.Component<GridProperties> {
           </Grid>
           <Grid item xs={12}>
             <Paper>
-              <Table css={tableStyle} size="small" aria-label="Tournament grid table">
+              <Table
+                css={tableStyle}
+                size="small"
+                aria-label="Tournament grid table"
+              >
                 <GridHeader />
                 <GridData />
               </Table>

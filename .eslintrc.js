@@ -23,5 +23,6 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    "prettier/prettier": "error"
   },
 };

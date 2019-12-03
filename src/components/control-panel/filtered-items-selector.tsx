@@ -1,15 +1,13 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import {
-  FormControl, InputLabel, Select, MenuItem,
-} from '@material-ui/core';
+import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { GridContext, GridState } from '../grid-context';
 import { FiltersManager } from '../filters/filters-manager';
 import { Filter } from '../filters/filter';
 
 const selectorStyle = css({
-  minWidth: '120px',
+  minWidth: '120px'
 });
 
 export default class FilteredItemSelector extends React.Component {
@@ -21,12 +19,14 @@ export default class FilteredItemSelector extends React.Component {
           const filterableItems = filterManager.activeFilter.selectableOptions;
           return (
             <FormControl>
-              <InputLabel id="selector-filtered-items-label">Select only</InputLabel>
+              <InputLabel id="selector-filtered-items-label">
+                Select only
+              </InputLabel>
               <Select
                 labelId="selector-filtered-items-label"
                 id="selector-filtered-items"
                 value={filterManager.activeFilter.selectedValue}
-                onChange={(evt) => this.filteredItemsSelectionChanged(evt, ctx)}
+                onChange={evt => this.filteredItemsSelectionChanged(evt, ctx)}
                 css={selectorStyle}
               >
                 {filterableItems.map((opt, i) => (
@@ -44,14 +44,14 @@ export default class FilteredItemSelector extends React.Component {
 
   private filteredItemsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    ctx: GridState,
+    ctx: GridState
   ): void {
     const newSelection = event.target.value as any;
     const filtersManager = ctx.filtersManager as FiltersManager;
     const filter = filtersManager.activeFilter as Filter;
     filter.selectedValue = newSelection;
     this.setState({
-      selectedFilteredItem: newSelection,
+      selectedFilteredItem: newSelection
     });
     ctx.updateView();
   }

@@ -1,7 +1,5 @@
 import React, { ReactNode } from 'react';
-import {
-  InputLabel, Select, FormControl, MenuItem,
-} from '@material-ui/core';
+import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
 import { GridContext, GridState } from '../grid-context';
 import { buildSelectableColumns } from '../column-utils';
 
@@ -19,7 +17,7 @@ export class ColumnsSelector extends React.Component {
                 labelId="selector-columns-label"
                 id="selector-columns"
                 value={ctx.shownColumns}
-                onChange={(evt) => this.columnsSelectionChanged(evt, ctx)}
+                onChange={evt => this.columnsSelectionChanged(evt, ctx)}
               >
                 {selectableOptions.map((opt, i) => (
                   <MenuItem key={i} value={opt}>
@@ -36,12 +34,12 @@ export class ColumnsSelector extends React.Component {
 
   private columnsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    ctx: GridState,
+    ctx: GridState
   ): void {
     const newSelection = event.target.value as Array<string>;
     ctx.setShownColumns(newSelection);
     this.setState({
-      selectedColumns: newSelection,
+      selectedColumns: newSelection
     });
     ctx.updateView();
   }
