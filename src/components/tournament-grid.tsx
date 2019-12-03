@@ -9,17 +9,11 @@ import GridData from './grid-data';
 import { GridContext, GridState, gridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
 import { calculateVisibleColumns, buildSelectableColumns } from './column-utils';
+import { GridProperties } from './grid-properties';
 
 const tableStyle = css({
   minWidth: 600,
 });
-
-interface GridProperties {
-  idCsvElement: string;
-  hiddenColumns: Array<string>;
-  useFilters: Array<string>;
-  enableOrderingColumns: Array<string>;
-}
 
 export default class TournamentGrid extends React.Component<GridProperties> {
   private readonly _state: GridState = gridState;

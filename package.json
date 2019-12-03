@@ -2,24 +2,13 @@
   "name": "tourn-grid-view",
   "version": "0.0.1",
   "private": true,
-  "dependencies": {
-    "@emotion/core": "^10.0.22",
-    "@emotion/styled": "^10.0.23",
-    "@material-ui/core": "^4.6.1",
-    "d3": "^3.5.17",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0"
-  },
+  "description": "Chess tournaments interactive grid viewer app",
+  "main": "index.js",
   "scripts": {
-    "clean": "rm -rf ./build && rm -rf ./dist",
-    "start": "react-scripts start",
+    "clean": "rm -rf dist",
     "format": "prettier-eslint '**/*.{js,ts,tsx}' --write",
-    "build": "npm run clean && npm run build:react && npm run build:bundle",
-    "build:react": "react-scripts build",
-    "build:bundle": "webpack --config webpack.config.js",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "npm run clean && webpack-dev-server --mode development --open --hot",
+    "build": "npm run clean && webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -50,25 +39,27 @@
       "last 1 safari version"
     ]
   },
+  "license": "MIT",
   "devDependencies": {
-    "@types/d3": "^3.5.43",
-    "@types/jest": "24.0.23",
-    "@types/node": "12.12.11",
-    "@types/react": "16.9.11",
-    "@types/react-dom": "16.9.4",
-    "@typescript-eslint/eslint-plugin": "^2.8.0",
-    "@typescript-eslint/parser": "^2.8.0",
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "glob": "^7.1.6",
+    "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "^3.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^1.0.1",
     "prettier-eslint": "^9.0.1",
     "prettier-eslint-cli": "^5.0.0",
-    "typescript": "3.7.2",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack-cli": "^3.3.10"
+    "typescript": "^3.7.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.23",
+    "@material-ui/core": "^4.6.1",
+    "@types/react": "^16.9.14",
+    "@types/react-dom": "^16.9.4",
+    "d3": "^3.5.17",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   }
 }

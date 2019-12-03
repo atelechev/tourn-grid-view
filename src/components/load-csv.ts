@@ -7,13 +7,13 @@ export const loadCsv = (idCsvWrapper: string): Csv => {
     throw Error(`Target element with id='${idCsvWrapper}' not found!`);
   }
   const rawCsv = csvElement.text();
-  const parsedCSV = Array.from(d3.csv.parseRows(rawCsv)).filter(
+  const parsedCSV: Array<any> = Array.from(d3.csv.parseRows(rawCsv)).filter(
     (row: Array<any>) => row && row.length > 0,
   );
   if (!parsedCSV || parsedCSV.length < 1) {
     throw Error('No CSV data found!');
   }
-  const header = Array.from(parsedCSV[0]);
+  const header: Array<string> = Array.from(parsedCSV[0]);
   let data: Array<any> = [];
   if (parsedCSV.length > 1) {
     data = parsedCSV.slice(1, parsedCSV.length);

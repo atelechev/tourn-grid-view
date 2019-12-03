@@ -1,21 +1,34 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const glob = require('glob');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: {
-    'bundle.js': glob.sync('build/static/?(js|css)/main.*.?(js|css)').map(f => path.resolve(__dirname, f)),
+  entry: './src/index.tsx',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
   },
   output: {
-    filename: 'tourn-grid-view.min.js',
+    path: path.join(__dirname, '/dist'),
+    filename: 'test-react.min.js',
+    library: 'TestReact',
+    //     libraryTarget: 'window',
+    //     libraryExport: 'default',
   },
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader'
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
-      },
-    ],
+      }
+    ]
   },
-  plugins: [new UglifyJsPlugin()],
-};
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
+}
