@@ -1,5 +1,5 @@
 const path = require('path');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -9,10 +9,8 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'test-react.min.js',
-    library: 'TestReact',
-    //     libraryTarget: 'window',
-    //     libraryExport: 'default',
+    filename: 'tourn-grid-view.min.js',
+    library: 'TournamentGrid'
   },
   module: {
     rules: [
@@ -25,6 +23,9 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       }
     ]
+  },
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
   },
   plugins: [
     new HtmlWebpackPlugin({
