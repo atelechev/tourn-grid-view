@@ -4,4 +4,5 @@ export interface GridProperties {
   hiddenColumns: Array<string>;
   useFilters: Array<string>;
   enableOrderingColumns: Array<string>;
+  lang: string;
 }

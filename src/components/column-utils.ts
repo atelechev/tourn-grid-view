@@ -4,7 +4,7 @@ export const COLUMN_PLACE = 'Pos';
 
 export const COLUMN_RATING = 'Rating';
 
-const COLUMN_FEDERATION = 'Fede';
+const COLUMN_FEDERATION = 'Fed';
 
 export const COLUMN_NAME = 'Name';
 

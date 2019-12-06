@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
+import { GridContext, GridState } from './grid-context';
 
 interface GameResultValueProps {
   rawResult: string;
@@ -31,8 +32,6 @@ const voidGameStyle = css({
   backgroundColor: '#f5deb3'
 });
 
-// const resultPattern = /([+-=])(\d+)([BbNn])/g;
-
 export class GameResultValue extends React.Component<GameResultValueProps> {
   private readonly _rawNormalized: string | undefined;
 
@@ -57,14 +56,20 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
   }
 
   public render(): ReactNode {
-    const cellStyles = this.calculateStyles();
-    return <div css={cellStyles}>{this.getResultForOutput()}</div>;
+    return (
+      <GridContext.Consumer>
+        {(ctx: GridState) => {
+          const cellStyles = this.calculateStyles(ctx);
+          return <div css={cellStyles}>{this.getResultForOutput(ctx)}</div>
+        }}
+      </GridContext.Consumer>
+    );
   }
 
-  private getResultForOutput(): string {
+  private getResultForOutput(ctx: GridState): string {
     if (this._resultExists) {
       const fullOutput = this._rawNormalized as string;
-      if (this.isGameColorKnown()) {
+      if (this.isGameColorKnown(ctx)) {
         return fullOutput.substring(0, fullOutput.length - 1);
       }
       return fullOutput;
@@ -72,34 +77,34 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
     return '.';
   }
 
-  private isGameColorKnown(): boolean {
+  private isGameColorKnown(ctx: GridState): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
-      (rawResult.endsWith('B') || rawResult.endsWith('N'))) as boolean;
+      (ctx.translatableValuesAnalyzer.hasWhiteColorMarker(rawResult) ||
+        ctx.translatableValuesAnalyzer.hasBlackColorMarker(rawResult))) as boolean;
   }
 
-  private isForfeitGame(): boolean {
+  private isForfeitGame(ctx: GridState): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
-      (rawResult === 'EXE' ||
+      (ctx.translatableValuesAnalyzer.isByeMarker(rawResult) ||
         rawResult.startsWith('>') ||
         rawResult.startsWith('<'))) as boolean;
   }
 
-  private calculateStyles(): Array<SerializedStyles> {
+  private calculateStyles(ctx: GridState): Array<SerializedStyles> {
     const styles: Array<SerializedStyles> = [cellStyle];
     if (this._resultExists) {
       styles.push(cellFrameStyle);
       const rawResult = this._rawNormalized as string;
-      if (this.isForfeitGame()) {
+      if (this.isForfeitGame(ctx)) {
         styles.push(voidGameStyle);
-      } else if (rawResult.endsWith('B')) {
+      } else if (ctx.translatableValuesAnalyzer.hasWhiteColorMarker(rawResult)) {
         styles.push(whiteColorStyle);
-      } else if (rawResult.endsWith('N')) {
+      } else if (ctx.translatableValuesAnalyzer.hasBlackColorMarker(rawResult)) {
         styles.push(blackColorStyle);
       }
     }
-
     return styles;
   }
 }
