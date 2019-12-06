@@ -13,9 +13,19 @@ import {
   buildSelectableColumns
 } from './column-utils';
 import { GridProperties } from './grid-properties';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 const tableStyle = css({
   minWidth: 600
+});
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: [
+      'Arial', 'Helvetica', 'sans-serif'
+    ].join(',')
+  }
 });
 
 export default class TournamentGrid extends React.Component<GridProperties> {
@@ -35,25 +45,27 @@ export default class TournamentGrid extends React.Component<GridProperties> {
 
   public render(): ReactNode {
     return (
-      <GridContext.Provider value={this._state}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <ControlPanel />
+      <ThemeProvider theme={theme}>
+        <GridContext.Provider value={this._state}>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <ControlPanel />
+            </Grid>
+            <Grid item xs={12}>
+              <Paper>
+                <Table
+                  css={tableStyle}
+                  size="small"
+                  aria-label="Tournament grid table"
+                >
+                  <GridHeader />
+                  <GridData />
+                </Table>
+              </Paper>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Paper>
-              <Table
-                css={tableStyle}
-                size="small"
-                aria-label="Tournament grid table"
-              >
-                <GridHeader />
-                <GridData />
-              </Table>
-            </Paper>
-          </Grid>
-        </Grid>
-      </GridContext.Provider>
+        </GridContext.Provider>
+      </ThemeProvider>
     );
   }
 }
