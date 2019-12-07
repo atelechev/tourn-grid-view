@@ -80,10 +80,11 @@ export const gridState: GridState = {
   order: 'desc',
   orderEnabledColumns: [],
   executeSort: (column: string) => {
-    const indexSortColumn = gridState.orderEnabledColumns.findIndex(
+    const indexSortColumn = gridState.csv.header.findIndex(
       headerColumn => headerColumn === column
     );
-    if (indexSortColumn < 0) {
+    const enabledOnThisColumn = gridState.orderEnabledColumns.findIndex(orderEnabled => orderEnabled === column) > -1;
+    if (indexSortColumn < 0 || !enabledOnThisColumn) {
       return;
     }
     gridState.order = gridState.order === 'desc' ? 'asc' : 'desc';
