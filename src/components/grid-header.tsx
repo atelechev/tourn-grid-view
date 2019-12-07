@@ -53,9 +53,11 @@ export default class GridHeader extends React.Component {
   }
 
   private isSortEnabledOn(columnName: string, ctx: GridState): boolean {
-    return ctx.orderEnabledColumns.findIndex(
-      sortableColumn => sortableColumn === columnName
-    ) > -1;
+    return (
+      ctx.orderEnabledColumns.findIndex(
+        sortableColumn => sortableColumn === columnName
+      ) > -1
+    );
   }
 
   private calculateStyles(
