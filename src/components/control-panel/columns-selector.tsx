@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
 import { GridContext, GridState } from '../grid-context';
-import { buildSelectableColumns } from '../column-utils';
+import { buildSelectableColumns } from '../columns/column-utils';
 
 export class ColumnsSelector extends React.Component {
   public render(): ReactNode {
@@ -39,7 +39,7 @@ export class ColumnsSelector extends React.Component {
     ctx: GridState
   ): void {
     const newSelection = event.target.value as Array<string>;
-    ctx.setShownColumns(newSelection);
+    ctx.shownColumns = newSelection;
     this.setState({
       selectedColumns: newSelection
     });

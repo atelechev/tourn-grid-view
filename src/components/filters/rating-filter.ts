@@ -1,5 +1,5 @@
 import { Filter, VALUE_NO_FILTER } from './filter';
-import { COLUMN_RATING } from '../column-utils';
+import { COLUMN_RATING } from '../columns/column-utils';
 
 export default class RatingFilter implements Filter {
   private readonly _allRatingGroups: Array<string> = [

@@ -4,9 +4,10 @@ import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import { GridContext, GridState } from './grid-context';
-import { CellValue } from './cell-value';
+import { CellValue } from './cell-value/cell-value';
 import { FiltersManager } from './filters/filters-manager';
-import { isRoundColumn, COLUMN_PLACE } from './column-utils';
+import { isRoundColumn, COLUMN_PLACE } from './columns/column-utils';
+import { VALUE_NO_FILTER } from './filters/filter';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -43,7 +44,7 @@ export default class GridData extends React.Component {
                   <TableRow
                     key={iShownRow}
                     css={rowStyles}
-                    onClick={_ => ctx.selectRow(row)}
+                    onClick={_ => this.selectRow(row, ctx)}
                   >
                     {row.map((cellValue, iCell) => {
                       const column = ctx.csv.header[iCell];
@@ -63,6 +64,22 @@ export default class GridData extends React.Component {
         }}
       </GridContext.Consumer>
     );
+  }
+
+  private selectRow(row: Array<any>, ctx: GridState): void {
+    if (row === ctx.selectedRow) {
+      ctx.selectedRow = undefined;
+    } else {
+      ctx.selectedRow = row;
+      if (ctx.filtersManager) {
+        ctx.filtersManager.useFilter(VALUE_NO_FILTER);
+      } else {
+        throw Error(
+          'Attempted to use filter before filtersManager was initialized.'
+        );
+      }
+    }
+    ctx.updateView();
   }
 
   private calculateRowStyles(

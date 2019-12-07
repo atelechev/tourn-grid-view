@@ -46,7 +46,7 @@ export default class FilterTypeSelector extends React.Component {
     ctx: GridState
   ): void {
     const newSelection = event.target.value as string;
-    ctx.useFilter(newSelection);
+    ctx.filtersManager.useFilter(newSelection);
     this.setState({
       selectedFilter: newSelection
     });

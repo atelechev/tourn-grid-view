@@ -11,11 +11,13 @@ import { ControlPanel } from './control-panel/control-panel';
 import {
   calculateVisibleColumns,
   buildSelectableColumns
-} from './column-utils';
+} from './columns/column-utils';
 import { GridProperties } from './grid-properties';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { getI18nProvider } from './i18n/i18n-provider';
+import { loadCsv } from './csv/load-csv';
+import { FiltersManager } from './filters/filters-manager';
 
 const tableStyle = css({
   minWidth: 600
@@ -34,16 +36,21 @@ export default class TournamentGrid extends React.Component<GridProperties> {
 
   constructor(props: GridProperties) {
     super(props);
-    this._state.loadCsv(this.props.idCsvElement);
+    const csv = loadCsv(this.props.idCsvElement);
+    this._state.csv = csv;
+    this.initFiltersManager();
     const selectableColumns = buildSelectableColumns(this._state.csv.header);
-    this._state.setShownColumns(
-      calculateVisibleColumns(selectableColumns, this.props.hiddenColumns)
-    );
-    this._state.setEnabledFilters(this.props.useFilters);
+    this._state.shownColumns = calculateVisibleColumns(selectableColumns, this.props.hiddenColumns);
     this._state.updateView = () => this.forceUpdate();
     this._state.orderEnabledColumns = this.props.enableOrderingColumns;
     this._state.lang = this.props.lang;
     this._state.i18nProvider = getI18nProvider(this.props.lang);
+  }
+
+  private initFiltersManager(): void {
+    const filtersManager = new FiltersManager(this._state.csv);
+    this._state.filtersManager = filtersManager;
+    filtersManager.enableFilters(this.props.useFilters);
   }
 
   public render(): ReactNode {

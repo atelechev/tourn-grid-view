@@ -1,9 +1,9 @@
 import { Filter, VALUE_NO_FILTER } from './filter';
 import { NoFilter } from './no-filter';
 import { SimpleFilter } from './simple-filter';
-import { Csv } from '../csv';
+import { Csv } from '../csv/csv';
 import RatingFilter from './rating-filter';
-import { COLUMN_RATING } from '../column-utils';
+import { COLUMN_RATING } from '../columns/column-utils';
 
 export class FiltersManager {
   private readonly _noFilter: Filter;

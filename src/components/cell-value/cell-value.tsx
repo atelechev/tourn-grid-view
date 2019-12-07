@@ -6,20 +6,16 @@ import {
   isRoundColumn,
   calculateColumnVisibility,
   isCountryColumn
-} from './column-utils';
-import { columnStyles } from './column-styles';
-import { GridContext, GridState } from './grid-context';
+} from '../columns/column-utils';
+import { columnStyles } from '../columns/column-styles';
+import { GridContext, GridState } from '../grid-context';
 import { GameResultValue } from './game-result-value';
-import { CountryFlag } from './country-flag';
+import { CountryFlag } from '../country-flag/country-flag';
+import { CellValueProps } from './cell-value-props';
 
 const dataCellStyle = css({
   fontSize: '11px'
 });
-
-interface CellValueProps {
-  column: string;
-  cellValue: any;
-}
 
 export class CellValue extends React.Component<CellValueProps> {
   public render(): ReactNode {

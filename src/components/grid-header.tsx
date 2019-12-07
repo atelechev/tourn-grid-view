@@ -5,9 +5,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { calculateColumnVisibility } from './column-utils';
+import { calculateColumnVisibility } from './columns/column-utils';
 import { GridContext } from './grid-context';
-import { columnStyles } from './column-styles';
+import { columnStyles } from './columns/column-styles';
+import { executeSorting } from './columns/execute-sorting';
 
 const headerCellStyle = css({
   fontSize: '12px'
@@ -37,7 +38,7 @@ export default class GridHeader extends React.Component {
                       active={ctx.orderBy === columnName}
                       hideSortIcon
                       direction={ctx.order}
-                      onClick={_ => ctx.executeSort(columnName)}
+                      onClick={_ => executeSorting(columnName, ctx)}
                     >
                       {columnName}
                     </TableSortLabel>

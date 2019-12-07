@@ -1,11 +1,8 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { GridContext, GridState } from './grid-context';
-
-interface GameResultValueProps {
-  rawResult: string;
-}
+import { GridContext, GridState } from '../grid-context';
+import { GameResultValueProps } from './game-result-value-props';
 
 const cellStyle = css({
   width: '40px',
