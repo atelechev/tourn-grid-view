@@ -80,14 +80,14 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
   private isGameColorKnown(ctx: GridState): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
-      (ctx.translatableValuesAnalyzer.hasWhiteColorMarker(rawResult) ||
-        ctx.translatableValuesAnalyzer.hasBlackColorMarker(rawResult))) as boolean;
+      (ctx.i18nProvider.hasWhiteColorMarker(rawResult) ||
+        ctx.i18nProvider.hasBlackColorMarker(rawResult))) as boolean;
   }
 
   private isForfeitGame(ctx: GridState): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
-      (ctx.translatableValuesAnalyzer.isByeMarker(rawResult) ||
+      (ctx.i18nProvider.isByeMarker(rawResult) ||
         rawResult.startsWith('>') ||
         rawResult.startsWith('<'))) as boolean;
   }
@@ -99,9 +99,9 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
       const rawResult = this._rawNormalized as string;
       if (this.isForfeitGame(ctx)) {
         styles.push(voidGameStyle);
-      } else if (ctx.translatableValuesAnalyzer.hasWhiteColorMarker(rawResult)) {
+      } else if (ctx.i18nProvider.hasWhiteColorMarker(rawResult)) {
         styles.push(whiteColorStyle);
-      } else if (ctx.translatableValuesAnalyzer.hasBlackColorMarker(rawResult)) {
+      } else if (ctx.i18nProvider.hasBlackColorMarker(rawResult)) {
         styles.push(blackColorStyle);
       }
     }

@@ -5,7 +5,8 @@ import { FiltersManager } from './filters/filters-manager';
 import { VALUE_NO_FILTER } from './filters/filter';
 import { compareOptionalValues } from './ordering-util';
 import { COLUMN_PLACE } from './column-utils';
-import { TranslatableValuesAnalyser, unsupportedTranslator } from './translatable-values-analyzer';
+import { I18nProvider } from './i18n/i18n-provider';
+import { langUnsupported } from './i18n/lang-unsupported';
 
 export type Order = 'asc' | 'desc';
 
@@ -25,7 +26,7 @@ export interface GridState {
   orderEnabledColumns: Array<string>;
   executeSort: (column: string) => void;
   lang: string;
-  translatableValuesAnalyzer: TranslatableValuesAnalyser;
+  i18nProvider: I18nProvider;
 }
 
 export const gridState: GridState = {
@@ -97,7 +98,7 @@ export const gridState: GridState = {
     gridState.updateView();
   },
   lang: '??',
-  translatableValuesAnalyzer: unsupportedTranslator
+  i18nProvider: langUnsupported
 };
 
 export const GridContext = React.createContext<GridState>(gridState);

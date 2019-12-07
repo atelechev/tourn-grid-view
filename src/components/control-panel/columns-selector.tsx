@@ -11,7 +11,9 @@ export class ColumnsSelector extends React.Component {
           const selectableOptions = buildSelectableColumns(ctx.csv.header);
           return (
             <FormControl>
-              <InputLabel id="selector-columns-label">Shown Columns</InputLabel>
+              <InputLabel id="selector-columns-label">
+                {ctx.i18nProvider.translate('control-panel.visible-columns')}
+              </InputLabel>
               <Select
                 multiple
                 labelId="selector-columns-label"

@@ -7,7 +7,7 @@ import { FiltersManager } from '../filters/filters-manager';
 import { Filter } from '../filters/filter';
 
 const selectorStyle = css({
-  minWidth: '120px'
+  minWidth: '160px'
 });
 
 export default class FilteredItemSelector extends React.Component {
@@ -20,7 +20,7 @@ export default class FilteredItemSelector extends React.Component {
           return (
             <FormControl>
               <InputLabel id="selector-filtered-items-label">
-                Select only
+                {ctx.i18nProvider.translate('control-panel.show-only')}
               </InputLabel>
               <Select
                 labelId="selector-filtered-items-label"

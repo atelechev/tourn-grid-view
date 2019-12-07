@@ -15,7 +15,7 @@ import {
 import { GridProperties } from './grid-properties';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { getTranslatableValuesAnalyzer } from './translatable-values-analyzer';
+import { getI18nProvider } from './i18n/i18n-provider';
 
 const tableStyle = css({
   minWidth: 600
@@ -43,7 +43,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     this._state.updateView = () => this.forceUpdate();
     this._state.orderEnabledColumns = this.props.enableOrderingColumns;
     this._state.lang = this.props.lang;
-    this._state.translatableValuesAnalyzer = getTranslatableValuesAnalyzer(this.props.lang);
+    this._state.i18nProvider = getI18nProvider(this.props.lang);
   }
 
   public render(): ReactNode {

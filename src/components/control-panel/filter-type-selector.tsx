@@ -6,7 +6,7 @@ import { GridContext, GridState } from '../grid-context';
 import { FiltersManager } from '../filters/filters-manager';
 
 const selectorStyle = css({
-  minWidth: '120px'
+  minWidth: '160px'
 });
 
 export default class FilterTypeSelector extends React.Component {
@@ -18,7 +18,9 @@ export default class FilterTypeSelector extends React.Component {
           const filterNames = filterManager.availableFilters;
           return (
             <FormControl>
-              <InputLabel id="selector-filters-label">Filter by</InputLabel>
+              <InputLabel id="selector-filters-label">
+                {ctx.i18nProvider.translate('control-panel.filter-by')}
+              </InputLabel>
               <Select
                 labelId="selector-filters-label"
                 id="selector-filters"
