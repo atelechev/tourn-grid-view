@@ -1,35 +1,35 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-const htmlWebpackPlugin = new HtmlWebpackPlugin({
-  template: path.join(__dirname, "examples/src/index.html"),
-  filename: "./index.html"
-});
-
-module.exports = env => {
-  const entryPathPrefix = env === "prod" ? "" : "examples/";
-  return {
-    entry: path.join(__dirname, entryPathPrefix + "src/index.js"),
-    module: {
-      rules: [
-        {
-          test: /\.(js|jsx)$/,
-          use: "babel-loader",
-          exclude: /node_modules/
-        },
-        {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader"]
-        }
-      ]
-    },
-    plugins: [htmlWebpackPlugin],
-    resolve: {
-      extensions: [".js", ".jsx"]
-    },
-    devServer: {
-      port: 3001
-    }
-  }
+module.exports = {
+  entry: './src/index.tsx',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
+  output: {
+    path: path.join(__dirname, '/dist'),
+    filename: 'tourn-grid-view.min.js',
+    library: 'TournamentGrid'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader'
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  },
+  optimization: {
+    minimizer: [new UglifyJsPlugin()]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ]
 };
