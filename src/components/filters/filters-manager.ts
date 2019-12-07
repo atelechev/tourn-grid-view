@@ -54,6 +54,10 @@ export class FiltersManager {
     return this._activeFilter;
   }
 
+  public get isFilterSelected(): boolean {
+    return this._activeFilter !== this._noFilter;
+  }
+
   public useFilter(filterName: string): void {
     if (!filterName || filterName === VALUE_NO_FILTER) {
       this._activeFilter = this._noFilter;

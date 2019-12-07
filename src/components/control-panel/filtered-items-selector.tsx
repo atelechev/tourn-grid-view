@@ -25,6 +25,7 @@ export default class FilteredItemSelector extends React.Component {
               <Select
                 labelId="selector-filtered-items-label"
                 id="selector-filtered-items"
+                disabled={!filterManager.isFilterSelected}
                 value={filterManager.activeFilter.selectedValue}
                 onChange={evt => this.filteredItemsSelectionChanged(evt, ctx)}
                 css={selectorStyle}
