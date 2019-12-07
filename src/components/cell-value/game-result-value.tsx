@@ -57,7 +57,7 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
       <GridContext.Consumer>
         {(ctx: GridState) => {
           const cellStyles = this.calculateStyles(ctx);
-          return <div css={cellStyles}>{this.getResultForOutput(ctx)}</div>
+          return <div css={cellStyles}>{this.getResultForOutput(ctx)}</div>;
         }}
       </GridContext.Consumer>
     );

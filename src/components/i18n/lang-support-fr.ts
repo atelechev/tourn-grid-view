@@ -1,13 +1,24 @@
 import { I18nProvider } from './i18n-provider';
 import { translationsFr } from './translations-fr';
 
-
 export const langSupportFr: I18nProvider = {
   hasWhiteColorMarker: (value: string): boolean => {
-    return value && value.trim().toUpperCase().endsWith('B');
+    return (
+      value &&
+      value
+        .trim()
+        .toUpperCase()
+        .endsWith('B')
+    );
   },
   hasBlackColorMarker: (value: string): boolean => {
-    return value && value.trim().toUpperCase().endsWith('N');
+    return (
+      value &&
+      value
+        .trim()
+        .toUpperCase()
+        .endsWith('N')
+    );
   },
   isByeMarker: (value: string): boolean => {
     return value && value.trim().toUpperCase() === 'EXE';
@@ -15,4 +26,4 @@ export const langSupportFr: I18nProvider = {
   translate: (key: string): string => {
     return translationsFr.get(key);
   }
-}
+};

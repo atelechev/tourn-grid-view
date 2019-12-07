@@ -13,8 +13,11 @@ export const getI18nProvider = (lang: string): I18nProvider => {
     throw Error('lang must be defined');
   }
   switch (lang.trim().toLowerCase()) {
-    case 'fr': return langSupportFr;
-    case 'en': return langSupportEn;
-    default: throw Error(`Unsupported language: ${lang}`);
+    case 'fr':
+      return langSupportFr;
+    case 'en':
+      return langSupportEn;
+    default:
+      throw Error(`Unsupported language: ${lang}`);
   }
-}
+};

@@ -5,7 +5,9 @@ export const executeSorting = (column: string, ctx: GridState): void => {
   const indexSortColumn = ctx.csv.header.findIndex(
     headerColumn => headerColumn === column
   );
-  const enabledOnThisColumn = ctx.orderEnabledColumns.findIndex(orderEnabled => orderEnabled === column) > -1;
+  const enabledOnThisColumn =
+    ctx.orderEnabledColumns.findIndex(orderEnabled => orderEnabled === column) >
+    -1;
   if (indexSortColumn < 0 || !enabledOnThisColumn) {
     return;
   }

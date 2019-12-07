@@ -47,5 +47,4 @@ export class CountryFlag extends React.Component<CountryFlagProps> {
     }
     return this._codeUnknown;
   }
-
 }

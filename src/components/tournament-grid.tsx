@@ -25,9 +25,7 @@ const tableStyle = css({
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: [
-      'Arial', 'Helvetica', 'sans-serif'
-    ].join(',')
+    fontFamily: ['Arial', 'Helvetica', 'sans-serif'].join(',')
   }
 });
 
@@ -40,7 +38,10 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     this._state.csv = csv;
     this.initFiltersManager();
     const selectableColumns = buildSelectableColumns(this._state.csv.header);
-    this._state.shownColumns = calculateVisibleColumns(selectableColumns, this.props.hiddenColumns);
+    this._state.shownColumns = calculateVisibleColumns(
+      selectableColumns,
+      this.props.hiddenColumns
+    );
     this._state.updateView = () => this.forceUpdate();
     this._state.orderEnabledColumns = this.props.enableOrderingColumns;
     this._state.lang = this.props.lang;

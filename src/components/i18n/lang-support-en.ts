@@ -3,10 +3,22 @@ import { translationsEn } from './translations-en';
 
 export const langSupportEn: I18nProvider = {
   hasWhiteColorMarker: (value: string): boolean => {
-    return value && value.trim().toUpperCase().endsWith('W');
+    return (
+      value &&
+      value
+        .trim()
+        .toUpperCase()
+        .endsWith('W')
+    );
   },
   hasBlackColorMarker: (value: string): boolean => {
-    return value && value.trim().toUpperCase().endsWith('B');
+    return (
+      value &&
+      value
+        .trim()
+        .toUpperCase()
+        .endsWith('B')
+    );
   },
   isByeMarker: (value: string): boolean => {
     return value && value.trim().toUpperCase() === 'BYE';
@@ -14,4 +26,4 @@ export const langSupportEn: I18nProvider = {
   translate: (key: string): string => {
     return translationsEn.get(key);
   }
-}
+};
