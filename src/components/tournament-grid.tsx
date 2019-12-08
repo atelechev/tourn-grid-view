@@ -36,7 +36,8 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     super(props);
     const csv = loadCsv(this.props.idCsvElement);
     this._state.csv = csv;
-    this._state.interactive = (this.props.interactive !== undefined) ? this.props.interactive : true;
+    this._state.interactive =
+      this.props.interactive !== undefined ? this.props.interactive : true;
     this.initFiltersManager();
     const selectableColumns = buildSelectableColumns(this._state.csv.header);
     this._state.shownColumns = calculateVisibleColumns(
@@ -60,11 +61,11 @@ export default class TournamentGrid extends React.Component<GridProperties> {
       <ThemeProvider theme={theme}>
         <GridContext.Provider value={this._state}>
           <Grid container spacing={1}>
-            {this._state.interactive &&
+            {this._state.interactive && (
               <Grid item xs={12}>
                 <ControlPanel />
               </Grid>
-            }
+            )}
             <Grid item xs={12}>
               <Paper>
                 <Table

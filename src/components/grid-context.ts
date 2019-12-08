@@ -32,7 +32,7 @@ export const gridState: GridState = {
   orderEnabledColumns: [],
   i18nProvider: langUnsupported,
   filtersManager: undefined,
-  updateView: () => { }
+  updateView: () => {}
 };
 
 export const GridContext = React.createContext<GridState>(gridState);
