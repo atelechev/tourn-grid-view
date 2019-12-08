@@ -2,6 +2,9 @@ import { GridState } from '../grid-context';
 import { compareOptionalValues } from './comparators';
 
 export const executeSorting = (column: string, ctx: GridState): void => {
+  if (!ctx.interactive) {
+    return;
+  }
   const indexSortColumn = ctx.csv.header.findIndex(
     headerColumn => headerColumn === column
   );

@@ -3,7 +3,7 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import TableCell, { SortDirection } from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 import { calculateColumnVisibility } from './columns/column-utils';
 import { GridContext, GridState } from './grid-context';
@@ -30,12 +30,10 @@ export default class GridHeader extends React.Component {
                   <TableCell
                     key={index}
                     css={calculatedStyles}
-                    sortDirection={
-                      ctx.orderBy === columnName ? ctx.order : false
-                    }
+                    sortDirection={this.getSortDirection(columnName, ctx)}
                   >
                     <TableSortLabel
-                      active={ctx.orderBy === columnName}
+                      active={ctx.interactive && ctx.orderBy === columnName}
                       hideSortIcon={!this.isSortEnabledOn(columnName, ctx)}
                       direction={ctx.order}
                       onClick={_ => executeSorting(columnName, ctx)}
@@ -52,7 +50,20 @@ export default class GridHeader extends React.Component {
     );
   }
 
+  private getSortDirection(columnName: string, ctx: GridState): SortDirection {
+    if (!ctx.interactive) {
+      return false;
+    }
+    if (ctx.orderBy === columnName) {
+      return ctx.order;
+    }
+    return false;
+  }
+
   private isSortEnabledOn(columnName: string, ctx: GridState): boolean {
+    if (!ctx.interactive) {
+      return false;
+    }
     return (
       ctx.orderEnabledColumns.findIndex(
         sortableColumn => sortableColumn === columnName

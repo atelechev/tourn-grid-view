@@ -11,6 +11,7 @@ export interface GridState {
   lang: string;
   csv: Csv;
   shownColumns: Array<string>;
+  interactive: boolean;
   selectedRow: Array<any> | undefined;
   orderBy: string;
   order: Order;
@@ -24,13 +25,14 @@ export const gridState: GridState = {
   lang: '??',
   csv: emptyCsv,
   shownColumns: [],
+  interactive: true,
   selectedRow: undefined,
   orderBy: COLUMN_PLACE,
   order: 'desc',
   orderEnabledColumns: [],
   i18nProvider: langUnsupported,
   filtersManager: undefined,
-  updateView: () => {}
+  updateView: () => { }
 };
 
 export const GridContext = React.createContext<GridState>(gridState);
