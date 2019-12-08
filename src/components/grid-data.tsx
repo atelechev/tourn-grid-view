@@ -67,6 +67,9 @@ export default class GridData extends React.Component {
   }
 
   private selectRow(row: Array<any>, ctx: GridState): void {
+    if (!ctx.interactive) {
+      return;
+    }
     if (row === ctx.selectedRow) {
       ctx.selectedRow = undefined;
     } else {

@@ -79,24 +79,29 @@ It is also available via the CDN URL:
 </script>
 ```
 
+Some examples of the usage of this tool are available on the pages [listed here](https://www.lareineblanche38.fr/p/annales.html).
+
 ### Configuration Options
 
 The configuration of the grid can be done with an object containing the following values:
 
 ```javascript
 {
+  enableOrderingColumns: string[],
   idCsvElement: string,
   idGridContainer: string,
+  interactive: boolean,
   hiddenColumns: string[],
-  useFilters: string[],
-  enableOrderingColumns: string[],
-  lang: string
+  lang: string,
+  useFilters: string[]
 }
 ```
 
 `idCsvElement` is the ID of the element from step 2, the one that is expected to contain the raw CSV data. This value is _mandatory_.
 
 `idGridContainer` the ID of the element from step 3, the one that is supposed to host the grid to render. This value is _mandatory_.
+
+`interactive` is an optional boolean which enables the interactive features of the grid. The default value is _true_. If set to _false_, no control panel will be available above the grid, the sorting and the filtering will be disabled on the rendered table.
 
 `hiddenColumns` is an array of the names of the CSV columns that should not be shown in the initially rendered view. This value is _optional_.
 

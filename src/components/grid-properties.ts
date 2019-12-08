@@ -1,8 +1,9 @@
 export interface GridProperties {
+  enableOrderingColumns: Array<string>;
   idCsvElement: string;
   idGridContainer: string;
+  interactive: boolean;
   hiddenColumns: Array<string>;
-  useFilters: Array<string>;
-  enableOrderingColumns: Array<string>;
   lang: string;
+  useFilters: Array<string>;
 }
