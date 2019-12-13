@@ -26,6 +26,24 @@ const tableStyle = css({
 const theme = createMuiTheme({
   typography: {
     fontFamily: ['Arial', 'Helvetica', 'sans-serif'].join(',')
+  },
+  overrides: {
+    MuiTableCell: {
+      sizeSmall: {
+        padding: '2px'
+      }
+    },
+    MuiSvgIcon: {
+      root: {
+        width: '12px',
+        height: '12px'
+      }
+    },
+    MuiTableSortLabel: {
+      active: {
+        fontWeight: 'bolder'
+      }
+    }
   }
 });
 

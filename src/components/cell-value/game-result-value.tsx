@@ -5,11 +5,12 @@ import { GridContext, GridState } from '../grid-context';
 import { GameResultValueProps } from './game-result-value-props';
 
 const cellStyle = css({
-  width: '40px',
-  height: '24px',
+  width: '28px',
+  height: '20px',
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  fontSize: '90%'
 });
 
 const cellFrameStyle = css({
