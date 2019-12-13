@@ -1,12 +1,14 @@
 import { css, SerializedStyles } from '@emotion/core';
 
-export const COLUMN_PLACE = 'Pos';
-
-export const COLUMN_RATING = 'Rating';
-
-const COLUMN_FEDERATION = 'Fed';
+export const COLUMN_FEDERATION = 'Fed';
 
 export const COLUMN_NAME = 'Name';
+
+export const COLUMN_PLACE = 'Pos';
+
+export const COLUMN_POINTS = 'Pts';
+
+export const COLUMN_RATING = 'Rating';
 
 const COLUMN_ROUNDS = 'Rounds';
 
@@ -24,6 +26,10 @@ export const isRoundColumn = (column: string): boolean => {
   const matchResult = column.match(roundColumnRegex);
   return (matchResult && matchResult.length > 0) as boolean;
 };
+
+export const isRatingColumn = (column: string): boolean => {
+  return column === COLUMN_RATING || column === 'Perf';
+}
 
 const isAlwaysVisibleColumn = (column: string): boolean =>
   column === COLUMN_PLACE || column === COLUMN_NAME;

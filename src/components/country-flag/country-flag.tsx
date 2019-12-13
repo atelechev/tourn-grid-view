@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { CountryFlagProps } from './country-flag-props';
 import { countryCodeMappings } from './country-code-mappings';
 
-const COUNTRY_FLAG_WIDTH = 32;
+const COUNTRY_FLAG_WIDTH = 30;
 
 const COUNTRY_FLAG_HEIGHT = 20;
 
