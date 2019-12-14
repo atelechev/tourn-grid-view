@@ -1,5 +1,9 @@
 import { css, SerializedStyles } from '@emotion/core';
 
+export const COLUMN_CATEGORY = 'Cat';
+
+export const COLUMN_CLUB = 'Club';
+
 export const COLUMN_FEDERATION = 'Fed';
 
 export const COLUMN_NAME = 'Name';
@@ -27,9 +31,20 @@ export const isRoundColumn = (column: string): boolean => {
   return (matchResult && matchResult.length > 0) as boolean;
 };
 
+export const isTieBreakColumn = (column: string): boolean => {
+  const tiebreakColumnRegex = /[Tt][Bb][0-9]+/g;
+  const matchResult = column.match(tiebreakColumnRegex);
+  return (
+    (matchResult && matchResult.length > 0) ||
+    column === 'Bu' ||
+    column === 'Sol' ||
+    column === 'Bre'
+  );
+};
+
 export const isRatingColumn = (column: string): boolean => {
   return column === COLUMN_RATING || column === 'Perf';
-}
+};
 
 const isAlwaysVisibleColumn = (column: string): boolean =>
   column === COLUMN_PLACE || column === COLUMN_NAME;

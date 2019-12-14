@@ -1,6 +1,14 @@
 /** @jsx jsx */
 import { css, SerializedStyles } from '@emotion/core';
-import { COLUMN_NAME, isRoundColumn, COLUMN_FEDERATION, COLUMN_POINTS, COLUMN_PLACE } from './column-utils';
+import {
+  COLUMN_NAME,
+  isRoundColumn,
+  COLUMN_FEDERATION,
+  COLUMN_POINTS,
+  COLUMN_PLACE,
+  COLUMN_CATEGORY,
+  COLUMN_CLUB
+} from './column-utils';
 
 const nameColumnStyle = css({
   fontWeight: 'bolder'
@@ -11,40 +19,49 @@ const roundColumnStyle = css({
   width: '32px'
 });
 
-const federationColumnStyle = css({
-  maxWidth: '40px',
-  width: '40px'
-});
-
 const placeColumnStyle = css({
-  maxWidth: '36px',
-  width: '36px',
+  maxWidth: '40px',
+  width: '40px',
   paddingLeft: '8px'
 });
 
 const pointsColumnStyle = css({
-  maxWidth: '40px',
-  width: '40px',
+  maxWidth: '48px',
+  width: '48px',
   fontWeight: 'bolder',
   textAlign: 'center'
 });
 
-class ColumnStylesHandler {
+const standardNarrowColumnStyle = css({
+  maxWidth: '44px',
+  width: '44px'
+});
 
+const clubColumnStyle = css({
+  maxWidth: '120px'
+});
+
+class ColumnStylesHandler {
   private readonly _styleDefs = new Map<string, SerializedStyles>([
     [COLUMN_NAME, nameColumnStyle],
-    [COLUMN_FEDERATION, federationColumnStyle],
+    [COLUMN_FEDERATION, standardNarrowColumnStyle],
     [COLUMN_POINTS, pointsColumnStyle],
-    [COLUMN_PLACE, placeColumnStyle]
+    [COLUMN_PLACE, placeColumnStyle],
+    [COLUMN_CATEGORY, standardNarrowColumnStyle],
+    [COLUMN_CLUB, clubColumnStyle]
   ]);
 
   get = (key: string): SerializedStyles | undefined => {
-    if (key && isRoundColumn(key)) {
-      return roundColumnStyle;
+    if (key) {
+      if (this._styleDefs.has(key)) {
+        return this._styleDefs.get(key);
+      }
+      if (isRoundColumn(key)) {
+        return roundColumnStyle;
+      }
     }
-    return this._styleDefs.get(key);
-  }
-
+    return standardNarrowColumnStyle;
+  };
 }
 
 export const columnStyles: ColumnStylesHandler = new ColumnStylesHandler();

@@ -36,7 +36,8 @@ const theme = createMuiTheme({
     MuiSvgIcon: {
       root: {
         width: '12px',
-        height: '12px'
+        height: '12px',
+        clear: 'both'
       }
     },
     MuiTableSortLabel: {
