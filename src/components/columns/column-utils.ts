@@ -4,8 +4,6 @@ export const COLUMN_CATEGORY = 'Cat';
 
 export const COLUMN_CLUB = 'Club';
 
-export const COLUMN_FEDERATION = 'Fed';
-
 export const COLUMN_NAME = 'Name';
 
 export const COLUMN_PLACE = 'Pos';
@@ -22,24 +20,10 @@ const hiddenStyle = css({
 
 const visibleStyle = css({});
 
-export const isCountryColumn = (column: string): boolean =>
-  column === COLUMN_FEDERATION;
-
 export const isRoundColumn = (column: string): boolean => {
   const roundColumnRegex = /[Rr][0-9]+/g;
   const matchResult = column.match(roundColumnRegex);
   return (matchResult && matchResult.length > 0) as boolean;
-};
-
-export const isTieBreakColumn = (column: string): boolean => {
-  const tiebreakColumnRegex = /[Tt][Bb][0-9]+/g;
-  const matchResult = column.match(tiebreakColumnRegex);
-  return (
-    (matchResult && matchResult.length > 0) ||
-    column === 'Bu' ||
-    column === 'Sol' ||
-    column === 'Bre'
-  );
 };
 
 export const isRatingColumn = (column: string): boolean => {

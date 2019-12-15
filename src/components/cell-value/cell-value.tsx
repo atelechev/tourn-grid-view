@@ -4,9 +4,9 @@ import React, { ReactNode } from 'react';
 import { TableCell } from '@material-ui/core';
 import {
   isRoundColumn,
-  calculateColumnVisibility,
-  isCountryColumn
+  calculateColumnVisibility
 } from '../columns/column-utils';
+import { isFederationColumn } from '../columns/column-federation';
 import { columnStyles } from '../columns/column-styles';
 import { GridContext, GridState } from '../grid-context';
 import { GameResultValue } from './game-result-value';
@@ -41,7 +41,7 @@ export class CellValue extends React.Component<CellValueProps> {
     if (isRoundColumn(column)) {
       return <GameResultValue rawResult={cellValue} />;
     }
-    if (isCountryColumn(column)) {
+    if (isFederationColumn(column)) {
       return <CountryFlag countryCode={cellValue} />;
     }
     return cellValue;

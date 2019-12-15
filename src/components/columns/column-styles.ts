@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { css, SerializedStyles } from '@emotion/core';
+import { COLUMN_FEDERATION } from './column-federation';
 import {
   COLUMN_NAME,
   isRoundColumn,
-  COLUMN_FEDERATION,
   COLUMN_POINTS,
   COLUMN_PLACE,
   COLUMN_CATEGORY,
