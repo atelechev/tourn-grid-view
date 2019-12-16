@@ -3,7 +3,7 @@ import { NoFilter } from './no-filter';
 import { SimpleFilter } from './simple-filter';
 import { Csv } from '../csv/csv';
 import RatingFilter from './rating-filter';
-import { COLUMN_RATING } from '../columns/column-utils';
+import { COLUMN_RATING } from '../columns/names';
 
 export class FiltersManager {
   private readonly _noFilter: Filter;

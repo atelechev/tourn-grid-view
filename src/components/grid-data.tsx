@@ -6,7 +6,8 @@ import TableRow from '@material-ui/core/TableRow';
 import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
 import { FiltersManager } from './filters/filters-manager';
-import { isRoundColumn, COLUMN_PLACE } from './columns/column-utils';
+import { COLUMN_PLACE } from './columns/names';
+import { isRoundColumn } from './columns/column-round';
 import { VALUE_NO_FILTER } from './filters/filter';
 
 const rowHoverStyle = css({

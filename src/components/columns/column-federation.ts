@@ -1,4 +1,4 @@
-export const COLUMN_FEDERATION = 'fed';
+import { COLUMN_FEDERATION } from './names';
 
 export const isFederationColumn = (column: string): boolean => {
   if (!column) {

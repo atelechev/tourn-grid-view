@@ -1,34 +1,7 @@
-import { css, SerializedStyles } from '@emotion/core';
-
-export const COLUMN_CATEGORY = 'Cat';
-
-export const COLUMN_CLUB = 'Club';
-
-export const COLUMN_NAME = 'Name';
-
-export const COLUMN_PLACE = 'Pos';
-
-export const COLUMN_POINTS = 'Pts';
-
-export const COLUMN_RATING = 'Rating';
-
-const COLUMN_ROUNDS = 'Rounds';
-
-const hiddenStyle = css({
-  display: 'none'
-});
-
-const visibleStyle = css({});
-
-export const isRoundColumn = (column: string): boolean => {
-  const roundColumnRegex = /[Rr][0-9]+/g;
-  const matchResult = column.match(roundColumnRegex);
-  return (matchResult && matchResult.length > 0) as boolean;
-};
-
-export const isRatingColumn = (column: string): boolean => {
-  return column === COLUMN_RATING || column === 'Perf';
-};
+import { SerializedStyles } from '@emotion/core';
+import { isRoundColumn } from './column-round';
+import { hiddenStyle, visibleStyle } from './column-styles';
+import { COLUMN_NAME, COLUMN_PLACE, COLUMN_ROUNDS } from './names';
 
 const isAlwaysVisibleColumn = (column: string): boolean =>
   column === COLUMN_PLACE || column === COLUMN_NAME;

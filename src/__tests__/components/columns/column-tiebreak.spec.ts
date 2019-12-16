@@ -7,11 +7,11 @@ describe('isTieBreakColumn', () => {
     }
   });
 
-  it('should return true TBx ignore case', () => {
+  it('should return true for TBx ignore case', () => {
     expect(isTieBreakColumn('tb1')).toBe(true);
   });
 
-  it('should return true TBx with leading and trailing spaces', () => {
+  it('should return true for TBx with leading and trailing spaces', () => {
     expect(isTieBreakColumn(' tb1 ')).toBe(true);
   });
 
