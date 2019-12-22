@@ -7,8 +7,8 @@ import { CountryFlag } from '../country-flag/country-flag';
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GameResultValue } from './game-result-value';
 import { GridContext, GridState } from '../grid-context';
-import { isFederationColumn } from '../columns/column-federation';
-import { isRoundColumn } from '../columns/column-round';
+import { isFederationColumn } from '../columns/federation';
+import { isRoundColumn } from '../columns/round';
 import { TableCell } from '@material-ui/core';
 
 const dataCellStyle = css({

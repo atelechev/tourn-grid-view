@@ -1,4 +1,4 @@
-import { isRoundColumn } from './column-round';
+import { isRoundColumn } from './round';
 
 describe('isRoundColumn', () => {
   it('should return true for all rounds from R1 to R30', () => {

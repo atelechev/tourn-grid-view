@@ -7,7 +7,7 @@ import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
 import { FiltersManager } from './filters/filters-manager';
 import { COLUMN_PLACE } from './columns/names';
-import { isRoundColumn } from './columns/column-round';
+import { isRoundColumn } from './columns/round';
 import { VALUE_NO_FILTER } from './filters/filter';
 
 const rowHoverStyle = css({

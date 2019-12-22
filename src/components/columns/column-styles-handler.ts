@@ -12,7 +12,7 @@ import {
   COLUMN_PLACE,
   COLUMN_POINTS
 } from './names';
-import { isRoundColumn } from './column-round';
+import { isRoundColumn } from './round';
 import { SerializedStyles } from '@emotion/core';
 
 class ColumnStylesHandler {

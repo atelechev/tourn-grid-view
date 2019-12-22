@@ -1,4 +1,4 @@
-import { isTieBreakColumn } from './column-tiebreak';
+import { isTieBreakColumn } from './tiebreak';
 
 describe('isTieBreakColumn', () => {
   it('should return true for all tiebreaks from TB1 to TB10', () => {

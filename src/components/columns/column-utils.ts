@@ -1,5 +1,5 @@
 import { SerializedStyles } from '@emotion/core';
-import { isRoundColumn } from './column-round';
+import { isRoundColumn } from './round';
 import { hiddenStyle, visibleStyle } from './column-styles';
 import { COLUMN_NAME, COLUMN_PLACE, COLUMN_ROUNDS } from './names';
 
