@@ -6,8 +6,9 @@ import TableRow from '@material-ui/core/TableRow';
 import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
 import { FiltersManager } from './filters/filters-manager';
-import { isRoundColumn, COLUMN_PLACE } from './columns/column-utils';
+import { isRoundColumn } from './columns/round';
 import { VALUE_NO_FILTER } from './filters/filter';
+import { isPlaceColumn } from './columns/place';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -28,12 +29,12 @@ export default class GridData extends React.Component {
       <GridContext.Consumer>
         {(ctx: GridState) => {
           const placeColumnIndex = ctx.csv.header.findIndex(
-            col => col === COLUMN_PLACE
+            col => isPlaceColumn(col)
           );
           const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
           return (
             <TableBody>
-              {ctx.csv.data.map((row, iShownRow) => {
+              {ctx.csv.data.map((row, indexRow) => {
                 const rowStyles = this.calculateRowStyles(
                   row,
                   ctx,
@@ -42,15 +43,15 @@ export default class GridData extends React.Component {
                 );
                 return (
                   <TableRow
-                    key={iShownRow}
+                    key={indexRow}
                     css={rowStyles}
                     onClick={_ => this.selectRow(row, ctx)}
                   >
-                    {row.map((cellValue, iCell) => {
-                      const column = ctx.csv.header[iCell];
+                    {row.map((cellValue, indexCell) => {
+                      const column = ctx.csv.header[indexCell];
                       return (
                         <CellValue
-                          key={iCell}
+                          key={indexCell}
                           column={column}
                           cellValue={cellValue}
                         />

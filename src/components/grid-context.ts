@@ -1,7 +1,7 @@
 import React from 'react';
 import { Csv, emptyCsv } from './csv/csv';
 import { FiltersManager } from './filters/filters-manager';
-import { COLUMN_PLACE } from './columns/column-utils';
+import { COLUMN_PLACE } from './columns/names';
 import { I18nProvider } from './i18n/i18n-provider';
 import { langUnsupported } from './i18n/lang-unsupported';
 
@@ -32,7 +32,7 @@ export const gridState: GridState = {
   orderEnabledColumns: [],
   i18nProvider: langUnsupported,
   filtersManager: undefined,
-  updateView: () => {}
+  updateView: () => { }
 };
 
 export const GridContext = React.createContext<GridState>(gridState);

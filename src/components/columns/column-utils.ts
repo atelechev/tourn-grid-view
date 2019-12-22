@@ -1,75 +1,14 @@
-import { css, SerializedStyles } from '@emotion/core';
+import { isRoundColumn } from './round';
+import { COLUMN_ROUNDS } from './names';
+import { isAlwaysVisibleColumn } from './visibility-utils';
 
-export const COLUMN_CATEGORY = 'Cat';
-
-export const COLUMN_CLUB = 'Club';
-
-export const COLUMN_FEDERATION = 'Fed';
-
-export const COLUMN_NAME = 'Name';
-
-export const COLUMN_PLACE = 'Pos';
-
-export const COLUMN_POINTS = 'Pts';
-
-export const COLUMN_RATING = 'Rating';
-
-const COLUMN_ROUNDS = 'Rounds';
-
-const hiddenStyle = css({
-  display: 'none'
-});
-
-const visibleStyle = css({});
-
-export const isCountryColumn = (column: string): boolean =>
-  column === COLUMN_FEDERATION;
-
-export const isRoundColumn = (column: string): boolean => {
-  const roundColumnRegex = /[Rr][0-9]+/g;
-  const matchResult = column.match(roundColumnRegex);
-  return (matchResult && matchResult.length > 0) as boolean;
-};
-
-export const isTieBreakColumn = (column: string): boolean => {
-  const tiebreakColumnRegex = /[Tt][Bb][0-9]+/g;
-  const matchResult = column.match(tiebreakColumnRegex);
-  return (
-    (matchResult && matchResult.length > 0) ||
-    column === 'Bu' ||
-    column === 'Sol' ||
-    column === 'Bre'
-  );
-};
-
-export const isRatingColumn = (column: string): boolean => {
-  return column === COLUMN_RATING || column === 'Perf';
-};
-
-const isAlwaysVisibleColumn = (column: string): boolean =>
-  column === COLUMN_PLACE || column === COLUMN_NAME;
-
-export const calculateColumnVisibility = (
-  column: string,
-  shownColumns: Array<string>
-): SerializedStyles => {
-  const isColumnVisible =
-    isAlwaysVisibleColumn(column) ||
-    shownColumns.find(
-      shownColumn =>
-        shownColumn === column ||
-        (shownColumn === COLUMN_ROUNDS && isRoundColumn(column))
-    ) !== undefined;
-  return isColumnVisible ? visibleStyle : hiddenStyle;
-};
-
-export const calculateVisibleColumns = (
-  allColumns: Array<string>,
-  hiddenColumns: Array<string>
-): Array<string> =>
-  allColumns.filter(
-    column => hiddenColumns.find(hidden => column === hidden) === undefined
-  );
+export const isSimpleColumnIdentifier = (column: string,
+  expectedIdentifier: string): boolean => {
+  if (!column) {
+    return false;
+  }
+  return column.trim().toLowerCase() === expectedIdentifier.toLowerCase();
+}
 
 export const buildSelectableColumns = (
   allHeaderColumns: Array<string>

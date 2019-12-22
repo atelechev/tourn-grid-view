@@ -5,10 +5,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell, { SortDirection } from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { calculateColumnVisibility } from './columns/column-utils';
+import { calculateColumnVisibility } from './columns/visibility-utils';
 import { GridContext, GridState } from './grid-context';
-import { columnStyles } from './columns/column-styles';
-import { executeSorting } from './columns/execute-sorting';
+import { columnStylesHandler } from './columns/column-styles-handler';
+import { executeSorting } from './ordering/execute-sorting';
 
 const headerCellStyle = css({
   fontSize: '12px'
@@ -33,7 +33,7 @@ export default class GridHeader extends React.Component {
                     sortDirection={this.getSortDirection(columnName, ctx)}
                   >
                     <TableSortLabel
-                      active={ctx.interactive && ctx.orderBy === columnName}
+                      active={ctx.interactive && ctx.orderBy === columnName.trim().toLowerCase()}
                       hideSortIcon={!this.isSortEnabledOn(columnName, ctx)}
                       direction={ctx.order}
                       onClick={_ => executeSorting(columnName, ctx)}
@@ -54,7 +54,7 @@ export default class GridHeader extends React.Component {
     if (!ctx.interactive) {
       return false;
     }
-    if (ctx.orderBy === columnName) {
+    if (ctx.orderBy === columnName.trim().toLowerCase()) {
       return ctx.order;
     }
     return false;
@@ -64,9 +64,10 @@ export default class GridHeader extends React.Component {
     if (!ctx.interactive) {
       return false;
     }
+    const columnNameNormalized = columnName.trim().toLowerCase();
     return (
       ctx.orderEnabledColumns.findIndex(
-        sortableColumn => sortableColumn === columnName
+        sortableColumn => sortableColumn === columnNameNormalized
       ) > -1
     );
   }
@@ -77,7 +78,7 @@ export default class GridHeader extends React.Component {
   ): Array<SerializedStyles> {
     const visibilityClass = calculateColumnVisibility(column, shownColumns);
     const styles: Array<SerializedStyles> = [headerCellStyle, visibilityClass];
-    const columnStyle = columnStyles.get(column);
+    const columnStyle = columnStylesHandler.get(column);
     if (columnStyle) {
       styles.push(columnStyle);
     }

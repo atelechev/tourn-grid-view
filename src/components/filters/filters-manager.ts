@@ -3,7 +3,7 @@ import { NoFilter } from './no-filter';
 import { SimpleFilter } from './simple-filter';
 import { Csv } from '../csv/csv';
 import RatingFilter from './rating-filter';
-import { COLUMN_RATING } from '../columns/column-utils';
+import { isRatingColumn } from '../columns/rating';
 
 export class FiltersManager {
   private readonly _noFilter: Filter;
@@ -26,25 +26,26 @@ export class FiltersManager {
   public enableFilters(filterNames: Array<string>): void {
     this._enabledFilters.clear();
     filterNames.forEach(filterName => {
+      const filterNameNormalized = filterName.trim().toLowerCase();
       const columnIndex = this._csv.header.findIndex(
-        colName => colName === filterName
+        colName => colName.trim().toLowerCase() === filterNameNormalized
       );
       if (columnIndex < 0) {
         console.warn(
           `Filter ${filterName} not found among CSV columns. Skipping it.`
         );
       } else {
-        const filter = this.initFilter(filterName);
+        const filter = this.initFilter(filterNameNormalized);
         filter.filteredColumnIndex = columnIndex;
         filter.selectableOptions = this._csv.data.map(row => row[columnIndex]);
-        this._enabledFilters.set(filterName, filter);
+        this._enabledFilters.set(filterNameNormalized, filter);
       }
     });
     this._enabledFilters.set(this._noFilter.name, this._noFilter);
   }
 
   private initFilter(filterName: string): SimpleFilter | RatingFilter {
-    if (filterName === COLUMN_RATING) {
+    if (isRatingColumn(filterName)) {
       return new RatingFilter();
     }
     return new SimpleFilter(filterName);

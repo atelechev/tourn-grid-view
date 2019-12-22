@@ -1,23 +1,22 @@
 /** @jsx jsx */
-import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { TableCell } from '@material-ui/core';
-import {
-  isRoundColumn,
-  calculateColumnVisibility,
-  isCountryColumn
-} from '../columns/column-utils';
-import { columnStyles } from '../columns/column-styles';
-import { GridContext, GridState } from '../grid-context';
-import { GameResultValue } from './game-result-value';
-import { CountryFlag } from '../country-flag/country-flag';
+import { calculateColumnVisibility } from '../columns/visibility-utils';
 import { CellValueProps } from './cell-value-props';
+import { columnStylesHandler } from '../columns/column-styles-handler';
+import { CountryFlag } from '../country-flag/country-flag';
+import { css, jsx, SerializedStyles } from '@emotion/core';
+import { GameResultValue } from './game-result-value';
+import { GridContext, GridState } from '../grid-context';
+import { isFederationColumn } from '../columns/federation';
+import { isRoundColumn } from '../columns/round';
+import { TableCell } from '@material-ui/core';
 
 const dataCellStyle = css({
   fontSize: '11px'
 });
 
 export class CellValue extends React.Component<CellValueProps> {
+
   public render(): ReactNode {
     const { column, cellValue } = this.props;
     return (
@@ -41,7 +40,7 @@ export class CellValue extends React.Component<CellValueProps> {
     if (isRoundColumn(column)) {
       return <GameResultValue rawResult={cellValue} />;
     }
-    if (isCountryColumn(column)) {
+    if (isFederationColumn(column)) {
       return <CountryFlag countryCode={cellValue} />;
     }
     return cellValue;
@@ -53,7 +52,7 @@ export class CellValue extends React.Component<CellValueProps> {
   ): Array<SerializedStyles> {
     const visibilityClass = calculateColumnVisibility(column, shownColumns);
     const styles: Array<SerializedStyles> = [dataCellStyle, visibilityClass];
-    const columnStyle = columnStyles.get(column);
+    const columnStyle = columnStylesHandler.get(column);
     if (columnStyle) {
       styles.push(columnStyle);
     }

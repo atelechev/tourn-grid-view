@@ -31,15 +31,12 @@ const voidGameStyle = css({
 });
 
 export class GameResultValue extends React.Component<GameResultValueProps> {
-  private readonly _rawNormalized: string | undefined;
+  private _rawNormalized: string | undefined;
 
-  private readonly _resultExists: boolean;
+  private _resultExists: boolean;
 
   constructor(props: GameResultValueProps) {
     super(props);
-    this._rawNormalized = this.normalizeRawResult();
-    this._resultExists = (this._rawNormalized &&
-      this._rawNormalized.length > 0) as boolean;
   }
 
   private normalizeRawResult(): string | undefined {
@@ -54,6 +51,9 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
   }
 
   public render(): ReactNode {
+    this._rawNormalized = this.normalizeRawResult();
+    this._resultExists = (this._rawNormalized &&
+      this._rawNormalized.length > 0) as boolean;
     return (
       <GridContext.Consumer>
         {(ctx: GridState) => {

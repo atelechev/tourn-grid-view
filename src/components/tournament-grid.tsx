@@ -9,7 +9,6 @@ import GridData from './grid-data';
 import { GridContext, GridState, gridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
 import {
-  calculateVisibleColumns,
   buildSelectableColumns
 } from './columns/column-utils';
 import { GridProperties } from './grid-properties';
@@ -18,6 +17,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { getI18nProvider } from './i18n/i18n-provider';
 import { loadCsv } from './csv/load-csv';
 import { FiltersManager } from './filters/filters-manager';
+import { calculateVisibleColumns } from './columns/visibility-utils';
 
 const tableStyle = css({
   minWidth: 600
