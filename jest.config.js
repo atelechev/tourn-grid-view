@@ -4,6 +4,6 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
-  testRegex: '(/.*|(\\.|/)(test|spec))\\.(t|j)sx?$',
+  testRegex: '.*\\.spec\\.ts$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
 };

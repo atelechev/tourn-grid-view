@@ -8,7 +8,7 @@ import { TableSortLabel } from '@material-ui/core';
 import { calculateColumnVisibility } from './columns/visibility-utils';
 import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
-import { executeSorting } from './columns/execute-sorting';
+import { executeSorting } from './ordering/execute-sorting';
 
 const headerCellStyle = css({
   fontSize: '12px'
