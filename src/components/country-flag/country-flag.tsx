@@ -15,11 +15,8 @@ const flagStyle = css({
 export class CountryFlag extends React.Component<CountryFlagProps> {
   private readonly _codeUnknown = 'unknown';
 
-  private readonly _ffeToAlpha2Codes: Map<string, string>;
-
   constructor(props: CountryFlagProps) {
     super(props);
-    this._ffeToAlpha2Codes = countryCodeMappings;
   }
 
   public render(): ReactNode {
@@ -41,7 +38,7 @@ export class CountryFlag extends React.Component<CountryFlagProps> {
     const { countryCode } = this.props;
     if (countryCode) {
       return (
-        this._ffeToAlpha2Codes.get(countryCode.trim().toUpperCase()) ||
+        countryCodeMappings.get(countryCode.trim().toUpperCase()) ||
         this._codeUnknown
       );
     }

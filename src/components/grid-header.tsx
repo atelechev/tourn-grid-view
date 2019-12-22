@@ -33,7 +33,7 @@ export default class GridHeader extends React.Component {
                     sortDirection={this.getSortDirection(columnName, ctx)}
                   >
                     <TableSortLabel
-                      active={ctx.interactive && ctx.orderBy === columnName}
+                      active={ctx.interactive && ctx.orderBy === columnName.trim().toLowerCase()}
                       hideSortIcon={!this.isSortEnabledOn(columnName, ctx)}
                       direction={ctx.order}
                       onClick={_ => executeSorting(columnName, ctx)}
@@ -54,7 +54,7 @@ export default class GridHeader extends React.Component {
     if (!ctx.interactive) {
       return false;
     }
-    if (ctx.orderBy === columnName) {
+    if (ctx.orderBy === columnName.trim().toLowerCase()) {
       return ctx.order;
     }
     return false;
@@ -64,9 +64,10 @@ export default class GridHeader extends React.Component {
     if (!ctx.interactive) {
       return false;
     }
+    const columnNameNormalized = columnName.trim().toLowerCase();
     return (
       ctx.orderEnabledColumns.findIndex(
-        sortableColumn => sortableColumn === columnName
+        sortableColumn => sortableColumn === columnNameNormalized
       ) > -1
     );
   }

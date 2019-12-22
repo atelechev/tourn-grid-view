@@ -16,6 +16,7 @@ const dataCellStyle = css({
 });
 
 export class CellValue extends React.Component<CellValueProps> {
+
   public render(): ReactNode {
     const { column, cellValue } = this.props;
     return (
