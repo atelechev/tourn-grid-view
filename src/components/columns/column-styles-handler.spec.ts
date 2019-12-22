@@ -5,8 +5,8 @@ import {
   pointsColumnStyle,
   roundColumnStyle,
   standardNarrowColumnStyle
-} from '../../../components/columns/column-styles';
-import { columnStylesHandler } from '../../../components/columns/column-styles-handler';
+} from './column-styles';
+import { columnStylesHandler } from './column-styles-handler';
 
 describe('ColumnStylesHandler', () => {
 

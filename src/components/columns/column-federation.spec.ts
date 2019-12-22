@@ -1,4 +1,4 @@
-import { isFederationColumn } from '../../../components/columns/column-federation';
+import { isFederationColumn } from './column-federation';
 
 describe('isFederationColumn', () => {
   it('should return true if arg is exactly Fed', () => {

@@ -1,4 +1,4 @@
-import { isRatingColumn } from '../../../components/columns/column-rating';
+import { isRatingColumn } from './column-rating';
 
 describe('isRatingColumn', () => {
   it('should return true for Rating', () => {
