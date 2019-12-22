@@ -5,7 +5,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell, { SortDirection } from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { calculateColumnVisibility } from './columns/column-utils';
+import { calculateColumnVisibility } from './columns/visibility-utils';
 import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './columns/execute-sorting';

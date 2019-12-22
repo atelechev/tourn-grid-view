@@ -6,5 +6,5 @@ export const isRoundColumn = (column: string): boolean => {
   }
   const normalized = column.trim().toLowerCase();
   const matchResult = normalized.match(regexRound);
-  return matchResult && matchResult.length > 0;
+  return !!matchResult && matchResult.length > 0;
 };

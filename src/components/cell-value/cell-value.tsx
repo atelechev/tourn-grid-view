@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React, { ReactNode } from 'react';
-import { calculateColumnVisibility } from '../columns/column-utils';
+import { calculateColumnVisibility } from '../columns/visibility-utils';
 import { CellValueProps } from './cell-value-props';
 import { columnStylesHandler } from '../columns/column-styles-handler';
 import { CountryFlag } from '../country-flag/country-flag';

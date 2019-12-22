@@ -30,4 +30,9 @@ describe('isTieBreakColumn', () => {
   it('should return true for Bre', () => {
     expect(isTieBreakColumn('Bre')).toBe(true);
   });
+
+  it('should return false for another value', () => {
+    expect(isTieBreakColumn('x')).toBe(false);
+  });
+
 });

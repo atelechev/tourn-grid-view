@@ -20,4 +20,8 @@ describe('isRoundColumn', () => {
     expect(isRoundColumn(undefined)).toBe(false);
   });
 
+  it('should return false for another value', () => {
+    expect(isRoundColumn('x')).toBe(false);
+  });
+
 });

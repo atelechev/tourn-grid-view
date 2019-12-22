@@ -29,4 +29,8 @@ describe('isRatingColumn', () => {
     expect(isRatingColumn(undefined)).toBe(false);
   });
 
+  it('should return false for another value', () => {
+    expect(isRatingColumn('x')).toBe(false);
+  });
+
 });

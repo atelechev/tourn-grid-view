@@ -6,9 +6,9 @@ import TableRow from '@material-ui/core/TableRow';
 import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
 import { FiltersManager } from './filters/filters-manager';
-import { COLUMN_PLACE } from './columns/names';
 import { isRoundColumn } from './columns/round';
 import { VALUE_NO_FILTER } from './filters/filter';
+import { isPlaceColumn } from './columns/place';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -29,7 +29,7 @@ export default class GridData extends React.Component {
       <GridContext.Consumer>
         {(ctx: GridState) => {
           const placeColumnIndex = ctx.csv.header.findIndex(
-            col => col === COLUMN_PLACE
+            col => isPlaceColumn(col)
           );
           const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
           return (

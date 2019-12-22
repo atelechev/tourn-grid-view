@@ -17,7 +17,8 @@ describe('isFederationColumn', () => {
     expect(isFederationColumn(undefined)).toBe(false);
   });
 
-  it('should return false if arg is not fed', () => {
-    expect(isFederationColumn('Name')).toBe(false);
+  it('should return false for another value', () => {
+    expect(isFederationColumn('x')).toBe(false);
   });
+
 });

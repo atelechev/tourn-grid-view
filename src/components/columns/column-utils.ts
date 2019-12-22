@@ -1,32 +1,14 @@
-import { SerializedStyles } from '@emotion/core';
 import { isRoundColumn } from './round';
-import { hiddenStyle, visibleStyle } from './column-styles';
-import { COLUMN_NAME, COLUMN_PLACE, COLUMN_ROUNDS } from './names';
+import { COLUMN_ROUNDS } from './names';
+import { isAlwaysVisibleColumn } from './visibility-utils';
 
-const isAlwaysVisibleColumn = (column: string): boolean =>
-  column === COLUMN_PLACE || column === COLUMN_NAME;
-
-export const calculateColumnVisibility = (
-  column: string,
-  shownColumns: Array<string>
-): SerializedStyles => {
-  const isColumnVisible =
-    isAlwaysVisibleColumn(column) ||
-    shownColumns.find(
-      shownColumn =>
-        shownColumn === column ||
-        (shownColumn === COLUMN_ROUNDS && isRoundColumn(column))
-    ) !== undefined;
-  return isColumnVisible ? visibleStyle : hiddenStyle;
-};
-
-export const calculateVisibleColumns = (
-  allColumns: Array<string>,
-  hiddenColumns: Array<string>
-): Array<string> =>
-  allColumns.filter(
-    column => hiddenColumns.find(hidden => column === hidden) === undefined
-  );
+export const isSimpleColumnIdentifier = (column: string,
+  expectedIdentifier: string): boolean => {
+  if (!column) {
+    return false;
+  }
+  return column.trim().toLowerCase() === expectedIdentifier.toLowerCase();
+}
 
 export const buildSelectableColumns = (
   allHeaderColumns: Array<string>
