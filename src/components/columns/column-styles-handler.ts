@@ -13,6 +13,7 @@ import { isPlaceColumn } from './place';
 import { isClubColumn } from './club';
 import { isPointsColumn } from './points';
 
+// TODO refactor and test
 class ColumnStylesHandler {
 
   get = (key: string): SerializedStyles | undefined => {

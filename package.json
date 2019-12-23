@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "format": "prettier-eslint '**/*.{js,ts,tsx}' --write",
-    "start": "npm run clean && webpack-dev-server --mode development --open --hot",
+    "start": "webpack-dev-server --mode development --open --hot",
     "build": "npm run clean && webpack --mode production",
     "test": "jest",
     "test:watch": "jest --watch"
