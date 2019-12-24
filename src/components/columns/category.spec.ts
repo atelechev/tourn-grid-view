@@ -20,5 +20,4 @@ describe('isCategoryColumn', () => {
   it('should return false for another value', () => {
     expect(isCategoryColumn('x')).toBe(false);
   });
-
 });

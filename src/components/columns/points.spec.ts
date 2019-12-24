@@ -24,5 +24,4 @@ describe('isPointsColumn', () => {
   it('should return false for another value', () => {
     expect(isPointsColumn('x')).toBe(false);
   });
-
 });

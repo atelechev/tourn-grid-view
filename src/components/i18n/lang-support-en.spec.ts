@@ -64,20 +64,24 @@ describe('isByeMarker', () => {
   it('should return false if value is not BYE', () => {
     expect(langSupportEn.isByeMarker('EXE')).toBe(false);
   });
-
 });
 
 describe('translate', () => {
   it('should return expected translation for control-panel.filter-by', () => {
-    expect(langSupportEn.translate('control-panel.filter-by')).toEqual('Filter by');
+    expect(langSupportEn.translate('control-panel.filter-by')).toEqual(
+      'Filter by'
+    );
   });
 
   it('should return expected translation for control-panel.show-only', () => {
-    expect(langSupportEn.translate('control-panel.show-only')).toEqual('Show only');
+    expect(langSupportEn.translate('control-panel.show-only')).toEqual(
+      'Show only'
+    );
   });
 
   it('should return expected translation for control-panel.filter-by', () => {
-    expect(langSupportEn.translate('control-panel.visible-columns')).toEqual('Shown columns');
+    expect(langSupportEn.translate('control-panel.visible-columns')).toEqual(
+      'Shown columns'
+    );
   });
-
 });

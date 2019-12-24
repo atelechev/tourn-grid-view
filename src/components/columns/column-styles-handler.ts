@@ -15,7 +15,6 @@ import { isPointsColumn } from './points';
 
 // TODO refactor and test
 class ColumnStylesHandler {
-
   get = (key: string): SerializedStyles | undefined => {
     if (key) {
       const normalized = key.trim().toLowerCase();

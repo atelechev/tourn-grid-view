@@ -33,7 +33,10 @@ export default class GridHeader extends React.Component {
                     sortDirection={this.getSortDirection(columnName, ctx)}
                   >
                     <TableSortLabel
-                      active={ctx.interactive && ctx.orderBy === columnName.trim().toLowerCase()}
+                      active={
+                        ctx.interactive &&
+                        ctx.orderBy === columnName.trim().toLowerCase()
+                      }
                       hideSortIcon={!this.isSortEnabledOn(columnName, ctx)}
                       direction={ctx.order}
                       onClick={_ => executeSorting(columnName, ctx)}

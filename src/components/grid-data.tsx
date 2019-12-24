@@ -28,8 +28,8 @@ export default class GridData extends React.Component {
     return (
       <GridContext.Consumer>
         {(ctx: GridState) => {
-          const placeColumnIndex = ctx.csv.header.findIndex(
-            col => isPlaceColumn(col)
+          const placeColumnIndex = ctx.csv.header.findIndex(col =>
+            isPlaceColumn(col)
           );
           const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
           return (

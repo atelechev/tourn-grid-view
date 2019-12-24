@@ -3,7 +3,6 @@ import { langSupportFr } from './lang-support-fr';
 import { langSupportEn } from './lang-support-en';
 
 describe('getI18nProvider', () => {
-
   it('should throw expected Error if lang arg is not defined', () => {
     expect(() => getI18nProvider(undefined)).toThrow('lang must be defined');
   });
@@ -19,5 +18,4 @@ describe('getI18nProvider', () => {
   it('should throw expected Error if lang is not supported', () => {
     expect(() => getI18nProvider('ru')).toThrow('Unsupported language: ru');
   });
-
 });

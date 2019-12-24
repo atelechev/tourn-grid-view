@@ -1,7 +1,6 @@
 import { SimpleFilter } from './simple-filter';
 
 describe('SimpleFilter', () => {
-
   const sampleRow = [1, 'Test', 'FRA', '+2W', '+3B', '+4W', '=5B', '+6W', 4.5];
 
   it('get selectedValue should return --- by default', () => {
@@ -68,5 +67,4 @@ describe('SimpleFilter', () => {
     filter.filteredColumnIndex = 2;
     expect(filter.shouldShowRow(sampleRow)).toBe(false);
   });
-
 });

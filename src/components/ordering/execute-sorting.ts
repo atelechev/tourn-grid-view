@@ -1,6 +1,7 @@
 import { GridState } from '../grid-context';
 import { compareOptionalValues } from './comparators';
 
+// TODO add tests
 export const executeSorting = (column: string, ctx: GridState): void => {
   if (!ctx.interactive) {
     return;
@@ -10,8 +11,9 @@ export const executeSorting = (column: string, ctx: GridState): void => {
     headerColumn => headerColumn.trim().toLowerCase() === columnNormalized
   );
   const enabledOnThisColumn =
-    ctx.orderEnabledColumns.findIndex(orderEnabled => orderEnabled.trim().toLowerCase() === columnNormalized) >
-    -1;
+    ctx.orderEnabledColumns.findIndex(
+      orderEnabled => orderEnabled.trim().toLowerCase() === columnNormalized
+    ) > -1;
   if (indexSortColumn < 0 || !enabledOnThisColumn) {
     return;
   }

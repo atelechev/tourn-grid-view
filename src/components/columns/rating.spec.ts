@@ -32,5 +32,4 @@ describe('isRatingColumn', () => {
   it('should return false for another value', () => {
     expect(isRatingColumn('x')).toBe(false);
   });
-
 });

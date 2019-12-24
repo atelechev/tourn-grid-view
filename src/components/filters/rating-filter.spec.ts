@@ -1,8 +1,18 @@
 import RatingFilter from './rating-filter';
 
 describe('RatingFilter', () => {
-
-  const allOptions = [950, 1100, 1300, 1500, 1700, 1900, 2100, 2300, 2500, 2700];
+  const allOptions = [
+    950,
+    1100,
+    1300,
+    1500,
+    1700,
+    1900,
+    2100,
+    2300,
+    2500,
+    2700
+  ];
 
   it('set selectableOptions detects the rating group of <1000', () => {
     const filter = new RatingFilter();
@@ -67,7 +77,19 @@ describe('RatingFilter', () => {
   it('set selectableOptions detects all available options', () => {
     const filter = new RatingFilter();
     filter.selectableOptions = allOptions;
-    expect(filter.selectableOptions).toEqual(['---', '<1000', '1000 - 1199', '1200 - 1399', '1400 - 1599', '1600 - 1799', '1800 - 1999', '2000 - 2199', '2200 - 2399', '2400 - 2599', '>2600']);
+    expect(filter.selectableOptions).toEqual([
+      '---',
+      '<1000',
+      '1000 - 1199',
+      '1200 - 1399',
+      '1400 - 1599',
+      '1600 - 1799',
+      '1800 - 1999',
+      '2000 - 2199',
+      '2200 - 2399',
+      '2400 - 2599',
+      '>2600'
+    ]);
   });
 
   it('shouldShowRow should return false if row is undefined', () => {
@@ -132,5 +154,4 @@ describe('RatingFilter', () => {
     filter.filteredColumnIndex = 1;
     expect(filter.shouldShowRow(sampleRow)).toBe(false);
   });
-
 });

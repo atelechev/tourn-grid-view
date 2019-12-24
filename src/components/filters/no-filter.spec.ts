@@ -1,7 +1,6 @@
 import { NoFilter } from './no-filter';
 
 describe('NoFilter', () => {
-
   const filter = new NoFilter();
 
   it('shouldShowRow should return true for undefined arg', () => {
@@ -32,5 +31,4 @@ describe('NoFilter', () => {
     filter.selectedValue = 'x';
     expect(filter.selectedValue).toEqual('---');
   });
-
 });

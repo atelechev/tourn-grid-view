@@ -8,9 +8,7 @@ import GridHeader from './grid-header';
 import GridData from './grid-data';
 import { GridContext, GridState, gridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
-import {
-  buildSelectableColumns
-} from './columns/selection-utils';
+import { buildSelectableColumns } from './columns/selection-utils';
 import { GridProperties } from './grid-properties';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';

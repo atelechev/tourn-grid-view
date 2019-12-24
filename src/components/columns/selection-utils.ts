@@ -8,14 +8,18 @@ export const buildSelectableColumns = (
   if (!allHeaderColumns || allHeaderColumns.length === 0) {
     return [];
   }
-  const noAlwaysVisible = allHeaderColumns.filter(column => !isAlwaysVisibleColumn(column));
+  const noAlwaysVisible = allHeaderColumns.filter(
+    column => !isAlwaysVisibleColumn(column)
+  );
   const firstRoundColumnIndex = noAlwaysVisible.findIndex(colName =>
     isRoundColumn(colName)
   );
   if (firstRoundColumnIndex === -1) {
     return noAlwaysVisible;
   }
-  const noRoundColumns = noAlwaysVisible.filter(column => !isRoundColumn(column));
+  const noRoundColumns = noAlwaysVisible.filter(
+    column => !isRoundColumn(column)
+  );
   noRoundColumns.splice(firstRoundColumnIndex, 0, COLUMN_ROUNDS);
   return noRoundColumns;
 };
