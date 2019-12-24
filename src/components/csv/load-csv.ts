@@ -3,7 +3,7 @@ import { Csv } from './csv';
 
 export const loadCsv = (idCsvWrapper: string): Csv => {
   const csvElement = d3.select(`#${idCsvWrapper}`);
-  if (!csvElement) {
+  if (!csvElement || !csvElement[0] || !csvElement[0][0]) {
     throw Error(`Target element with id='${idCsvWrapper}' not found!`);
   }
   const rawCsv = csvElement.text();
