@@ -62,8 +62,11 @@ export class FiltersManager {
   public useFilter(filterName: string): void {
     if (!filterName || filterName === VALUE_NO_FILTER) {
       this._activeFilter = this._noFilter;
-    } else if (this._enabledFilters.has(filterName)) {
-      this._activeFilter = this._enabledFilters.get(filterName) as Filter;
+      return;
+    }
+    const filterNormalized = filterName.trim().toLowerCase();
+    if (this._enabledFilters.has(filterNormalized)) {
+      this._activeFilter = this._enabledFilters.get(filterNormalized) as Filter;
     } else {
       console.warn(`Unexpected filter '${filterName}', skipping it.`);
       this._activeFilter = this._noFilter;
