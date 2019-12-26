@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { GridContext, GridState } from '../grid-context';
 import { GameResultValueProps } from './game-result-value-props';
+import { I18nContext } from '../context/i18n-context';
 
 const cellStyle = css({
   width: '28px',
@@ -55,16 +55,16 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
     this._resultExists = (this._rawNormalized &&
       this._rawNormalized.length > 0) as boolean;
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => {
+      <I18nContext.Consumer>
+        {(ctx: I18nContext) => {
           const cellStyles = this.calculateStyles(ctx);
           return <div css={cellStyles}>{this.getResultForOutput(ctx)}</div>;
         }}
-      </GridContext.Consumer>
+      </I18nContext.Consumer>
     );
   }
 
-  private getResultForOutput(ctx: GridState): string {
+  private getResultForOutput(ctx: I18nContext): string {
     if (this._resultExists) {
       const fullOutput = this._rawNormalized as string;
       if (this.isGameColorKnown(ctx)) {
@@ -75,14 +75,14 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
     return '.';
   }
 
-  private isGameColorKnown(ctx: GridState): boolean {
+  private isGameColorKnown(ctx: I18nContext): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
       (ctx.i18nProvider.hasWhiteColorMarker(rawResult) ||
         ctx.i18nProvider.hasBlackColorMarker(rawResult))) as boolean;
   }
 
-  private isForfeitGame(ctx: GridState): boolean {
+  private isForfeitGame(ctx: I18nContext): boolean {
     const rawResult = this._rawNormalized as string;
     return (rawResult &&
       (ctx.i18nProvider.isByeMarker(rawResult) ||
@@ -90,7 +90,7 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
         rawResult.startsWith('<'))) as boolean;
   }
 
-  private calculateStyles(ctx: GridState): Array<SerializedStyles> {
+  private calculateStyles(ctx: I18nContext): Array<SerializedStyles> {
     const styles: Array<SerializedStyles> = [cellStyle];
     if (this._resultExists) {
       styles.push(cellFrameStyle);

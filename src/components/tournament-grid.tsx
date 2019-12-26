@@ -16,6 +16,7 @@ import { getI18nProvider } from './i18n/i18n-provider';
 import { loadCsv } from './csv/load-csv';
 import { FiltersManager } from './filters/filters-manager';
 import { calculateVisibleColumns } from './columns/visibility-utils';
+import { I18nContext } from './context/i18n-context';
 
 const tableStyle = css({
   minWidth: 600
@@ -49,9 +50,12 @@ const theme = createMuiTheme({
 export default class TournamentGrid extends React.Component<GridProperties> {
   private readonly _state: GridState = gridState;
 
+  private readonly _i18n: I18nContext;
+
   constructor(props: GridProperties) {
     super(props);
     const csv = loadCsv(this.props.idCsvElement);
+    this._i18n = this.initI18nContext();
     this._state.csv = csv;
     this._state.interactive =
       this.props.interactive !== undefined ? this.props.interactive : true;
@@ -63,8 +67,13 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     );
     this._state.updateView = () => this.forceUpdate();
     this._state.orderEnabledColumns = this.props.enableOrderingColumns;
-    this._state.lang = this.props.lang;
-    this._state.i18nProvider = getI18nProvider(this.props.lang);
+  }
+
+  private initI18nContext(): I18nContext {
+    return {
+      lang: this.props.lang,
+      i18nProvider: getI18nProvider(this.props.lang)
+    };
   }
 
   private initFiltersManager(): void {
@@ -77,25 +86,27 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     return (
       <ThemeProvider theme={theme}>
         <GridContext.Provider value={this._state}>
-          <Grid container spacing={1}>
-            {this._state.interactive && (
+          <I18nContext.Provider value={this._i18n}>
+            <Grid container spacing={1}>
+              {this._state.interactive && (
+                <Grid item xs={12}>
+                  <ControlPanel />
+                </Grid>
+              )}
               <Grid item xs={12}>
-                <ControlPanel />
+                <Paper>
+                  <Table
+                    css={tableStyle}
+                    size="small"
+                    aria-label="Tournament grid table"
+                  >
+                    <GridHeader />
+                    <GridData />
+                  </Table>
+                </Paper>
               </Grid>
-            )}
-            <Grid item xs={12}>
-              <Paper>
-                <Table
-                  css={tableStyle}
-                  size="small"
-                  aria-label="Tournament grid table"
-                >
-                  <GridHeader />
-                  <GridData />
-                </Table>
-              </Paper>
             </Grid>
-          </Grid>
+          </I18nContext.Provider>
         </GridContext.Provider>
       </ThemeProvider>
     );

@@ -1,13 +1,20 @@
-import { gridState } from '../grid-context';
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { CellValue } from './cell-value';
 import { getI18nProvider } from '../i18n/i18n-provider';
+import { I18nContext } from '../context/i18n-context';
 
 describe('CellValue', () => {
   const getCssClassName = (json: any): string => {
     const allClasses = json.props.className.split(' ') as Array<string>;
     return allClasses.find(cssClass => cssClass.startsWith('css-'));
+  };
+
+  const lang = 'en';
+
+  const i18n = {
+    lang: lang,
+    i18nProvider: getI18nProvider(lang)
   };
 
   const findCssRule = (className: string): CSSStyleDeclaration => {
@@ -93,32 +100,37 @@ describe('CellValue', () => {
     ensureElementHidden(cell);
   });
 
-  const initI18n = (lang: string): void => {
-    gridState.lang = lang;
-    gridState.i18nProvider = getI18nProvider(lang);
-  };
-
   it('should render a game result column value if it is visible', () => {
-    initI18n('en');
     const props = {
       column: 'R1',
       isVisible: true,
       cellValue: '+1W'
     };
-    const cell = renderer.create(<CellValue {...props} />).toJSON();
+    const cell = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <CellValue {...props} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
     ensureTableCellHasOneChild(cell);
     expect(cell.children[0].type).toEqual('div');
     ensureElementDisplayed(cell);
   });
 
   it('should not render a game result column value if it is not visible', () => {
-    initI18n('en');
     const props = {
       column: 'R1',
       isVisible: false,
       cellValue: '+1W'
     };
-    const cell = renderer.create(<CellValue {...props} />).toJSON();
+    const cell = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <CellValue {...props} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
     ensureTableCellHasOneChild(cell);
     expect(cell.children[0].type).toEqual('div');
     ensureElementHidden(cell);
