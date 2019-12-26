@@ -65,12 +65,8 @@ export class FiltersManager {
       return;
     }
     const filterNormalized = filterName.trim().toLowerCase();
-    if (this._enabledFilters.has(filterNormalized)) {
-      this._activeFilter = this._enabledFilters.get(filterNormalized) as Filter;
-    } else {
-      console.warn(`Unexpected filter '${filterName}', skipping it.`);
-      this._activeFilter = this._noFilter;
-    }
+    this._activeFilter =
+      (this._enabledFilters.get(filterNormalized) as Filter) || this._noFilter;
   }
 
   public get availableFilters(): Array<string> {

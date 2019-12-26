@@ -18,12 +18,13 @@ export const calculateColumnVisibility = (
   const normalized = column.trim().toLowerCase();
   const isColumnVisible =
     isAlwaysVisibleColumn(normalized) ||
-    // TODO shownColumn should be already normalized here
-    shownColumns.find(
-      shownColumn =>
-        shownColumn.trim().toLowerCase() === normalized ||
-        (shownColumn === COLUMN_ROUNDS && isRoundColumn(normalized))
-    ) !== undefined;
+    shownColumns.find(shownColumn => {
+      const shColNorm = shownColumn.trim().toLowerCase();
+      return (
+        shColNorm === normalized ||
+        (shColNorm === COLUMN_ROUNDS && isRoundColumn(normalized))
+      );
+    }) !== undefined;
   return isColumnVisible ? visibleStyle : hiddenStyle;
 };
 
