@@ -4,52 +4,56 @@ import { CellValue } from './cell-value';
 import { getI18nProvider } from '../i18n/i18n-provider';
 import { I18nContext } from '../context/i18n-context';
 
-describe('CellValue', () => {
-  const getCssClassName = (json: any): string => {
-    const allClasses = json.props.className.split(' ') as Array<string>;
-    return allClasses.find(cssClass => cssClass.startsWith('css-'));
-  };
+export const getCssClassName = (json: any): string => {
+  const allClasses = json.props.className.split(' ') as Array<string>;
+  return allClasses.find(cssClass => cssClass.startsWith('css-'));
+};
 
+export const findCssRule = (className: string): CSSStyleDeclaration => {
+  const styleSheetsCount = (document.styleSheets as StyleSheetList).length;
+  const cssSelector = `.${className}`;
+  for (let i = 0; i < styleSheetsCount; i++) {
+    const styleSheet = (document.styleSheets as StyleSheetList)[
+      i
+    ] as CSSStyleSheet;
+    const rulesCount = styleSheet.cssRules.length;
+    for (let j = 0; j < rulesCount; j++) {
+      const rule = styleSheet.cssRules[j] as CSSStyleRule;
+      if (rule.selectorText === cssSelector) {
+        return rule.style;
+      }
+    }
+  }
+  return undefined;
+};
+
+export const ensureElementDisplayed = (elt: any): void => {
+  const cssClass = getCssClassName(elt);
+  const style = findCssRule(cssClass);
+  expect(style['display']).toBeFalsy();
+};
+
+export const ensureElementHidden = (elt: any): void => {
+  const cssClass = getCssClassName(elt);
+  const style = findCssRule(cssClass);
+  expect(style['display']).toEqual('none');
+};
+
+export const ensureTableCellHasOneChildOfType = (
+  cell: any,
+  childTag: string
+): void => {
+  expect(cell.type).toEqual('td');
+  expect(cell.children.length).toEqual(1);
+  expect(cell.children[0].type).toEqual(childTag);
+};
+
+describe('CellValue', () => {
   const lang = 'en';
 
   const i18n = {
     lang: lang,
     i18nProvider: getI18nProvider(lang)
-  };
-
-  const findCssRule = (className: string): CSSStyleDeclaration => {
-    const styleSheetsCount = (document.styleSheets as StyleSheetList).length;
-    const cssSelector = `.${className}`;
-    for (let i = 0; i < styleSheetsCount; i++) {
-      const styleSheet = (document.styleSheets as StyleSheetList)[
-        i
-      ] as CSSStyleSheet;
-      const rulesCount = styleSheet.cssRules.length;
-      for (let j = 0; j < rulesCount; j++) {
-        const rule = styleSheet.cssRules[j] as CSSStyleRule;
-        if (rule.selectorText === cssSelector) {
-          return rule.style;
-        }
-      }
-    }
-    return undefined;
-  };
-
-  const ensureElementDisplayed = (elt: any): void => {
-    const cssClass = getCssClassName(elt);
-    const style = findCssRule(cssClass);
-    expect(style['display']).toBeFalsy();
-  };
-
-  const ensureElementHidden = (elt: any): void => {
-    const cssClass = getCssClassName(elt);
-    const style = findCssRule(cssClass);
-    expect(style['display']).toEqual('none');
-  };
-
-  const ensureTableCellHasOneChild = (cell: any): void => {
-    expect(cell.type).toEqual('td');
-    expect(cell.children.length).toEqual(1);
   };
 
   it('should render the federation column value if it is visible', () => {
@@ -59,8 +63,7 @@ describe('CellValue', () => {
       cellValue: 'FRA'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0].type).toEqual('img');
+    ensureTableCellHasOneChildOfType(cell, 'img');
     ensureElementDisplayed(cell);
   });
 
@@ -71,8 +74,7 @@ describe('CellValue', () => {
       cellValue: 'FRA'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0].type).toEqual('img');
+    ensureTableCellHasOneChildOfType(cell, 'img');
     ensureElementHidden(cell);
   });
 
@@ -83,8 +85,8 @@ describe('CellValue', () => {
       cellValue: 'test1'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0]).toEqual('test1');
+    ensureTableCellHasOneChildOfType(cell, 'span');
+    expect(cell.children[0].children[0]).toEqual('test1');
     ensureElementDisplayed(cell);
   });
 
@@ -95,8 +97,8 @@ describe('CellValue', () => {
       cellValue: 'test2'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0]).toEqual('test2');
+    ensureTableCellHasOneChildOfType(cell, 'span');
+    expect(cell.children[0].children[0]).toEqual('test2');
     ensureElementHidden(cell);
   });
 
@@ -113,8 +115,7 @@ describe('CellValue', () => {
         </I18nContext.Provider>
       )
       .toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0].type).toEqual('div');
+    ensureTableCellHasOneChildOfType(cell, 'div');
     ensureElementDisplayed(cell);
   });
 
@@ -131,8 +132,7 @@ describe('CellValue', () => {
         </I18nContext.Provider>
       )
       .toJSON();
-    ensureTableCellHasOneChild(cell);
-    expect(cell.children[0].type).toEqual('div');
+    ensureTableCellHasOneChildOfType(cell, 'div');
     ensureElementHidden(cell);
   });
 });

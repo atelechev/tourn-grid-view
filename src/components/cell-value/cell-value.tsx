@@ -27,7 +27,7 @@ export class CellValue extends React.Component<CellValueProps> {
     if (isFederationColumn(this.props.column)) {
       return <CountryFlag countryCode={this.props.cellValue} />;
     }
-    return this.props.cellValue;
+    return <span>{this.props.cellValue}</span>;
   }
 
   private calculateStyles(): Array<SerializedStyles> {
