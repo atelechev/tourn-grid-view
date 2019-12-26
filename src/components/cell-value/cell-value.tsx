@@ -1,15 +1,14 @@
 /** @jsx jsx */
 import React, { ReactNode } from 'react';
-import { calculateColumnVisibility } from '../columns/visibility-utils';
 import { CellValueProps } from './cell-value-props';
 import { columnStylesHandler } from '../columns/column-styles-handler';
 import { CountryFlag } from '../country-flag/country-flag';
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GameResultValue } from './game-result-value';
-import { GridContext, GridState } from '../grid-context';
 import { isFederationColumn } from '../columns/federation';
 import { isRoundColumn } from '../columns/round';
 import { TableCell } from '@material-ui/core';
+import { visibleStyle, hiddenStyle } from '../columns/column-styles';
 
 const dataCellStyle = css({
   fontSize: '11px'
@@ -17,41 +16,24 @@ const dataCellStyle = css({
 
 export class CellValue extends React.Component<CellValueProps> {
   public render(): ReactNode {
-    const { column, cellValue } = this.props;
-    return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => {
-          const calculatedStyles = this.calculateStyles(
-            column,
-            ctx.shownColumns
-          );
-          return (
-            <TableCell css={calculatedStyles}>
-              {this.renderValue(column, cellValue)}
-            </TableCell>
-          );
-        }}
-      </GridContext.Consumer>
-    );
+    const calculatedStyles = this.calculateStyles();
+    return <TableCell css={calculatedStyles}>{this.renderValue()}</TableCell>;
   }
 
-  private renderValue(column: string, cellValue: any) {
-    if (isRoundColumn(column)) {
-      return <GameResultValue rawResult={cellValue} />;
+  private renderValue() {
+    if (isRoundColumn(this.props.column)) {
+      return <GameResultValue rawResult={this.props.cellValue} />;
     }
-    if (isFederationColumn(column)) {
-      return <CountryFlag countryCode={cellValue} />;
+    if (isFederationColumn(this.props.column)) {
+      return <CountryFlag countryCode={this.props.cellValue} />;
     }
-    return cellValue;
+    return this.props.cellValue;
   }
 
-  private calculateStyles(
-    column: string,
-    shownColumns: Array<string>
-  ): Array<SerializedStyles> {
-    const visibilityClass = calculateColumnVisibility(column, shownColumns);
+  private calculateStyles(): Array<SerializedStyles> {
+    const visibilityClass = this.props.isVisible ? visibleStyle : hiddenStyle;
     const styles: Array<SerializedStyles> = [dataCellStyle, visibilityClass];
-    const columnStyle = columnStylesHandler.get(column);
+    const columnStyle = columnStylesHandler.get(this.props.column);
     if (columnStyle) {
       styles.push(columnStyle);
     }

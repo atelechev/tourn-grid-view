@@ -8,15 +8,15 @@ import { COLUMN_ROUNDS } from './names';
 export const isAlwaysVisibleColumn = (column: string): boolean =>
   isPlaceColumn(column) || isNameColumn(column);
 
-export const calculateColumnVisibility = (
+export const isColumnVisible = (
   column: string,
   shownColumns: Array<string>
-): SerializedStyles => {
+): boolean => {
   if (!column || !shownColumns) {
-    return hiddenStyle;
+    return false;
   }
   const normalized = column.trim().toLowerCase();
-  const isColumnVisible =
+  return (
     isAlwaysVisibleColumn(normalized) ||
     shownColumns.find(shownColumn => {
       const shColNorm = shownColumn.trim().toLowerCase();
@@ -24,8 +24,16 @@ export const calculateColumnVisibility = (
         shColNorm === normalized ||
         (shColNorm === COLUMN_ROUNDS && isRoundColumn(normalized))
       );
-    }) !== undefined;
-  return isColumnVisible ? visibleStyle : hiddenStyle;
+    }) !== undefined
+  );
+};
+
+export const getColumnVisibilityStyle = (
+  column: string,
+  shownColumns: Array<string>
+): SerializedStyles => {
+  const isVisible = isColumnVisible(column, shownColumns);
+  return isVisible ? visibleStyle : hiddenStyle;
 };
 
 export const calculateVisibleColumns = (

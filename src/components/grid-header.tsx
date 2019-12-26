@@ -5,7 +5,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell, { SortDirection } from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { calculateColumnVisibility } from './columns/visibility-utils';
+import { getColumnVisibilityStyle } from './columns/visibility-utils';
 import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
@@ -79,7 +79,7 @@ export default class GridHeader extends React.Component {
     column: string,
     shownColumns: Array<string>
   ): Array<SerializedStyles> {
-    const visibilityClass = calculateColumnVisibility(column, shownColumns);
+    const visibilityClass = getColumnVisibilityStyle(column, shownColumns);
     const styles: Array<SerializedStyles> = [headerCellStyle, visibilityClass];
     const columnStyle = columnStylesHandler.get(column);
     if (columnStyle) {

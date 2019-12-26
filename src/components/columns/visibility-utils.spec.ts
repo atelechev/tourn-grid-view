@@ -10,7 +10,8 @@ import {
 } from './names';
 import {
   isAlwaysVisibleColumn,
-  calculateColumnVisibility,
+  isColumnVisible,
+  getColumnVisibilityStyle,
   calculateVisibleColumns
 } from './visibility-utils';
 import { hiddenStyle, visibleStyle } from './column-styles';
@@ -53,37 +54,67 @@ describe('isAlwaysVisibleColumn', () => {
   });
 });
 
-describe('calculateColumnVisibility', () => {
+describe('isColumnVisible', () => {
+  it('should return false if column is undefined and shownColumns are defined', () => {
+    expect(isColumnVisible(undefined, ['pos', 'name'])).toBe(false);
+  });
+
+  it('should return false if column is defined, but shownColumns are undefined', () => {
+    expect(isColumnVisible('Fed', undefined)).toBe(false);
+  });
+
+  it('should return true if the column is always visible', () => {
+    expect(isColumnVisible('Pos', [])).toBe(true);
+  });
+
+  it('should return true if the column matches a shown column', () => {
+    expect(isColumnVisible('Cat', ['fed', 'cat'])).toBe(true);
+  });
+
+  it('should return true if the column is a round column and Rounds are visible', () => {
+    expect(isColumnVisible('R1', ['rounds'])).toBe(true);
+  });
+
+  it('should return false if the column is a round column and Rounds are not visible', () => {
+    expect(isColumnVisible('R1', ['fed'])).toBe(false);
+  });
+
+  it('should return false if the column is not among the visible columns', () => {
+    expect(isColumnVisible('Club', ['cat', 'fed'])).toBe(false);
+  });
+});
+
+describe('getColumnVisibilityStyle', () => {
   it('should return hiddenStyle if column is undefined and shownColumns are defined', () => {
-    expect(calculateColumnVisibility(undefined, ['pos', 'name'])).toEqual(
+    expect(getColumnVisibilityStyle(undefined, ['pos', 'name'])).toEqual(
       hiddenStyle
     );
   });
 
   it('should return hiddenStyle if column is defined, but shownColumns are undefined', () => {
-    expect(calculateColumnVisibility('Fed', undefined)).toEqual(hiddenStyle);
+    expect(getColumnVisibilityStyle('Fed', undefined)).toEqual(hiddenStyle);
   });
 
   it('should return visibleStyle if the column is always visible', () => {
-    expect(calculateColumnVisibility('Pos', [])).toEqual(visibleStyle);
+    expect(getColumnVisibilityStyle('Pos', [])).toEqual(visibleStyle);
   });
 
   it('should return visibleStyle if the column matches a shown column', () => {
-    expect(calculateColumnVisibility('Cat', ['fed', 'cat'])).toEqual(
+    expect(getColumnVisibilityStyle('Cat', ['fed', 'cat'])).toEqual(
       visibleStyle
     );
   });
 
   it('should return visibleStyle if the column is a round column and Rounds are visible', () => {
-    expect(calculateColumnVisibility('R1', ['rounds'])).toEqual(visibleStyle);
+    expect(getColumnVisibilityStyle('R1', ['rounds'])).toEqual(visibleStyle);
   });
 
   it('should return hiddenStyle if the column is a round column and Rounds are not visible', () => {
-    expect(calculateColumnVisibility('R1', ['fed'])).toEqual(hiddenStyle);
+    expect(getColumnVisibilityStyle('R1', ['fed'])).toEqual(hiddenStyle);
   });
 
   it('should return hiddenStyle if the column is not among the visible columns', () => {
-    expect(calculateColumnVisibility('Club', ['cat', 'fed'])).toEqual(
+    expect(getColumnVisibilityStyle('Club', ['cat', 'fed'])).toEqual(
       hiddenStyle
     );
   });

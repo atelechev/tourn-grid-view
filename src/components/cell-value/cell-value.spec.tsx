@@ -46,9 +46,9 @@ describe('CellValue', () => {
   };
 
   it('should render the federation column value if it is visible', () => {
-    gridState.shownColumns = ['Fed'];
     const props = {
       column: 'Fed',
+      isVisible: true,
       cellValue: 'FRA'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
@@ -58,9 +58,9 @@ describe('CellValue', () => {
   });
 
   it('should not render the federation column value if it is not visible', () => {
-    gridState.shownColumns = ['Rounds'];
     const props = {
       column: 'Fed',
+      isVisible: false,
       cellValue: 'FRA'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
@@ -70,9 +70,9 @@ describe('CellValue', () => {
   });
 
   it('should render a simple text column value if it is visible', () => {
-    gridState.shownColumns = ['Club'];
     const props = {
       column: 'Club',
+      isVisible: true,
       cellValue: 'test1'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
@@ -82,9 +82,9 @@ describe('CellValue', () => {
   });
 
   it('should not render a simple text column value if it is not visible', () => {
-    gridState.shownColumns = [];
     const props = {
       column: 'Club',
+      isVisible: false,
       cellValue: 'test2'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
@@ -99,10 +99,10 @@ describe('CellValue', () => {
   };
 
   it('should render a game result column value if it is visible', () => {
-    gridState.shownColumns = ['Rounds'];
     initI18n('en');
     const props = {
       column: 'R1',
+      isVisible: true,
       cellValue: '+1W'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();
@@ -112,10 +112,10 @@ describe('CellValue', () => {
   });
 
   it('should not render a game result column value if it is not visible', () => {
-    gridState.shownColumns = [];
     initI18n('en');
     const props = {
       column: 'R1',
+      isVisible: false,
       cellValue: '+1W'
     };
     const cell = renderer.create(<CellValue {...props} />).toJSON();

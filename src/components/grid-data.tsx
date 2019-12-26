@@ -9,6 +9,7 @@ import { FiltersManager } from './filters/filters-manager';
 import { isRoundColumn } from './columns/round';
 import { VALUE_NO_FILTER } from './filters/filter';
 import { isPlaceColumn } from './columns/place';
+import { isColumnVisible } from './columns/visibility-utils';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -28,6 +29,10 @@ export default class GridData extends React.Component {
     return (
       <GridContext.Consumer>
         {(ctx: GridState) => {
+          const columnVisibility = this.buildColumnsVisibilityMap(
+            ctx.csv.header,
+            ctx.shownColumns
+          );
           const placeColumnIndex = ctx.csv.header.findIndex(col =>
             isPlaceColumn(col)
           );
@@ -53,6 +58,7 @@ export default class GridData extends React.Component {
                         <CellValue
                           key={indexCell}
                           column={column}
+                          isVisible={columnVisibility.get(column)}
                           cellValue={cellValue}
                         />
                       );
@@ -65,6 +71,17 @@ export default class GridData extends React.Component {
         }}
       </GridContext.Consumer>
     );
+  }
+
+  private buildColumnsVisibilityMap(
+    allColumns: Array<string>,
+    shownColumns: Array<string>
+  ): Map<string, boolean> {
+    const visibilities = new Map<string, boolean>();
+    allColumns.forEach(column =>
+      visibilities.set(column, isColumnVisible(column, shownColumns))
+    );
+    return visibilities;
   }
 
   private selectRow(row: Array<any>, ctx: GridState): void {
