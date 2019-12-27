@@ -7,7 +7,12 @@ import { FiltersManager } from '../filters/filters-manager';
 import { I18nContext } from '../context/i18n-context';
 
 const selectorStyle = css({
-  minWidth: '160px'
+  minWidth: '160px',
+  textTransform: 'capitalize'
+});
+
+const itemStyle = css({
+  textTransform: 'capitalize'
 });
 
 export default class FilterTypeSelector extends React.Component {
@@ -32,7 +37,7 @@ export default class FilterTypeSelector extends React.Component {
                     css={selectorStyle}
                   >
                     {filterNames.map((opt, i) => (
-                      <MenuItem key={i} value={opt}>
+                      <MenuItem key={i} value={opt} css={itemStyle}>
                         {opt}
                       </MenuItem>
                     ))}

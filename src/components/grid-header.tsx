@@ -11,7 +11,8 @@ import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
 
 const headerCellStyle = css({
-  fontSize: '12px'
+  fontSize: '12px',
+  textTransform: 'capitalize'
 });
 
 export default class GridHeader extends React.Component {

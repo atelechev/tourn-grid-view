@@ -46,7 +46,10 @@ export const calculateVisibleColumns = (
   if (!hiddenColumns || hiddenColumns.length === 0) {
     return [].concat(allColumns);
   }
+  const hiddenNormalized = hiddenColumns.filter(column => !!column)
+    .map(column => column.trim().toLowerCase())
+    .filter(column => column.length > 0);
   return allColumns.filter(
-    column => hiddenColumns.find(hidden => column === hidden) === undefined
+    column => hiddenNormalized.find(hidden => column === hidden) === undefined
   );
 };

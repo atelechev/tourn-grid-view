@@ -1,10 +1,18 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
 import { GridContext, GridState } from '../grid-context';
 import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 
+
+const itemStyle = css({
+  textTransform: 'capitalize'
+});
+
 export class ColumnsSelector extends React.Component {
+
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
@@ -20,6 +28,7 @@ export class ColumnsSelector extends React.Component {
                     )}
                   </InputLabel>
                   <Select
+                    css={itemStyle}
                     multiple
                     labelId="selector-columns-label"
                     id="selector-columns"
@@ -27,7 +36,7 @@ export class ColumnsSelector extends React.Component {
                     onChange={evt => this.columnsSelectionChanged(evt, ctx)}
                   >
                     {selectableOptions.map((opt, i) => (
-                      <MenuItem key={i} value={opt}>
+                      <MenuItem key={i} value={opt} css={itemStyle}>
                         {opt}
                       </MenuItem>
                     ))}
