@@ -61,11 +61,7 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
     event: React.ChangeEvent<{ value: unknown }>,
     uiSelections: UiSelectionsContext
   ): void {
-    const newSelection = event.target.value as Array<string>;
-    uiSelections.shownColumns = newSelection;
-    this.setState({
-      selectedColumns: newSelection
-    });
+    uiSelections.shownColumns = event.target.value as Array<string>;
     this.props.forceUpdate();
   }
 }

@@ -61,11 +61,7 @@ export default class FilteredItemSelector extends React.Component<
     event: React.ChangeEvent<{ value: unknown }>,
     uiSelections: UiSelectionsContext
   ): void {
-    const newSelection = event.target.value as any;
-    uiSelections.filterActive.selectedValue = newSelection;
-    this.setState({
-      selectedFilteredItem: newSelection
-    });
+    uiSelections.filterActive.selectedValue = event.target.value;
     this.props.forceUpdate();
   }
 }

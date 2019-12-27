@@ -64,9 +64,6 @@ export default class FilterTypeSelector extends React.Component<
   ): void {
     const newSelection = event.target.value as string;
     this.setActiveFilter(uiSelections, newSelection);
-    this.setState({
-      selectedFilter: newSelection
-    });
     this.props.forceUpdate();
   }
 

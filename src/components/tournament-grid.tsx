@@ -62,7 +62,6 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     this._csv = loadCsv(this.props.idCsvElement);
     this._i18n = this.initI18nContext();
     this._uiSelections = this.initUiSelectionsContext();
-    this.state = this._uiSelections;
   }
 
   private initI18nContext(): I18nContext {
