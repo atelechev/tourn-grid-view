@@ -31,5 +31,4 @@ export const executeSorting = (
     );
     return uiSelections.order === 'desc' ? compare : -compare;
   });
-  ctx.updateView();
 };

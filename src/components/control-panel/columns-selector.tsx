@@ -6,12 +6,13 @@ import { GridContext, GridState } from '../grid-context';
 import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
+import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 
 const itemStyle = css({
   textTransform: 'capitalize'
 });
 
-export class ColumnsSelector extends React.Component {
+export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
@@ -37,7 +38,7 @@ export class ColumnsSelector extends React.Component {
                         id="selector-columns"
                         value={uiSelections.shownColumns}
                         onChange={evt =>
-                          this.columnsSelectionChanged(evt, uiSelections, ctx)
+                          this.columnsSelectionChanged(evt, uiSelections)
                         }
                       >
                         {selectableOptions.map((opt, i) => (
@@ -59,14 +60,13 @@ export class ColumnsSelector extends React.Component {
 
   private columnsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsContext,
-    ctx: GridState
+    uiSelections: UiSelectionsContext
   ): void {
     const newSelection = event.target.value as Array<string>;
     uiSelections.shownColumns = newSelection;
     this.setState({
       selectedColumns: newSelection
     });
-    ctx.updateView();
+    this.props.forceUpdate();
   }
 }

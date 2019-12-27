@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import { ColumnsSelector } from './columns-selector';
 import FilterTypeSelector from './filter-type-selector';
 import FilteredItemsSelector from './filtered-items-selector';
-import { ControlPanelProps } from './control-panel-props';
+import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 
 const panelStyle = css({
   display: 'flex',
@@ -13,17 +13,14 @@ const panelStyle = css({
   justifyContent: 'space-evenly'
 });
 
-export class ControlPanel extends React.Component<ControlPanelProps> {
-  constructor(props: ControlPanelProps) {
-    super(props);
-  }
-
+export class ControlPanel extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
+    const { forceUpdate } = this.props;
     return (
       <div css={panelStyle}>
-        <FilterTypeSelector />
-        <FilteredItemsSelector />
-        <ColumnsSelector />
+        <FilterTypeSelector forceUpdate={forceUpdate} />
+        <FilteredItemsSelector forceUpdate={forceUpdate} />
+        <ColumnsSelector forceUpdate={forceUpdate} />
       </div>
     );
   }

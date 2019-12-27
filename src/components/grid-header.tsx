@@ -10,13 +10,16 @@ import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
 import { UiSelectionsContext } from './context/ui-selections-context';
+import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 
 const headerCellStyle = css({
   fontSize: '12px',
   textTransform: 'capitalize'
 });
 
-export default class GridHeader extends React.Component {
+export default class GridHeader extends React.Component<
+  UpdateViewTriggerAware
+> {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
@@ -50,7 +53,7 @@ export default class GridHeader extends React.Component {
                           }
                           direction={uiSelections.order}
                           onClick={_ =>
-                            executeSorting(columnName, uiSelections, ctx)
+                            this.handleSorting(columnName, uiSelections, ctx)
                           }
                         >
                           {columnName}
@@ -65,6 +68,15 @@ export default class GridHeader extends React.Component {
         )}
       </GridContext.Consumer>
     );
+  }
+
+  private handleSorting(
+    columnName: string,
+    uiSelections: UiSelectionsContext,
+    ctx: GridState
+  ): void {
+    executeSorting(columnName, uiSelections, ctx);
+    this.props.forceUpdate();
   }
 
   private getSortDirection(

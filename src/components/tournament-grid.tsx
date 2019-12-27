@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import GridHeader from './grid-header';
 import GridData from './grid-data';
-import { GridContext, GridState, gridState } from './grid-context';
+import { GridContext, GridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
 import { buildSelectableColumns } from './columns/selection-utils';
 import { GridProperties } from './grid-properties';
@@ -51,7 +51,7 @@ const theme = createMuiTheme({
 });
 
 export default class TournamentGrid extends React.Component<GridProperties> {
-  private readonly _state: GridState = gridState;
+  private readonly _csv: GridState;
 
   private readonly _i18n: I18nContext;
 
@@ -59,11 +59,16 @@ export default class TournamentGrid extends React.Component<GridProperties> {
 
   constructor(props: GridProperties) {
     super(props);
-    const csv = loadCsv(this.props.idCsvElement);
-    this._state.csv = csv;
+    this._csv = this.initDataContext();
     this._i18n = this.initI18nContext();
     this._uiSelections = this.initUiSelectionsContext();
-    this._state.updateView = () => this.forceUpdate();
+    this.state = this._uiSelections;
+  }
+
+  private initDataContext(): GridState {
+    return {
+      csv: loadCsv(this.props.idCsvElement)
+    };
   }
 
   private initI18nContext(): I18nContext {
@@ -77,12 +82,12 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     const isInteractive =
       this.props.interactive !== undefined ? this.props.interactive : true;
     const shownColumns = calculateVisibleColumns(
-      buildSelectableColumns(this._state.csv.header),
+      buildSelectableColumns(this._csv.csv.header),
       this.props.hiddenColumns
     );
     const enabledFilters = initializeFilters(
       this.props.useFilters,
-      this._state.csv
+      this._csv.csv
     );
     return {
       interactive: isInteractive,
@@ -97,18 +102,16 @@ export default class TournamentGrid extends React.Component<GridProperties> {
   }
 
   public render(): ReactNode {
+    const updateView = () => this.forceUpdate();
     return (
       <ThemeProvider theme={theme}>
-        <GridContext.Provider value={this._state}>
+        <GridContext.Provider value={this._csv}>
           <I18nContext.Provider value={this._i18n}>
             <UiSelectionsContext.Provider value={this._uiSelections}>
               <Grid container spacing={1}>
                 {this._uiSelections.interactive && (
                   <Grid item xs={12}>
-                    <ControlPanel
-                      csv={this._state.csv}
-                      enabledFilters={this.props.useFilters}
-                    />
+                    <ControlPanel forceUpdate={updateView} />
                   </Grid>
                 )}
                 <Grid item xs={12}>
@@ -118,8 +121,8 @@ export default class TournamentGrid extends React.Component<GridProperties> {
                       size="small"
                       aria-label="Tournament grid table"
                     >
-                      <GridHeader />
-                      <GridData />
+                      <GridHeader forceUpdate={updateView} />
+                      <GridData forceUpdate={updateView} />
                     </Table>
                   </Paper>
                 </Grid>

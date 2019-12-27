@@ -6,6 +6,7 @@ import { GridContext, GridState } from '../grid-context';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { NO_FILTER } from '../filters/no-filter';
+import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 
 const selectorStyle = css({
   minWidth: '160px',
@@ -16,7 +17,9 @@ const itemStyle = css({
   textTransform: 'capitalize'
 });
 
-export default class FilteredItemSelector extends React.Component {
+export default class FilteredItemSelector extends React.Component<
+  UpdateViewTriggerAware
+> {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
@@ -38,11 +41,7 @@ export default class FilteredItemSelector extends React.Component {
                         disabled={uiSelections.filterActive === NO_FILTER}
                         value={uiSelections.filterActive.selectedValue}
                         onChange={evt =>
-                          this.filteredItemsSelectionChanged(
-                            evt,
-                            uiSelections,
-                            ctx
-                          )
+                          this.filteredItemsSelectionChanged(evt, uiSelections)
                         }
                         css={selectorStyle}
                       >
@@ -65,14 +64,13 @@ export default class FilteredItemSelector extends React.Component {
 
   private filteredItemsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsContext,
-    ctx: GridState
+    uiSelections: UiSelectionsContext
   ): void {
     const newSelection = event.target.value as any;
     uiSelections.filterActive.selectedValue = newSelection;
     this.setState({
       selectedFilteredItem: newSelection
     });
-    ctx.updateView();
+    this.props.forceUpdate();
   }
 }
