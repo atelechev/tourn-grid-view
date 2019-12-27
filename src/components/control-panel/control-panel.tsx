@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 import { ColumnsSelector } from './columns-selector';
 import FilterTypeSelector from './filter-type-selector';
 import FilteredItemsSelector from './filtered-items-selector';
+import { ControlPanelProps } from './control-panel-props';
 
 const panelStyle = css({
   display: 'flex',
@@ -12,7 +13,11 @@ const panelStyle = css({
   justifyContent: 'space-evenly'
 });
 
-export class ControlPanel extends React.Component {
+export class ControlPanel extends React.Component<ControlPanelProps> {
+  constructor(props: ControlPanelProps) {
+    super(props);
+  }
+
   public render(): ReactNode {
     return (
       <div css={panelStyle}>

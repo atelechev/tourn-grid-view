@@ -5,11 +5,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
-import { FiltersManager } from './filters/filters-manager';
 import { isRoundColumn } from './columns/round';
-import { VALUE_NO_FILTER } from './filters/filter';
 import { isPlaceColumn } from './columns/place';
 import { isColumnVisible } from './columns/visibility-utils';
+import { UiSelectionsContext } from './context/ui-selections-context';
+import { NO_FILTER } from './filters/no-filter';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -28,47 +28,54 @@ export default class GridData extends React.Component {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
-        {(ctx: GridState) => {
-          const columnVisibility = this.buildColumnsVisibilityMap(
-            ctx.csv.header,
-            ctx.shownColumns
-          );
-          const placeColumnIndex = ctx.csv.header.findIndex(col =>
-            isPlaceColumn(col)
-          );
-          const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
-          return (
-            <TableBody>
-              {ctx.csv.data.map((row, indexRow) => {
-                const rowStyles = this.calculateRowStyles(
-                  row,
-                  ctx,
-                  placeColumnIndex,
-                  opponentPlacesOfSelected
-                );
-                return (
-                  <TableRow
-                    key={indexRow}
-                    css={rowStyles}
-                    onClick={_ => this.selectRow(row, ctx)}
-                  >
-                    {row.map((cellValue, indexCell) => {
-                      const column = ctx.csv.header[indexCell];
-                      return (
-                        <CellValue
-                          key={indexCell}
-                          column={column}
-                          isVisible={columnVisibility.get(column)}
-                          cellValue={cellValue}
-                        />
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          );
-        }}
+        {(ctx: GridState) => (
+          <UiSelectionsContext.Consumer>
+            {(uiSelections: UiSelectionsContext) => {
+              const columnVisibility = this.buildColumnsVisibilityMap(
+                ctx.csv.header,
+                uiSelections.shownColumns
+              );
+              const placeColumnIndex = ctx.csv.header.findIndex(col =>
+                isPlaceColumn(col)
+              );
+              const opponentPlacesOfSelected = this.extractOpponentPlaces(
+                uiSelections,
+                ctx
+              );
+              return (
+                <TableBody>
+                  {ctx.csv.data.map((row, indexRow) => {
+                    const rowStyles = this.calculateRowStyles(
+                      row,
+                      uiSelections,
+                      placeColumnIndex,
+                      opponentPlacesOfSelected
+                    );
+                    return (
+                      <TableRow
+                        key={indexRow}
+                        css={rowStyles}
+                        onClick={_ => this.selectRow(row, uiSelections, ctx)}
+                      >
+                        {row.map((cellValue, indexCell) => {
+                          const column = ctx.csv.header[indexCell];
+                          return (
+                            <CellValue
+                              key={indexCell}
+                              column={column}
+                              isVisible={columnVisibility.get(column)}
+                              cellValue={cellValue}
+                            />
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              );
+            }}
+          </UiSelectionsContext.Consumer>
+        )}
       </GridContext.Consumer>
     );
   }
@@ -84,38 +91,36 @@ export default class GridData extends React.Component {
     return visibilities;
   }
 
-  private selectRow(row: Array<any>, ctx: GridState): void {
-    if (!ctx.interactive) {
+  private selectRow(
+    row: Array<any>,
+    uiSelections: UiSelectionsContext,
+    ctx: GridState
+  ): void {
+    if (!uiSelections.interactive) {
       return;
     }
-    if (row === ctx.selectedRow) {
-      ctx.selectedRow = undefined;
+    if (row === uiSelections.selectedRow) {
+      uiSelections.selectedRow = undefined;
     } else {
-      ctx.selectedRow = row;
-      if (ctx.filtersManager) {
-        ctx.filtersManager.useFilter(VALUE_NO_FILTER);
-      } else {
-        throw Error(
-          'Attempted to use filter before filtersManager was initialized.'
-        );
-      }
+      uiSelections.selectedRow = row;
+      uiSelections.filterActive = NO_FILTER;
     }
     ctx.updateView();
   }
 
   private calculateRowStyles(
     row: Array<any>,
-    ctx: GridState,
+    uiSelections: UiSelectionsContext,
     placeColumnIndex: number,
     opponentPlacesOfSelected: Set<number>
   ): Array<SerializedStyles> {
     const isRowVisible = this.isRowVisible(
       row,
-      ctx,
+      uiSelections,
       placeColumnIndex,
       opponentPlacesOfSelected
     );
-    const isSelected = ctx.selectedRow === row;
+    const isSelected = uiSelections.selectedRow === row;
     const styles = new Array<SerializedStyles>();
     if (isRowVisible) {
       styles.push(rowStyle);
@@ -130,13 +135,13 @@ export default class GridData extends React.Component {
 
   private isRowVisible(
     row: Array<any>,
-    ctx: GridState,
+    uiSelections: UiSelectionsContext,
     placeColumnIndex: number,
     opponentPlacesOfSelected: Set<number>
   ): boolean {
-    if (ctx.selectedRow) {
+    if (uiSelections.selectedRow) {
       const selectedPlace = parseInt(
-        ctx.selectedRow[placeColumnIndex].toString()
+        uiSelections.selectedRow[placeColumnIndex].toString()
       );
       const candidatePlace = parseInt(row[placeColumnIndex].toString());
       return this.isOpponent(
@@ -145,12 +150,14 @@ export default class GridData extends React.Component {
         opponentPlacesOfSelected
       );
     }
-    const filter = (ctx.filtersManager as FiltersManager).activeFilter;
-    return filter.shouldShowRow(row);
+    return uiSelections.filterActive.shouldShowRow(row);
   }
 
-  private extractOpponentPlaces(ctx: GridState): Set<any> {
-    if (ctx.selectedRow) {
+  private extractOpponentPlaces(
+    uiSelections: UiSelectionsContext,
+    ctx: GridState
+  ): Set<any> {
+    if (uiSelections.selectedRow) {
       const extractPosition = /\d+/g;
       const roundColumns = ctx.csv.header.filter(col => isRoundColumn(col));
       const roundColumnIndices = roundColumns.map(roundCol =>
@@ -158,7 +165,8 @@ export default class GridData extends React.Component {
       );
       const gameResultValues = roundColumnIndices
         .map(
-          indexRoundColumn => (ctx.selectedRow as Array<any>)[indexRoundColumn]
+          indexRoundColumn =>
+            (uiSelections.selectedRow as Array<any>)[indexRoundColumn]
         )
         .filter(gameResult => !!gameResult)
         .map(gameResult => {

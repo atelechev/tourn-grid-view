@@ -1,9 +1,14 @@
 import { GridState } from '../grid-context';
 import { compareOptionalValues } from './comparators';
+import { UiSelectionsContext } from '../context/ui-selections-context';
 
 // TODO add tests
-export const executeSorting = (column: string, ctx: GridState): void => {
-  if (!ctx.interactive) {
+export const executeSorting = (
+  column: string,
+  uiSelections: UiSelectionsContext,
+  ctx: GridState
+): void => {
+  if (!uiSelections.interactive) {
     return;
   }
   const columnNormalized = column.trim().toLowerCase();
@@ -11,20 +16,20 @@ export const executeSorting = (column: string, ctx: GridState): void => {
     headerColumn => headerColumn.trim().toLowerCase() === columnNormalized
   );
   const enabledOnThisColumn =
-    ctx.orderEnabledColumns.findIndex(
+    uiSelections.orderEnabledColumns.findIndex(
       orderEnabled => orderEnabled.trim().toLowerCase() === columnNormalized
     ) > -1;
   if (indexSortColumn < 0 || !enabledOnThisColumn) {
     return;
   }
-  ctx.order = ctx.order === 'desc' ? 'asc' : 'desc';
-  ctx.orderBy = columnNormalized;
+  uiSelections.order = uiSelections.order === 'desc' ? 'asc' : 'desc';
+  uiSelections.orderBy = columnNormalized;
   ctx.csv.data.sort((row1, row2) => {
     const compare = compareOptionalValues(
       row1[indexSortColumn],
       row2[indexSortColumn]
     );
-    return ctx.order === 'desc' ? compare : -compare;
+    return uiSelections.order === 'desc' ? compare : -compare;
   });
   ctx.updateView();
 };

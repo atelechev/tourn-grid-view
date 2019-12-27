@@ -9,6 +9,7 @@ import { getColumnVisibilityStyle } from './columns/visibility-utils';
 import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
+import { UiSelectionsContext } from './context/ui-selections-context';
 
 const headerCellStyle = css({
   fontSize: '12px',
@@ -19,58 +20,76 @@ export default class GridHeader extends React.Component {
   public render(): ReactNode {
     return (
       <GridContext.Consumer>
-        {ctx => (
-          <TableHead>
-            <TableRow>
-              {ctx.csv.header.map((columnName, index) => {
-                const calculatedStyles = this.calculateStyles(
-                  columnName,
-                  ctx.shownColumns
-                );
-                return (
-                  <TableCell
-                    key={index}
-                    css={calculatedStyles}
-                    sortDirection={this.getSortDirection(columnName, ctx)}
-                  >
-                    <TableSortLabel
-                      active={
-                        ctx.interactive &&
-                        ctx.orderBy === columnName.trim().toLowerCase()
-                      }
-                      hideSortIcon={!this.isSortEnabledOn(columnName, ctx)}
-                      direction={ctx.order}
-                      onClick={_ => executeSorting(columnName, ctx)}
-                    >
-                      {columnName}
-                    </TableSortLabel>
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
+        {(ctx: GridState) => (
+          <UiSelectionsContext.Consumer>
+            {(uiSelections: UiSelectionsContext) => (
+              <TableHead>
+                <TableRow>
+                  {ctx.csv.header.map((columnName, index) => {
+                    const calculatedStyles = this.calculateStyles(
+                      columnName,
+                      uiSelections.shownColumns
+                    );
+                    return (
+                      <TableCell
+                        key={index}
+                        css={calculatedStyles}
+                        sortDirection={this.getSortDirection(
+                          columnName,
+                          uiSelections
+                        )}
+                      >
+                        <TableSortLabel
+                          active={
+                            uiSelections.interactive &&
+                            uiSelections.orderBy ===
+                              columnName.trim().toLowerCase()
+                          }
+                          hideSortIcon={
+                            !this.isSortEnabledOn(columnName, uiSelections)
+                          }
+                          direction={uiSelections.order}
+                          onClick={_ =>
+                            executeSorting(columnName, uiSelections, ctx)
+                          }
+                        >
+                          {columnName}
+                        </TableSortLabel>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              </TableHead>
+            )}
+          </UiSelectionsContext.Consumer>
         )}
       </GridContext.Consumer>
     );
   }
 
-  private getSortDirection(columnName: string, ctx: GridState): SortDirection {
-    if (!ctx.interactive) {
+  private getSortDirection(
+    columnName: string,
+    uiSelections: UiSelectionsContext
+  ): SortDirection {
+    if (!uiSelections.interactive) {
       return false;
     }
-    if (ctx.orderBy === columnName.trim().toLowerCase()) {
-      return ctx.order;
+    if (uiSelections.orderBy === columnName.trim().toLowerCase()) {
+      return uiSelections.order;
     }
     return false;
   }
 
-  private isSortEnabledOn(columnName: string, ctx: GridState): boolean {
-    if (!ctx.interactive) {
+  private isSortEnabledOn(
+    columnName: string,
+    uiSelections: UiSelectionsContext
+  ): boolean {
+    if (!uiSelections.interactive) {
       return false;
     }
     const columnNameNormalized = columnName.trim().toLowerCase();
     return (
-      ctx.orderEnabledColumns.findIndex(
+      uiSelections.orderEnabledColumns.findIndex(
         sortableColumn => sortableColumn === columnNameNormalized
       ) > -1
     );

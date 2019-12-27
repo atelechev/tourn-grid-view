@@ -1,5 +1,5 @@
 import { FiltersManager } from './filters-manager';
-import { NoFilter } from './no-filter';
+import { NO_FILTER } from './no-filter';
 
 describe('FiltersManager', () => {
   const expectedInitErrorMessage =
@@ -30,7 +30,7 @@ describe('FiltersManager', () => {
   });
 
   it('activeFilter should be initialized with noFilter by default', () => {
-    expect(new FiltersManager(sampleCsv).activeFilter).toEqual(new NoFilter());
+    expect(new FiltersManager(sampleCsv).activeFilter).toEqual(NO_FILTER);
   });
 
   it('isFilterSelected should return false by default', () => {

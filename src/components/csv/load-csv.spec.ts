@@ -12,9 +12,9 @@ describe('loadCsv', () => {
     const id = 'data-wrapper';
     createInlineCsv(
       'Pos,Name,Rating,Fed,R1,R2,R3,Pts,Bu,Club\n' +
-      '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
-      '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
-      '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
+        '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
+        '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
+        '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
       id
     );
     const csv = loadCsv(id);
@@ -92,34 +92,42 @@ describe('loadCsv', () => {
 
   it('should throw expected error if CSV header contains at least one undefined value', () => {
     const id = 'data-header-one-undefined';
-    createInlineCsv('Pos,,Name\n' +
-      '1,GM,"Player A"\n' +
-      '2,GM,"Player B"', id);
-    expect(() => loadCsv(id)).toThrow('Empty values are not allowed in the CSV header: Pos,,Name');
+    createInlineCsv(
+      'Pos,,Name\n' + '1,GM,"Player A"\n' + '2,GM,"Player B"',
+      id
+    );
+    expect(() => loadCsv(id)).toThrow(
+      'Empty values are not allowed in the CSV header: Pos,,Name'
+    );
   });
 
   it('should throw expected error if CSV header contains at least one empty value', () => {
     const id = 'data-header-one-empty';
-    createInlineCsv('Pos,"  ",Name\n' +
-      '1,GM,"Player A"\n' +
-      '2,GM,"Player B"', id);
-    expect(() => loadCsv(id)).toThrow('Empty values are not allowed in the CSV header: Pos,  ,Name');
+    createInlineCsv(
+      'Pos,"  ",Name\n' + '1,GM,"Player A"\n' + '2,GM,"Player B"',
+      id
+    );
+    expect(() => loadCsv(id)).toThrow(
+      'Empty values are not allowed in the CSV header: Pos,  ,Name'
+    );
   });
 
   it('should trim all the values in the header', () => {
     const id = 'data-trimmed';
-    createInlineCsv('" Pos ","  Fed","Name   "\n' +
-      '1,FRA,"Player A"\n' +
-      '2,USA,"Player B"', id);
+    createInlineCsv(
+      '" Pos ","  Fed","Name   "\n' + '1,FRA,"Player A"\n' + '2,USA,"Player B"',
+      id
+    );
     const csv = loadCsv(id);
     expect(csv.header).toEqual(['pos', 'fed', 'name']);
   });
 
   it('should lowercase all the values in the header', () => {
     const id = 'data-lowercased';
-    createInlineCsv('POS,FED,NAME\n' +
-      '1,FRA,"Player A"\n' +
-      '2,USA,"Player B"', id);
+    createInlineCsv(
+      'POS,FED,NAME\n' + '1,FRA,"Player A"\n' + '2,USA,"Player B"',
+      id
+    );
     const csv = loadCsv(id);
     expect(csv.header).toEqual(['pos', 'fed', 'name']);
   });

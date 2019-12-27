@@ -1,13 +1,11 @@
 import { Filter, VALUE_NO_FILTER } from './filter';
-import { NoFilter } from './no-filter';
 import { SimpleFilter } from './simple-filter';
 import { Csv } from '../csv/csv';
 import RatingFilter from './rating-filter';
 import { isRatingColumn } from '../columns/rating';
+import { NO_FILTER } from './no-filter';
 
 export class FiltersManager {
-  private readonly _noFilter: Filter;
-
   private _activeFilter: Filter;
 
   private readonly _enabledFilters: Map<string, Filter>;
@@ -18,8 +16,7 @@ export class FiltersManager {
         'CSV and its header must be defined and not empty for filters initialization.'
       );
     }
-    this._noFilter = new NoFilter();
-    this._activeFilter = this._noFilter;
+    this._activeFilter = NO_FILTER;
     this._enabledFilters = new Map<string, Filter>();
   }
 
@@ -41,7 +38,7 @@ export class FiltersManager {
         this._enabledFilters.set(filterNameNormalized, filter);
       }
     });
-    this._enabledFilters.set(this._noFilter.name, this._noFilter);
+    this._enabledFilters.set(NO_FILTER.name, NO_FILTER);
   }
 
   private initFilter(filterName: string): SimpleFilter | RatingFilter {
@@ -56,17 +53,17 @@ export class FiltersManager {
   }
 
   public get isFilterSelected(): boolean {
-    return this._activeFilter !== this._noFilter;
+    return this._activeFilter !== NO_FILTER;
   }
 
   public useFilter(filterName: string): void {
     if (!filterName || filterName === VALUE_NO_FILTER) {
-      this._activeFilter = this._noFilter;
+      this._activeFilter = NO_FILTER;
       return;
     }
     const filterNormalized = filterName.trim().toLowerCase();
     this._activeFilter =
-      (this._enabledFilters.get(filterNormalized) as Filter) || this._noFilter;
+      (this._enabledFilters.get(filterNormalized) as Filter) || NO_FILTER;
   }
 
   public get availableFilters(): Array<string> {

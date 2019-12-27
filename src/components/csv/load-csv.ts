@@ -10,17 +10,18 @@ const normalizeColumn = (column: string): string | undefined => {
     return normalized;
   }
   return undefined;
-}
+};
 
 const cleanHeader = (rawHeader: Array<string>): Array<string> => {
-  return rawHeader
-    .map(column => {
-      const normalized = normalizeColumn(column);
-      if (!normalized) {
-        throw Error(`Empty values are not allowed in the CSV header: ${rawHeader.join(',')}`);
-      }
-      return normalized;
-    });
+  return rawHeader.map(column => {
+    const normalized = normalizeColumn(column);
+    if (!normalized) {
+      throw Error(
+        `Empty values are not allowed in the CSV header: ${rawHeader.join(',')}`
+      );
+    }
+    return normalized;
+  });
 };
 
 export const loadCsv = (idCsvWrapper: string): Csv => {
