@@ -2,11 +2,12 @@
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
-import { GridContext, GridState } from '../grid-context';
 import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
+import { Csv } from '../csv/csv';
+import { DataContext } from '../context/data-context';
 
 const itemStyle = css({
   textTransform: 'capitalize'
@@ -15,15 +16,13 @@ const itemStyle = css({
 export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => (
+      <DataContext.Consumer>
+        {(csv: Csv) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => (
               <UiSelectionsContext.Consumer>
                 {(uiSelections: UiSelectionsContext) => {
-                  const selectableOptions = buildSelectableColumns(
-                    ctx.csv.header
-                  );
+                  const selectableOptions = buildSelectableColumns(csv.header);
                   return (
                     <FormControl>
                       <InputLabel id="selector-columns-label">
@@ -54,7 +53,7 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
             )}
           </I18nContext.Consumer>
         )}
-      </GridContext.Consumer>
+      </DataContext.Consumer>
     );
   }
 

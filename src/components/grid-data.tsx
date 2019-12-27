@@ -3,14 +3,15 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
 import { isRoundColumn } from './columns/round';
 import { isPlaceColumn } from './columns/place';
 import { isColumnVisible } from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
-import { UpdateViewTriggerAware } from 'components/update-view-trigger-aware';
+import { UpdateViewTriggerAware } from './update-view-trigger-aware';
+import { Csv } from './csv/csv';
+import { DataContext } from './context/data-context';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -28,24 +29,24 @@ const hiddenRow = css({
 export default class GridData extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => (
+      <DataContext.Consumer>
+        {(csv: Csv) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsContext) => {
               const columnVisibility = this.buildColumnsVisibilityMap(
-                ctx.csv.header,
+                csv.header,
                 uiSelections.shownColumns
               );
-              const placeColumnIndex = ctx.csv.header.findIndex(col =>
+              const placeColumnIndex = csv.header.findIndex(col =>
                 isPlaceColumn(col)
               );
               const opponentPlacesOfSelected = this.extractOpponentPlaces(
                 uiSelections,
-                ctx
+                csv
               );
               return (
                 <TableBody>
-                  {ctx.csv.data.map((row, indexRow) => {
+                  {csv.data.map((row, indexRow) => {
                     const rowStyles = this.calculateRowStyles(
                       row,
                       uiSelections,
@@ -59,7 +60,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
                         onClick={_ => this.selectRow(row, uiSelections)}
                       >
                         {row.map((cellValue, indexCell) => {
-                          const column = ctx.csv.header[indexCell];
+                          const column = csv.header[indexCell];
                           return (
                             <CellValue
                               key={indexCell}
@@ -77,7 +78,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
             }}
           </UiSelectionsContext.Consumer>
         )}
-      </GridContext.Consumer>
+      </DataContext.Consumer>
     );
   }
 
@@ -152,13 +153,13 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
 
   private extractOpponentPlaces(
     uiSelections: UiSelectionsContext,
-    ctx: GridState
+    csv: Csv
   ): Set<any> {
     if (uiSelections.selectedRow) {
       const extractPosition = /\d+/g;
-      const roundColumns = ctx.csv.header.filter(col => isRoundColumn(col));
+      const roundColumns = csv.header.filter(col => isRoundColumn(col));
       const roundColumnIndices = roundColumns.map(roundCol =>
-        ctx.csv.header.findIndex(headerCol => headerCol === roundCol)
+        csv.header.findIndex(headerCol => headerCol === roundCol)
       );
       const gameResultValues = roundColumnIndices
         .map(

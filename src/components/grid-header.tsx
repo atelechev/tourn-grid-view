@@ -6,11 +6,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell, { SortDirection } from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 import { getColumnVisibilityStyle } from './columns/visibility-utils';
-import { GridContext, GridState } from './grid-context';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
+import { Csv } from './csv/csv';
+import { DataContext } from './context/data-context';
 
 const headerCellStyle = css({
   fontSize: '12px',
@@ -22,13 +23,13 @@ export default class GridHeader extends React.Component<
 > {
   public render(): ReactNode {
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => (
+      <DataContext.Consumer>
+        {(csv: Csv) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsContext) => (
               <TableHead>
                 <TableRow>
-                  {ctx.csv.header.map((columnName, index) => {
+                  {csv.header.map((columnName, index) => {
                     const calculatedStyles = this.calculateStyles(
                       columnName,
                       uiSelections.shownColumns
@@ -53,7 +54,7 @@ export default class GridHeader extends React.Component<
                           }
                           direction={uiSelections.order}
                           onClick={_ =>
-                            this.handleSorting(columnName, uiSelections, ctx)
+                            this.handleSorting(columnName, uiSelections, csv)
                           }
                         >
                           {columnName}
@@ -66,16 +67,16 @@ export default class GridHeader extends React.Component<
             )}
           </UiSelectionsContext.Consumer>
         )}
-      </GridContext.Consumer>
+      </DataContext.Consumer>
     );
   }
 
   private handleSorting(
     columnName: string,
     uiSelections: UiSelectionsContext,
-    ctx: GridState
+    csv: Csv
   ): void {
-    executeSorting(columnName, uiSelections, ctx);
+    executeSorting(columnName, uiSelections, csv);
     this.props.forceUpdate();
   }
 

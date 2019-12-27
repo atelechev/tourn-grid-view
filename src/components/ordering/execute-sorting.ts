@@ -1,18 +1,18 @@
-import { GridState } from '../grid-context';
 import { compareOptionalValues } from './comparators';
 import { UiSelectionsContext } from '../context/ui-selections-context';
+import { Csv } from '../csv/csv';
 
 // TODO add tests
 export const executeSorting = (
   column: string,
   uiSelections: UiSelectionsContext,
-  ctx: GridState
+  csv: Csv
 ): void => {
   if (!uiSelections.interactive) {
     return;
   }
   const columnNormalized = column.trim().toLowerCase();
-  const indexSortColumn = ctx.csv.header.findIndex(
+  const indexSortColumn = csv.header.findIndex(
     headerColumn => headerColumn.trim().toLowerCase() === columnNormalized
   );
   const enabledOnThisColumn =
@@ -24,7 +24,7 @@ export const executeSorting = (
   }
   uiSelections.order = uiSelections.order === 'desc' ? 'asc' : 'desc';
   uiSelections.orderBy = columnNormalized;
-  ctx.csv.data.sort((row1, row2) => {
+  csv.data.sort((row1, row2) => {
     const compare = compareOptionalValues(
       row1[indexSortColumn],
       row2[indexSortColumn]

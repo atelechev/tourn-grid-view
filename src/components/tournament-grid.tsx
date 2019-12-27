@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import GridHeader from './grid-header';
 import GridData from './grid-data';
-import { GridContext, GridState } from './grid-context';
 import { ControlPanel } from './control-panel/control-panel';
 import { buildSelectableColumns } from './columns/selection-utils';
 import { GridProperties } from './grid-properties';
@@ -20,6 +19,7 @@ import { UiSelectionsContext } from './context/ui-selections-context';
 import { COLUMN_PLACE } from './columns/names';
 import { NO_FILTER } from './filters/no-filter';
 import { initializeFilters } from './filters/filters-initialization-util';
+import { DataContext } from './context/data-context';
 
 const tableStyle = css({
   minWidth: 600
@@ -51,7 +51,7 @@ const theme = createMuiTheme({
 });
 
 export default class TournamentGrid extends React.Component<GridProperties> {
-  private readonly _csv: GridState;
+  private readonly _csv: DataContext;
 
   private readonly _i18n: I18nContext;
 
@@ -59,16 +59,10 @@ export default class TournamentGrid extends React.Component<GridProperties> {
 
   constructor(props: GridProperties) {
     super(props);
-    this._csv = this.initDataContext();
+    this._csv = loadCsv(this.props.idCsvElement);
     this._i18n = this.initI18nContext();
     this._uiSelections = this.initUiSelectionsContext();
     this.state = this._uiSelections;
-  }
-
-  private initDataContext(): GridState {
-    return {
-      csv: loadCsv(this.props.idCsvElement)
-    };
   }
 
   private initI18nContext(): I18nContext {
@@ -82,13 +76,10 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     const isInteractive =
       this.props.interactive !== undefined ? this.props.interactive : true;
     const shownColumns = calculateVisibleColumns(
-      buildSelectableColumns(this._csv.csv.header),
+      buildSelectableColumns(this._csv.header),
       this.props.hiddenColumns
     );
-    const enabledFilters = initializeFilters(
-      this.props.useFilters,
-      this._csv.csv
-    );
+    const enabledFilters = initializeFilters(this.props.useFilters, this._csv);
     return {
       interactive: isInteractive,
       filterActive: NO_FILTER,
@@ -105,7 +96,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     const updateView = () => this.forceUpdate();
     return (
       <ThemeProvider theme={theme}>
-        <GridContext.Provider value={this._csv}>
+        <DataContext.Provider value={this._csv}>
           <I18nContext.Provider value={this._i18n}>
             <UiSelectionsContext.Provider value={this._uiSelections}>
               <Grid container spacing={1}>
@@ -129,7 +120,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
               </Grid>
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
-        </GridContext.Provider>
+        </DataContext.Provider>
       </ThemeProvider>
     );
   }
