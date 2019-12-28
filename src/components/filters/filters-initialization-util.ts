@@ -26,7 +26,7 @@ export const initializeFilters = (
     .map(filterName => {
       const filterNameNormalized = filterName.trim().toLowerCase();
       const columnIndex = csv.header.findIndex(
-        colName => colName.trim().toLowerCase() === filterNameNormalized
+        colName => colName === filterNameNormalized
       );
       if (columnIndex < 0) {
         return undefined;

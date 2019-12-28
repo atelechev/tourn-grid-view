@@ -20,7 +20,7 @@ const headerCellStyle = css({
 
 export default class GridHeader extends React.Component<
   UpdateViewTriggerAware
-> {
+  > {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
@@ -46,8 +46,7 @@ export default class GridHeader extends React.Component<
                         <TableSortLabel
                           active={
                             uiSelections.interactive &&
-                            uiSelections.orderBy ===
-                              columnName.trim().toLowerCase()
+                            uiSelections.orderBy === columnName
                           }
                           hideSortIcon={
                             !this.isSortEnabledOn(columnName, uiSelections)
@@ -87,7 +86,7 @@ export default class GridHeader extends React.Component<
     if (!uiSelections.interactive) {
       return false;
     }
-    if (uiSelections.orderBy === columnName.trim().toLowerCase()) {
+    if (uiSelections.orderBy === columnName) {
       return uiSelections.order;
     }
     return false;
@@ -100,10 +99,9 @@ export default class GridHeader extends React.Component<
     if (!uiSelections.interactive) {
       return false;
     }
-    const columnNameNormalized = columnName.trim().toLowerCase();
     return (
       uiSelections.orderEnabledColumns.findIndex(
-        sortableColumn => sortableColumn === columnNameNormalized
+        sortableColumn => sortableColumn === columnName
       ) > -1
     );
   }

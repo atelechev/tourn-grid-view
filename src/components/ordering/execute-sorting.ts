@@ -11,19 +11,18 @@ export const executeSorting = (
   if (!uiSelections.interactive) {
     return;
   }
-  const columnNormalized = column.trim().toLowerCase();
   const indexSortColumn = csv.header.findIndex(
-    headerColumn => headerColumn.trim().toLowerCase() === columnNormalized
+    headerColumn => headerColumn === column
   );
   const enabledOnThisColumn =
     uiSelections.orderEnabledColumns.findIndex(
-      orderEnabled => orderEnabled.trim().toLowerCase() === columnNormalized
+      orderEnabled => orderEnabled === column
     ) > -1;
   if (indexSortColumn < 0 || !enabledOnThisColumn) {
     return;
   }
   uiSelections.order = uiSelections.order === 'desc' ? 'asc' : 'desc';
-  uiSelections.orderBy = columnNormalized;
+  uiSelections.orderBy = column;
   csv.data.sort((row1, row2) => {
     const compare = compareOptionalValues(
       row1[indexSortColumn],

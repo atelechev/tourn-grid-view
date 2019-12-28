@@ -17,20 +17,19 @@ import { isPointsColumn } from './points';
 class ColumnStylesHandler {
   get = (key: string): SerializedStyles | undefined => {
     if (key) {
-      const normalized = key.trim().toLowerCase();
-      if (isRoundColumn(normalized)) {
+      if (isRoundColumn(key)) {
         return roundColumnStyle;
       }
-      if (isNameColumn(normalized)) {
+      if (isNameColumn(key)) {
         return nameColumnStyle;
       }
-      if (isPlaceColumn(normalized)) {
+      if (isPlaceColumn(key)) {
         return placeColumnStyle;
       }
-      if (isClubColumn(normalized)) {
+      if (isClubColumn(key)) {
         return clubColumnStyle;
       }
-      if (isPointsColumn(normalized)) {
+      if (isPointsColumn(key)) {
         return pointsColumnStyle;
       }
     }
