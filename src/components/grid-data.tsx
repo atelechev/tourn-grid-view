@@ -4,14 +4,17 @@ import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import { CellValue } from './cell-value/cell-value';
-import { isRoundColumn } from './columns/round';
 import { isPlaceColumn } from './columns/place';
-import { buildColumnsVisibilityMap } from './columns/visibility-utils';
+import {
+  buildColumnsVisibilityMap,
+  isRowVisible
+} from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { Csv } from './csv/csv';
 import { DataContext } from './context/data-context';
+import { extractOpponentPlaces } from './csv/data-utils';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -25,8 +28,6 @@ const rowStyle = css({
 const hiddenRow = css({
   display: 'none'
 });
-
-const EMPTY_SET = new Set();
 
 export default class GridData extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
@@ -42,8 +43,8 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
               const placeColumnIndex = csv.header.findIndex(col =>
                 isPlaceColumn(col)
               );
-              const opponentPlacesOfSelected = this.extractOpponentPlaces(
-                uiSelections,
+              const opponentPlacesOfSelected = extractOpponentPlaces(
+                uiSelections.selectedRow,
                 csv
               );
               return (
@@ -103,7 +104,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
     placeColumnIndex: number,
     opponentPlacesOfSelected: Set<number>
   ): Array<SerializedStyles> {
-    const isRowVisible = this.isRowVisible(
+    const rowVisible = isRowVisible(
       row,
       uiSelections,
       placeColumnIndex,
@@ -111,7 +112,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
     );
     const isSelected = uiSelections.selectedRow === row;
     const styles = new Array<SerializedStyles>();
-    if (isRowVisible) {
+    if (rowVisible) {
       styles.push(rowStyle);
     } else {
       styles.push(hiddenRow);
@@ -120,65 +121,5 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
       styles.push(rowHoverStyle);
     }
     return styles;
-  }
-
-  private isRowVisible(
-    row: Array<any>,
-    uiSelections: UiSelectionsContext,
-    placeColumnIndex: number,
-    opponentPlacesOfSelected: Set<number>
-  ): boolean {
-    if (uiSelections.selectedRow) {
-      const selectedPlace = parseInt(
-        uiSelections.selectedRow[placeColumnIndex].toString()
-      );
-      const candidatePlace = parseInt(row[placeColumnIndex].toString());
-      return this.isOpponent(
-        selectedPlace,
-        candidatePlace,
-        opponentPlacesOfSelected
-      );
-    }
-    return uiSelections.filterActive.shouldShowRow(row);
-  }
-
-  private extractOpponentPlaces(
-    uiSelections: UiSelectionsContext,
-    csv: Csv
-  ): Set<any> {
-    if (uiSelections.selectedRow) {
-      const extractPosition = /\d+/g;
-      const roundColumns = csv.header.filter(col => isRoundColumn(col));
-      const roundColumnIndices = roundColumns.map(roundCol =>
-        csv.header.findIndex(headerCol => headerCol === roundCol)
-      );
-      const gameResultValues = roundColumnIndices
-        .map(
-          indexRoundColumn =>
-            (uiSelections.selectedRow as Array<any>)[indexRoundColumn]
-        )
-        .filter(gameResult => !!gameResult)
-        .map(gameResult => {
-          const matchResult = gameResult.toString().match(extractPosition);
-          if (matchResult && matchResult.length > 0) {
-            return parseInt(matchResult[0]);
-          }
-          return -1;
-        })
-        .filter(pos => pos > -1);
-      return new Set(gameResultValues);
-    }
-    return EMPTY_SET;
-  }
-
-  private isOpponent(
-    selectedPlace: number,
-    candidatePlace: number,
-    opponentPlacesOfSelected: Set<number>
-  ): boolean {
-    return (
-      selectedPlace === candidatePlace ||
-      opponentPlacesOfSelected.has(candidatePlace)
-    );
   }
 }

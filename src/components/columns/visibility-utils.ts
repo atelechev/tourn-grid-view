@@ -4,6 +4,7 @@ import { SerializedStyles } from '@emotion/core';
 import { isRoundColumn } from './round';
 import { visibleStyle, hiddenStyle } from './column-styles';
 import { COLUMN_ROUNDS } from './names';
+import { UiSelectionsContext } from '../context/ui-selections-context';
 
 export const isAlwaysVisibleColumn = (column: string): boolean =>
   isPlaceColumn(column) || isNameColumn(column);
@@ -69,4 +70,23 @@ export const buildColumnsVisibilityMap = (
     );
   }
   return visibilities;
+};
+
+export const isRowVisible = (
+  row: Array<any>,
+  uiSelections: UiSelectionsContext,
+  placeColumnIndex: number,
+  opponentPlacesOfSelected: Set<number>
+): boolean => {
+  if (uiSelections.selectedRow) {
+    const selectedPlace = parseInt(
+      uiSelections.selectedRow[placeColumnIndex].toString()
+    );
+    const candidatePlace = parseInt(row[placeColumnIndex].toString());
+    return (
+      selectedPlace === candidatePlace ||
+      opponentPlacesOfSelected.has(candidatePlace)
+    );
+  }
+  return uiSelections.filterActive.shouldShowRow(row);
 };
