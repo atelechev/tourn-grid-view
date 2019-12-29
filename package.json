@@ -9,7 +9,7 @@
     "format": "prettier-eslint '**/*.{js,ts,tsx}' --write",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "npm run clean && webpack --mode production",
-    "test": "jest",
+    "test": "jest --coverage --reporters=default --reporters=jest-junit",
     "test:watch": "jest --watch"
   },
   "repository": {
@@ -51,6 +51,7 @@
     "css-loader": "^3.2.1",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
+    "jest-junit": "^10.0.0",
     "prettier-eslint": "^9.0.1",
     "prettier-eslint-cli": "^5.0.0",
     "react-test-renderer": "^16.12.0",
@@ -69,5 +70,18 @@
     "d3": "^3.5.17",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "output": "junit.xml",
+    "usePathForSuiteName": "true"
   }
 }
