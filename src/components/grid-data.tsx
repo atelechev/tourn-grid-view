@@ -3,12 +3,19 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import { GridContext, GridState } from './grid-context';
 import { CellValue } from './cell-value/cell-value';
-import { FiltersManager } from './filters/filters-manager';
-import { isRoundColumn } from './columns/round';
-import { VALUE_NO_FILTER } from './filters/filter';
 import { isPlaceColumn } from './columns/place';
+import {
+  buildColumnsVisibilityMap,
+  isRowVisible
+} from './columns/visibility-utils';
+import { UiSelectionsContext } from './context/ui-selections-context';
+import { NO_FILTER } from './filters/no-filter';
+import { UpdateViewTriggerAware } from './update-view-trigger-aware';
+import { Csv } from './csv/csv';
+import { DataContext } from './context/data-context';
+import { extractOpponentPlaces } from './csv/data-utils';
+import { hiddenStyle, visibleStyle } from './columns/column-styles';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -19,152 +26,97 @@ const rowStyle = css({
   ':hover,:focus': rowHoverStyle
 });
 
-const hiddenRow = css({
-  display: 'none'
-});
-
-export default class GridData extends React.Component {
+export default class GridData extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => {
-          const placeColumnIndex = ctx.csv.header.findIndex(
-            col => isPlaceColumn(col)
-          );
-          const opponentPlacesOfSelected = this.extractOpponentPlaces(ctx);
-          return (
-            <TableBody>
-              {ctx.csv.data.map((row, indexRow) => {
-                const rowStyles = this.calculateRowStyles(
-                  row,
-                  ctx,
-                  placeColumnIndex,
-                  opponentPlacesOfSelected
-                );
-                return (
-                  <TableRow
-                    key={indexRow}
-                    css={rowStyles}
-                    onClick={_ => this.selectRow(row, ctx)}
-                  >
-                    {row.map((cellValue, indexCell) => {
-                      const column = ctx.csv.header[indexCell];
-                      return (
-                        <CellValue
-                          key={indexCell}
-                          column={column}
-                          cellValue={cellValue}
-                        />
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          );
-        }}
-      </GridContext.Consumer>
+      <DataContext.Consumer>
+        {(csv: Csv) => (
+          <UiSelectionsContext.Consumer>
+            {(uiSelections: UiSelectionsContext) => {
+              const columnVisibility = buildColumnsVisibilityMap(
+                csv.header,
+                uiSelections.shownColumns
+              );
+              const placeColumnIndex = csv.header.findIndex(col =>
+                isPlaceColumn(col)
+              );
+              const opponentPlacesOfSelected = extractOpponentPlaces(
+                uiSelections.selectedRow,
+                csv
+              );
+              return (
+                <TableBody>
+                  {csv.data.map((row, indexRow) => {
+                    const rowStyles = this.calculateRowStyles(
+                      row,
+                      uiSelections,
+                      placeColumnIndex,
+                      opponentPlacesOfSelected
+                    );
+                    return (
+                      <TableRow
+                        key={indexRow}
+                        css={rowStyles}
+                        onClick={_ => this.selectRow(row, uiSelections)}
+                      >
+                        {row.map((cellValue, indexCell) => {
+                          const column = csv.header[indexCell];
+                          return (
+                            <CellValue
+                              key={indexCell}
+                              column={column}
+                              isVisible={columnVisibility.get(column)}
+                              cellValue={cellValue}
+                            />
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              );
+            }}
+          </UiSelectionsContext.Consumer>
+        )}
+      </DataContext.Consumer>
     );
   }
 
-  private selectRow(row: Array<any>, ctx: GridState): void {
-    if (!ctx.interactive) {
+  private selectRow(row: Array<any>, uiSelections: UiSelectionsContext): void {
+    if (!uiSelections.interactive) {
       return;
     }
-    if (row === ctx.selectedRow) {
-      ctx.selectedRow = undefined;
+    if (row === uiSelections.selectedRow) {
+      uiSelections.selectedRow = undefined;
     } else {
-      ctx.selectedRow = row;
-      if (ctx.filtersManager) {
-        ctx.filtersManager.useFilter(VALUE_NO_FILTER);
-      } else {
-        throw Error(
-          'Attempted to use filter before filtersManager was initialized.'
-        );
-      }
+      uiSelections.selectedRow = row;
+      uiSelections.filterActive = NO_FILTER;
     }
-    ctx.updateView();
+    this.props.forceUpdate();
   }
 
   private calculateRowStyles(
     row: Array<any>,
-    ctx: GridState,
+    uiSelections: UiSelectionsContext,
     placeColumnIndex: number,
     opponentPlacesOfSelected: Set<number>
   ): Array<SerializedStyles> {
-    const isRowVisible = this.isRowVisible(
+    const rowVisible = isRowVisible(
       row,
-      ctx,
+      uiSelections,
       placeColumnIndex,
       opponentPlacesOfSelected
     );
-    const isSelected = ctx.selectedRow === row;
-    const styles = new Array<SerializedStyles>();
-    if (isRowVisible) {
-      styles.push(rowStyle);
+    const isSelected = uiSelections.selectedRow === row;
+    const styles = [rowStyle];
+    if (rowVisible) {
+      styles.push(visibleStyle);
     } else {
-      styles.push(hiddenRow);
+      styles.push(hiddenStyle);
     }
     if (isSelected) {
       styles.push(rowHoverStyle);
     }
     return styles;
-  }
-
-  private isRowVisible(
-    row: Array<any>,
-    ctx: GridState,
-    placeColumnIndex: number,
-    opponentPlacesOfSelected: Set<number>
-  ): boolean {
-    if (ctx.selectedRow) {
-      const selectedPlace = parseInt(
-        ctx.selectedRow[placeColumnIndex].toString()
-      );
-      const candidatePlace = parseInt(row[placeColumnIndex].toString());
-      return this.isOpponent(
-        selectedPlace,
-        candidatePlace,
-        opponentPlacesOfSelected
-      );
-    }
-    const filter = (ctx.filtersManager as FiltersManager).activeFilter;
-    return filter.shouldShowRow(row);
-  }
-
-  private extractOpponentPlaces(ctx: GridState): Set<any> {
-    if (ctx.selectedRow) {
-      const extractPosition = /\d+/g;
-      const roundColumns = ctx.csv.header.filter(col => isRoundColumn(col));
-      const roundColumnIndices = roundColumns.map(roundCol =>
-        ctx.csv.header.findIndex(headerCol => headerCol === roundCol)
-      );
-      const gameResultValues = roundColumnIndices
-        .map(
-          indexRoundColumn => (ctx.selectedRow as Array<any>)[indexRoundColumn]
-        )
-        .filter(gameResult => !!gameResult)
-        .map(gameResult => {
-          const matchResult = gameResult.toString().match(extractPosition);
-          if (matchResult && matchResult.length > 0) {
-            return parseInt(matchResult[0]);
-          }
-          return -1;
-        })
-        .filter(pos => pos > -1);
-      return new Set(gameResultValues);
-    }
-    return new Set();
-  }
-
-  private isOpponent(
-    selectedPlace: number,
-    candidatePlace: number,
-    opponentPlacesOfSelected: Set<number>
-  ): boolean {
-    return (
-      selectedPlace === candidatePlace ||
-      opponentPlacesOfSelected.has(candidatePlace)
-    );
   }
 }

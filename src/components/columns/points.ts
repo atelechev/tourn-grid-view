@@ -1,4 +1,3 @@
-
 export const isPointsColumn = (column: string): boolean => {
   if (!column) {
     return false;

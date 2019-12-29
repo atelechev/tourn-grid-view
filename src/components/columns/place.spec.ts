@@ -20,5 +20,4 @@ describe('isPlaceColumn', () => {
   it('should return false for another value', () => {
     expect(isPlaceColumn('x')).toBe(false);
   });
-
 });

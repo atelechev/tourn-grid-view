@@ -9,7 +9,6 @@ import {
 import { columnStylesHandler } from './column-styles-handler';
 
 describe('ColumnStylesHandler', () => {
-
   const hanlder = columnStylesHandler;
 
   it('should return standardNarrowColumnStyle for undefined arg', () => {
@@ -39,5 +38,4 @@ describe('ColumnStylesHandler', () => {
   it('should return clubColumnStyle for Club arg', () => {
     expect(hanlder.get('Club')).toEqual(clubColumnStyle);
   });
-
 });

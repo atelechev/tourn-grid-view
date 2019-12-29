@@ -37,4 +37,3 @@ export const standardNarrowColumnStyle = css({
 export const clubColumnStyle = css({
   maxWidth: '120px'
 });
-

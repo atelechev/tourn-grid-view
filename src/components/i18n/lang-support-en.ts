@@ -4,7 +4,7 @@ import { translationsEn } from './translations-en';
 export const langSupportEn: I18nProvider = {
   hasWhiteColorMarker: (value: string): boolean => {
     return (
-      value &&
+      !!value &&
       value
         .trim()
         .toUpperCase()
@@ -13,7 +13,7 @@ export const langSupportEn: I18nProvider = {
   },
   hasBlackColorMarker: (value: string): boolean => {
     return (
-      value &&
+      !!value &&
       value
         .trim()
         .toUpperCase()
@@ -21,7 +21,7 @@ export const langSupportEn: I18nProvider = {
     );
   },
   isByeMarker: (value: string): boolean => {
-    return value && value.trim().toUpperCase() === 'BYE';
+    return !!value && value.trim().toUpperCase() === 'BYE';
   },
   translate: (key: string): string => {
     return translationsEn.get(key);

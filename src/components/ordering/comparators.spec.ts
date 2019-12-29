@@ -1,7 +1,6 @@
 import { compareOptionalValues } from './comparators';
 
 describe('compareOptionalValues', () => {
-
   it('should return 0 if both values are undefined', () => {
     expect(compareOptionalValues(undefined, undefined)).toEqual(0);
   });
@@ -61,5 +60,4 @@ describe('compareOptionalValues', () => {
   it('should return -1 if both args are strings and second is greater', () => {
     expect(compareOptionalValues('a', 'b')).toEqual(-1);
   });
-
 });

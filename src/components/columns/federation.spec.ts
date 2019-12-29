@@ -20,5 +20,4 @@ describe('isFederationColumn', () => {
   it('should return false for another value', () => {
     expect(isFederationColumn('x')).toBe(false);
   });
-
 });

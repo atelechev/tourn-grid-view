@@ -1,8 +1,10 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { GridContext, GridState } from '../grid-context';
 import { GameResultValueProps } from './game-result-value-props';
+import { I18nContext } from '../context/i18n-context';
+import { isForfeitGame } from './game-result-analyzers';
+import { gameResultForOutput } from './result-output-transformer';
 
 const cellStyle = css({
   width: '28px',
@@ -55,47 +57,22 @@ export class GameResultValue extends React.Component<GameResultValueProps> {
     this._resultExists = (this._rawNormalized &&
       this._rawNormalized.length > 0) as boolean;
     return (
-      <GridContext.Consumer>
-        {(ctx: GridState) => {
+      <I18nContext.Consumer>
+        {(ctx: I18nContext) => {
           const cellStyles = this.calculateStyles(ctx);
-          return <div css={cellStyles}>{this.getResultForOutput(ctx)}</div>;
+          const resultForOutput = gameResultForOutput(this._rawNormalized, ctx);
+          return <div css={cellStyles}>{resultForOutput}</div>;
         }}
-      </GridContext.Consumer>
+      </I18nContext.Consumer>
     );
   }
 
-  private getResultForOutput(ctx: GridState): string {
-    if (this._resultExists) {
-      const fullOutput = this._rawNormalized as string;
-      if (this.isGameColorKnown(ctx)) {
-        return fullOutput.substring(0, fullOutput.length - 1);
-      }
-      return fullOutput;
-    }
-    return '.';
-  }
-
-  private isGameColorKnown(ctx: GridState): boolean {
-    const rawResult = this._rawNormalized as string;
-    return (rawResult &&
-      (ctx.i18nProvider.hasWhiteColorMarker(rawResult) ||
-        ctx.i18nProvider.hasBlackColorMarker(rawResult))) as boolean;
-  }
-
-  private isForfeitGame(ctx: GridState): boolean {
-    const rawResult = this._rawNormalized as string;
-    return (rawResult &&
-      (ctx.i18nProvider.isByeMarker(rawResult) ||
-        rawResult.startsWith('>') ||
-        rawResult.startsWith('<'))) as boolean;
-  }
-
-  private calculateStyles(ctx: GridState): Array<SerializedStyles> {
+  private calculateStyles(ctx: I18nContext): Array<SerializedStyles> {
     const styles: Array<SerializedStyles> = [cellStyle];
     if (this._resultExists) {
       styles.push(cellFrameStyle);
       const rawResult = this._rawNormalized as string;
-      if (this.isForfeitGame(ctx)) {
+      if (isForfeitGame(rawResult, ctx)) {
         styles.push(voidGameStyle);
       } else if (ctx.i18nProvider.hasWhiteColorMarker(rawResult)) {
         styles.push(whiteColorStyle);

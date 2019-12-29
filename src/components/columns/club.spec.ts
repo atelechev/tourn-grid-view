@@ -20,5 +20,4 @@ describe('isClubColumn', () => {
   it('should return false for another value', () => {
     expect(isClubColumn('x')).toBe(false);
   });
-
 });

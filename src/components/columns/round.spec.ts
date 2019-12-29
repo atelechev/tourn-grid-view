@@ -23,5 +23,4 @@ describe('isRoundColumn', () => {
   it('should return false for another value', () => {
     expect(isRoundColumn('x')).toBe(false);
   });
-
 });

@@ -2,3 +2,5 @@ node_modules
 package-lock.json
 build
 dist/index.html
+junit.xml
+coverage

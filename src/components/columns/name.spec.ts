@@ -20,5 +20,4 @@ describe('isNameColumn', () => {
   it('should return false for another value', () => {
     expect(isNameColumn('x')).toBe(false);
   });
-
 });

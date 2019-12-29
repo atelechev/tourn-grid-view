@@ -1,6 +1,6 @@
 import { Filter, VALUE_NO_FILTER } from './filter';
 
-export class NoFilter implements Filter {
+class NoFilter implements Filter {
   public shouldShowRow(_: Array<any>): boolean {
     return true;
   }
@@ -21,3 +21,5 @@ export class NoFilter implements Filter {
     return VALUE_NO_FILTER;
   }
 }
+
+export const NO_FILTER: Filter = new NoFilter();

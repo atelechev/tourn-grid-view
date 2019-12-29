@@ -1,28 +1,33 @@
-import { GridState } from '../grid-context';
 import { compareOptionalValues } from './comparators';
+import { UiSelectionsContext } from '../context/ui-selections-context';
+import { Csv } from '../csv/csv';
 
-export const executeSorting = (column: string, ctx: GridState): void => {
-  if (!ctx.interactive) {
+// TODO add tests
+export const executeSorting = (
+  column: string,
+  uiSelections: UiSelectionsContext,
+  csv: Csv
+): void => {
+  if (!uiSelections.interactive) {
     return;
   }
-  const columnNormalized = column.trim().toLowerCase();
-  const indexSortColumn = ctx.csv.header.findIndex(
-    headerColumn => headerColumn.trim().toLowerCase() === columnNormalized
+  const indexSortColumn = csv.header.findIndex(
+    headerColumn => headerColumn === column
   );
   const enabledOnThisColumn =
-    ctx.orderEnabledColumns.findIndex(orderEnabled => orderEnabled.trim().toLowerCase() === columnNormalized) >
-    -1;
+    uiSelections.orderEnabledColumns.findIndex(
+      orderEnabled => orderEnabled === column
+    ) > -1;
   if (indexSortColumn < 0 || !enabledOnThisColumn) {
     return;
   }
-  ctx.order = ctx.order === 'desc' ? 'asc' : 'desc';
-  ctx.orderBy = columnNormalized;
-  ctx.csv.data.sort((row1, row2) => {
+  uiSelections.order = uiSelections.order === 'desc' ? 'asc' : 'desc';
+  uiSelections.orderBy = column;
+  csv.data.sort((row1, row2) => {
     const compare = compareOptionalValues(
       row1[indexSortColumn],
       row2[indexSortColumn]
     );
-    return ctx.order === 'desc' ? compare : -compare;
+    return uiSelections.order === 'desc' ? compare : -compare;
   });
-  ctx.updateView();
 };
