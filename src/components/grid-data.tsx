@@ -6,7 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { CellValue } from './cell-value/cell-value';
 import { isRoundColumn } from './columns/round';
 import { isPlaceColumn } from './columns/place';
-import { isColumnVisible } from './columns/visibility-utils';
+import { buildColumnsVisibilityMap } from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
@@ -26,6 +26,8 @@ const hiddenRow = css({
   display: 'none'
 });
 
+const EMPTY_SET = new Set();
+
 export default class GridData extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
@@ -33,7 +35,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
         {(csv: Csv) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsContext) => {
-              const columnVisibility = this.buildColumnsVisibilityMap(
+              const columnVisibility = buildColumnsVisibilityMap(
                 csv.header,
                 uiSelections.shownColumns
               );
@@ -80,17 +82,6 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
         )}
       </DataContext.Consumer>
     );
-  }
-
-  private buildColumnsVisibilityMap(
-    allColumns: Array<string>,
-    shownColumns: Array<string>
-  ): Map<string, boolean> {
-    const visibilities = new Map<string, boolean>();
-    allColumns.forEach(column =>
-      visibilities.set(column, isColumnVisible(column, shownColumns))
-    );
-    return visibilities;
   }
 
   private selectRow(row: Array<any>, uiSelections: UiSelectionsContext): void {
@@ -177,7 +168,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
         .filter(pos => pos > -1);
       return new Set(gameResultValues);
     }
-    return new Set();
+    return EMPTY_SET;
   }
 
   private isOpponent(

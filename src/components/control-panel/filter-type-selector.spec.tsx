@@ -15,11 +15,13 @@ describe('FilterTypeSelector', () => {
   };
 
   it('should display expected label', () => {
-    const element = renderer.create(
-      <I18nContext.Provider value={i18n}>
-        <FilterTypeSelector forceUpdate={() => { }} />
-      </I18nContext.Provider>
-    ).toJSON();
+    const element = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <FilterTypeSelector forceUpdate={() => {}} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
     expect(element.children[0].type).toEqual('label');
     expect(element.children[0].children[0]).toEqual('Filter by');
   });
@@ -38,13 +40,15 @@ describe('FilterTypeSelector', () => {
       selectedRow: undefined,
       shownColumns: []
     };
-    const element = renderer.create(
-      <UiSelectionsContext.Provider value={uiSelections}>
-        <I18nContext.Provider value={i18n}>
-          <FilterTypeSelector forceUpdate={() => { }} />
-        </I18nContext.Provider>
-      </UiSelectionsContext.Provider>
-    ).toJSON();
+    const element = renderer
+      .create(
+        <UiSelectionsContext.Provider value={uiSelections}>
+          <I18nContext.Provider value={i18n}>
+            <FilterTypeSelector forceUpdate={() => {}} />
+          </I18nContext.Provider>
+        </UiSelectionsContext.Provider>
+      )
+      .toJSON();
     expect(element).toBeTruthy();
     expect(element.type).toEqual('div');
     const input = element.children[1];
@@ -52,5 +56,4 @@ describe('FilterTypeSelector', () => {
     const selectedItem = input.children[0];
     expect(selectedItem.children[0]).toEqual('test');
   });
-
 });

@@ -12,10 +12,13 @@ export const isColumnVisible = (
   column: string,
   shownColumns: Array<string>
 ): boolean => {
-  if (!column || !shownColumns) {
+  if (!column) {
     return false;
   }
   const normalized = column.trim().toLowerCase();
+  if (!shownColumns || shownColumns.length === 0) {
+    return isAlwaysVisibleColumn(normalized);
+  }
   return (
     isAlwaysVisibleColumn(normalized) ||
     shownColumns.find(shownColumn => {
@@ -53,4 +56,17 @@ export const calculateVisibleColumns = (
   return allColumns.filter(
     column => hiddenNormalized.find(hidden => column === hidden) === undefined
   );
+};
+
+export const buildColumnsVisibilityMap = (
+  allColumns: Array<string>,
+  shownColumns: Array<string>
+): Map<string, boolean> => {
+  const visibilities = new Map<string, boolean>();
+  if (allColumns) {
+    allColumns.forEach(column =>
+      visibilities.set(column, isColumnVisible(column, shownColumns))
+    );
+  }
+  return visibilities;
 };

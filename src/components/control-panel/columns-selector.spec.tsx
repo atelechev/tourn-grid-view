@@ -17,11 +17,13 @@ describe('ColumnsSelector', () => {
   };
 
   it('should display expected label', () => {
-    const element = renderer.create(
-      <I18nContext.Provider value={i18n}>
-        <ColumnsSelector forceUpdate={() => { }} />
-      </I18nContext.Provider>
-    ).toJSON();
+    const element = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <ColumnsSelector forceUpdate={() => {}} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
     expect(element.children[0].type).toEqual('label');
     expect(element.children[0].children[0]).toEqual('Shown columns');
   });
@@ -48,15 +50,17 @@ describe('ColumnsSelector', () => {
       selectedRow: undefined,
       shownColumns: ['fed', 'pts']
     };
-    const element = renderer.create(
-      <DataContext.Provider value={csv}>
-        <UiSelectionsContext.Provider value={uiSelections}>
-          <I18nContext.Provider value={i18n}>
-            <ColumnsSelector forceUpdate={() => { }} />
-          </I18nContext.Provider>
-        </UiSelectionsContext.Provider>
-      </DataContext.Provider>
-    ).toJSON();
+    const element = renderer
+      .create(
+        <DataContext.Provider value={csv}>
+          <UiSelectionsContext.Provider value={uiSelections}>
+            <I18nContext.Provider value={i18n}>
+              <ColumnsSelector forceUpdate={() => {}} />
+            </I18nContext.Provider>
+          </UiSelectionsContext.Provider>
+        </DataContext.Provider>
+      )
+      .toJSON();
     expect(element).toBeTruthy();
     expect(element.type).toEqual('div');
     const input = element.children[1];
@@ -64,5 +68,4 @@ describe('ColumnsSelector', () => {
     const selectionSummaryText = input.children[0].children[0];
     expect(selectionSummaryText).toEqual('fed, pts');
   });
-
 });

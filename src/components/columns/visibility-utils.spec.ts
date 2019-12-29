@@ -12,7 +12,8 @@ import {
   isAlwaysVisibleColumn,
   isColumnVisible,
   getColumnVisibilityStyle,
-  calculateVisibleColumns
+  calculateVisibleColumns,
+  buildColumnsVisibilityMap
 } from './visibility-utils';
 import { hiddenStyle, visibleStyle } from './column-styles';
 
@@ -164,5 +165,65 @@ describe('calculateVisibleColumns', () => {
     expect(
       calculateVisibleColumns(['name', 'fed', 'club', 'cat'], ['club', 'fed'])
     ).toEqual(['name', 'cat']);
+  });
+});
+
+describe('buildColumnsVisibilityMap', () => {
+  it('should return an empty map if allColumns arg is undefined', () => {
+    expect(buildColumnsVisibilityMap(undefined, ['fed'])).toEqual(
+      new Map<string, boolean>()
+    );
+  });
+
+  it('should return an empty map if allColumns arg is empty', () => {
+    expect(buildColumnsVisibilityMap([], ['fed'])).toEqual(
+      new Map<string, boolean>()
+    );
+  });
+
+  it('should return a map with all false values except always visible, if shownColumns arg is undefined', () => {
+    const result = buildColumnsVisibilityMap(
+      ['pos', 'name', 'fed', 'club'],
+      undefined
+    );
+    expect(result).toEqual(
+      new Map<string, boolean>([
+        ['pos', true],
+        ['name', true],
+        ['fed', false],
+        ['club', false]
+      ])
+    );
+  });
+
+  it('should return a map with all false values except always visible, if shownColumns arg is empty', () => {
+    const result = buildColumnsVisibilityMap(
+      ['pos', 'name', 'fed', 'club'],
+      []
+    );
+    expect(result).toEqual(
+      new Map<string, boolean>([
+        ['pos', true],
+        ['name', true],
+        ['fed', false],
+        ['club', false]
+      ])
+    );
+  });
+
+  it('should return a map of expected values', () => {
+    const result = buildColumnsVisibilityMap(
+      ['pos', 'name', 'fed', 'club', 'cat'],
+      ['fed', 'cat']
+    );
+    expect(result).toEqual(
+      new Map<string, boolean>([
+        ['pos', true],
+        ['name', true],
+        ['fed', true],
+        ['club', false],
+        ['cat', true]
+      ])
+    );
   });
 });

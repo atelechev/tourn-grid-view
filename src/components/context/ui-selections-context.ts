@@ -5,6 +5,7 @@ import { NO_FILTER } from '../filters/no-filter';
 
 export type Order = 'asc' | 'desc';
 
+// TODO check whether it can be transformed into an abstract class and include many of related methods that expect it as arg
 export interface UiSelectionsContext {
   interactive: boolean;
   filterActive: Filter;
