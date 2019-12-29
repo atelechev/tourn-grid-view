@@ -15,6 +15,7 @@ import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { Csv } from './csv/csv';
 import { DataContext } from './context/data-context';
 import { extractOpponentPlaces } from './csv/data-utils';
+import { hiddenStyle, visibleStyle } from './columns/column-styles';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -23,10 +24,6 @@ const rowHoverStyle = css({
 
 const rowStyle = css({
   ':hover,:focus': rowHoverStyle
-});
-
-const hiddenRow = css({
-  display: 'none'
 });
 
 export default class GridData extends React.Component<UpdateViewTriggerAware> {
@@ -111,11 +108,11 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
       opponentPlacesOfSelected
     );
     const isSelected = uiSelections.selectedRow === row;
-    const styles = new Array<SerializedStyles>();
+    const styles = [rowStyle];
     if (rowVisible) {
-      styles.push(rowStyle);
+      styles.push(visibleStyle);
     } else {
-      styles.push(hiddenRow);
+      styles.push(hiddenStyle);
     }
     if (isSelected) {
       styles.push(rowHoverStyle);

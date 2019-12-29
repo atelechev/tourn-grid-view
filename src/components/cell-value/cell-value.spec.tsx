@@ -30,7 +30,9 @@ export const findCssRule = (className: string): CSSStyleDeclaration => {
 export const ensureElementDisplayed = (elt: any): void => {
   const cssClass = getCssClassName(elt);
   const style = findCssRule(cssClass);
-  expect(style['display']).toBeFalsy();
+  if (style) {
+    expect(style['display']).toBeFalsy();
+  }
 };
 
 export const ensureElementHidden = (elt: any): void => {

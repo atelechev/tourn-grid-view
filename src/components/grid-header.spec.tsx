@@ -10,6 +10,14 @@ import {
   ensureElementHidden
 } from './cell-value/cell-value.spec';
 
+export const assertExpectedHtmlElement = (
+  elt: any,
+  expectedTag: string
+): void => {
+  expect(elt).toBeTruthy();
+  expect(elt.type).toEqual(expectedTag);
+};
+
 describe('GridHeader', () => {
   const csv: Csv = {
     header: ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'],
@@ -34,11 +42,6 @@ describe('GridHeader', () => {
     orderEnabledColumns: [],
     selectedRow: undefined,
     shownColumns: ['pos', 'name', 'pts']
-  };
-
-  const assertExpectedHtmlElement = (elt: any, expectedTag: string): void => {
-    expect(elt).toBeTruthy();
-    expect(elt.type).toEqual(expectedTag);
   };
 
   const assertColumnExpected = (
