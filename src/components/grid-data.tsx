@@ -15,6 +15,7 @@ import { DataContext } from './context/data-context';
 import { extractOpponentPlaces } from './csv/data-utils';
 import { hiddenStyle, visibleStyle } from './columns/column-styles';
 import { DataManager } from './csv/data-manager';
+import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -31,7 +32,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
       <DataContext.Consumer>
         {(csv: DataManager) => (
           <UiSelectionsContext.Consumer>
-            {(uiSelections: UiSelectionsContext) => {
+            {(uiSelections: UiSelectionsManager) => {
               const columnVisibility = buildColumnsVisibilityMap(
                 csv.header,
                 uiSelections.shownColumns
@@ -78,7 +79,8 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
     );
   }
 
-  private selectRow(row: Array<any>, uiSelections: UiSelectionsContext): void {
+  private selectRow(row: Array<any>, uiSelections: UiSelectionsManager): void {
+    // TODO refactor
     if (!uiSelections.interactive) {
       return;
     }
@@ -93,7 +95,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
 
   private calculateRowStyles(
     row: Array<any>,
-    uiSelections: UiSelectionsContext,
+    uiSelections: UiSelectionsManager,
     placeColumnIndex: number,
     opponentPlacesOfSelected: Set<number>
   ): Array<SerializedStyles> {
@@ -103,13 +105,13 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
       placeColumnIndex,
       opponentPlacesOfSelected
     );
-    const isSelected = uiSelections.selectedRow === row;
     const styles = [rowStyle];
     if (rowVisible) {
       styles.push(visibleStyle);
     } else {
       styles.push(hiddenStyle);
     }
+    const isSelected = uiSelections.selectedRow === row;
     if (isSelected) {
       styles.push(rowHoverStyle);
     }

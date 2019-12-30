@@ -129,4 +129,62 @@ describe('DataManager', () => {
       expect(dm.getColumnIndex('b')).toEqual(1);
     });
   });
+
+  describe('sort', () => {
+    it('does not have any effect if the column does not exist', () => {
+      const dm = new DataManager();
+      dm.header = ['pos', 'name'];
+      dm.data = [
+        [1, 'C'],
+        [2, 'B'],
+        [3, 'A']
+      ];
+      dm.sort('fed', 'asc');
+      expect(dm.data[0]).toEqual([1, 'C']);
+      expect(dm.data[1]).toEqual([2, 'B']);
+      expect(dm.data[2]).toEqual([3, 'A']);
+    });
+
+    it('does not have any effect if order is undefined', () => {
+      const dm = new DataManager();
+      dm.header = ['pos', 'name'];
+      dm.data = [
+        [1, 'C'],
+        [2, 'B'],
+        [3, 'A']
+      ];
+      dm.sort('name', undefined);
+      expect(dm.data[0]).toEqual([1, 'C']);
+      expect(dm.data[1]).toEqual([2, 'B']);
+      expect(dm.data[2]).toEqual([3, 'A']);
+    });
+
+    it('executed sorting in descending order', () => {
+      const dm = new DataManager();
+      dm.header = ['pos', 'name'];
+      dm.data = [
+        [1, 'C'],
+        [2, 'B'],
+        [3, 'A']
+      ];
+      dm.sort('pos', 'desc');
+      expect(dm.data[0]).toEqual([3, 'A']);
+      expect(dm.data[1]).toEqual([2, 'B']);
+      expect(dm.data[2]).toEqual([1, 'C']);
+    });
+
+    it('executed sorting in ascending order', () => {
+      const dm = new DataManager();
+      dm.header = ['pos', 'name'];
+      dm.data = [
+        [1, 'C'],
+        [2, 'B'],
+        [3, 'A']
+      ];
+      dm.sort('name', 'asc');
+      expect(dm.data[0]).toEqual([3, 'A']);
+      expect(dm.data[1]).toEqual([2, 'B']);
+      expect(dm.data[2]).toEqual([1, 'C']);
+    });
+  });
 });

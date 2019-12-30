@@ -5,6 +5,7 @@ import { I18nContext } from '../context/i18n-context';
 import FilterTypeSelector from './filter-type-selector';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsContext } from '../context/ui-selections-context';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 describe('FilterTypeSelector', () => {
   const lang = 'en';
@@ -18,7 +19,7 @@ describe('FilterTypeSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilterTypeSelector forceUpdate={() => {}} />
+          <FilterTypeSelector forceUpdate={() => { }} />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -30,21 +31,15 @@ describe('FilterTypeSelector', () => {
     const selectedFilter = new SimpleFilter('test');
     selectedFilter.selectableOptions = ['A', 'B'];
     selectedFilter.selectedValue = 'B';
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: selectedFilter,
-      filtersEnabled: [selectedFilter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: []
-    };
+
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = selectedFilter;
+    uiSelections.filtersEnabled = [selectedFilter];
     const element = renderer
       .create(
         <UiSelectionsContext.Provider value={uiSelections}>
           <I18nContext.Provider value={i18n}>
-            <FilterTypeSelector forceUpdate={() => {}} />
+            <FilterTypeSelector forceUpdate={() => { }} />
           </I18nContext.Provider>
         </UiSelectionsContext.Provider>
       )

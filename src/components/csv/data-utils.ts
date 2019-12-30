@@ -2,6 +2,7 @@ import { DataManager } from './data-manager';
 
 const EMPTY_SET = new Set<number>();
 
+// TODO refactor
 export const extractOpponentPlaces = (
   selectedRow: Array<any>,
   csv: DataManager

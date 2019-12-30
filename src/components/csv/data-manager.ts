@@ -2,6 +2,8 @@ import { Csv } from './csv';
 import { normalizeColumn } from './data-utils';
 import { isPlaceColumn } from '../columns/place';
 import { isRoundColumn } from '../columns/round';
+import { Order } from '../ui-selections/order';
+import { compareOptionalValues } from '../ordering/comparators';
 
 
 export class DataManager implements Csv {
@@ -114,6 +116,20 @@ export class DataManager implements Csv {
 
   public get roundColumnsIndices(): Array<number> {
     return this._roundColumnsIndices;
+  }
+
+  public sort(column: string, order: Order): void {
+    const columnIndex = this.getColumnIndex(column);
+    if (columnIndex < 0 || !order) {
+      return;
+    }
+    this._data.sort((row1, row2) => {
+      const compare = compareOptionalValues(
+        row1[columnIndex],
+        row2[columnIndex]
+      );
+      return order === 'desc' ? -compare : compare;
+    });
   }
 
 }

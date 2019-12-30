@@ -18,8 +18,8 @@ import {
 } from './visibility-utils';
 import { hiddenStyle, visibleStyle } from './column-styles';
 import { SimpleFilter } from '../filters/simple-filter';
-import { UiSelectionsContext } from '../context/ui-selections-context';
 import { NO_FILTER } from '../filters/no-filter';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 describe('isAlwaysVisibleColumn', () => {
   it('should return true for Pos', () => {
@@ -240,16 +240,9 @@ describe('isRowVisible', () => {
   it('should return false if there is no selectedRow and the row is not accepted by the filter in uiSelections', () => {
     filter.selectedValue = 'bb';
 
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: filter,
-      filtersEnabled: [filter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: []
-    };
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = filter;
+    uiSelections.filtersEnabled = [filter];
 
     const row = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
@@ -259,16 +252,9 @@ describe('isRowVisible', () => {
   it('should return true if there is no selectedRow and the row is accepted by the filter in uiSelections', () => {
     filter.selectedValue = 'aa';
 
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: filter,
-      filtersEnabled: [filter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: []
-    };
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = filter;
+    uiSelections.filtersEnabled = [filter];
 
     const row = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
@@ -278,16 +264,9 @@ describe('isRowVisible', () => {
   it('should return true if selectedRow is set and row is the same as selectedRow', () => {
     const selectedRow = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: NO_FILTER,
-      filtersEnabled: [],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: selectedRow,
-      shownColumns: []
-    };
+
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.selectedRow = selectedRow;
 
     expect(
       isRowVisible(selectedRow, uiSelections, 0, opponentsOfSelected)
@@ -298,16 +277,9 @@ describe('isRowVisible', () => {
     const selectedRow = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const checkedRow = [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: NO_FILTER,
-      filtersEnabled: [],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: selectedRow,
-      shownColumns: []
-    };
+
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.selectedRow = selectedRow;
 
     expect(isRowVisible(checkedRow, uiSelections, 0, opponentsOfSelected)).toBe(
       true
@@ -318,16 +290,9 @@ describe('isRowVisible', () => {
     const selectedRow = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const checkedRow = [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: NO_FILTER,
-      filtersEnabled: [],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: selectedRow,
-      shownColumns: []
-    };
+
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.selectedRow = selectedRow;
 
     expect(isRowVisible(checkedRow, uiSelections, 0, opponentsOfSelected)).toBe(
       false

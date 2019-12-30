@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { UiSelectionsContext } from './context/ui-selections-context';
-import { NO_FILTER } from './filters/no-filter';
 import { DataContext } from './context/data-context';
 import GridHeader from './grid-header';
 import {
@@ -9,6 +8,7 @@ import {
   ensureElementHidden
 } from './cell-value/cell-value.spec';
 import { DataManager } from './csv/data-manager';
+import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 export const assertExpectedHtmlElement = (
   elt: any,
@@ -32,16 +32,8 @@ describe('GridHeader', () => {
     [8, 'H', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
   ];
 
-  const uiSelections: UiSelectionsContext = {
-    interactive: true,
-    filterActive: NO_FILTER,
-    filtersEnabled: [],
-    order: 'desc',
-    orderBy: 'pos',
-    orderEnabledColumns: [],
-    selectedRow: undefined,
-    shownColumns: ['pos', 'name', 'pts']
-  };
+  const uiSelections = new UiSelectionsManager();
+  uiSelections.shownColumns = ['pos', 'name', 'pts'];
 
   const assertColumnExpected = (
     elt: any,

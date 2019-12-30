@@ -6,6 +6,7 @@ import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { NO_FILTER } from '../filters/no-filter';
 import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 const selectorStyle = css({
   minWidth: '160px',
@@ -18,11 +19,11 @@ const itemStyle = css({
 
 export default class FilteredItemSelector extends React.Component<
   UpdateViewTriggerAware
-> {
+  > {
   public render(): ReactNode {
     return (
       <UiSelectionsContext.Consumer>
-        {(uiSelections: UiSelectionsContext) => (
+        {(uiSelections: UiSelectionsManager) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => {
               const filterableItems =
@@ -59,7 +60,7 @@ export default class FilteredItemSelector extends React.Component<
 
   private filteredItemsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsContext
+    uiSelections: UiSelectionsManager
   ): void {
     uiSelections.filterActive.selectedValue = event.target.value;
     this.props.forceUpdate();

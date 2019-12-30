@@ -8,6 +8,7 @@ import { UiSelectionsContext } from '../context/ui-selections-context';
 import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 import { DataContext } from '../context/data-context';
 import { DataManager } from '../csv/data-manager';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 const itemStyle = css({
   textTransform: 'capitalize'
@@ -21,7 +22,7 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
           <I18nContext.Consumer>
             {(i18n: I18nContext) => (
               <UiSelectionsContext.Consumer>
-                {(uiSelections: UiSelectionsContext) => {
+                {(uiSelections: UiSelectionsManager) => {
                   const selectableOptions = buildSelectableColumns(csv.header);
                   return (
                     <FormControl>
@@ -59,7 +60,7 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
 
   private columnsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsContext
+    uiSelections: UiSelectionsManager
   ): void {
     uiSelections.shownColumns = event.target.value as Array<string>;
     this.props.forceUpdate();

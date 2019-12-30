@@ -7,6 +7,7 @@ import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { DataContext } from '../context/data-context';
 import { DataManager } from '../csv/data-manager';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 describe('ColumnsSelector', () => {
   const lang = 'en';
@@ -41,16 +42,10 @@ describe('ColumnsSelector', () => {
     selectedFilter.selectableOptions = ['A', 'B'];
     selectedFilter.selectedValue = 'B';
 
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: selectedFilter,
-      filtersEnabled: [selectedFilter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: ['fed', 'pts']
-    };
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = selectedFilter;
+    uiSelections.filtersEnabled = [selectedFilter];
+    uiSelections.shownColumns = ['fed', 'pts'];
     const element = renderer
       .create(
         <DataContext.Provider value={csv}>

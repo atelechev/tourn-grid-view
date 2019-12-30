@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
 import { UiSelectionsContext } from './context/ui-selections-context';
-import { NO_FILTER } from './filters/no-filter';
 import { DataContext } from './context/data-context';
 import GridData from './grid-data';
 import { assertExpectedHtmlElement } from './grid-header.spec';
@@ -12,8 +11,8 @@ import {
   ensureElementDisplayed,
   ensureElementHidden
 } from './cell-value/cell-value.spec';
-import { executeSorting } from './ordering/execute-sorting';
 import { DataManager } from './csv/data-manager';
+import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 describe('GridData', () => {
   const lang = 'en';
@@ -60,16 +59,8 @@ describe('GridData', () => {
   };
 
   it('should display expected grid data without filters', () => {
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: NO_FILTER,
-      filtersEnabled: [],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: ['pos', 'name', 'pts', 'club']
-    };
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
 
     const grid = renderer
       .create(
@@ -100,16 +91,10 @@ describe('GridData', () => {
     filter.selectedValue = 'bb';
     filter.filteredColumnIndex = 8;
 
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: filter,
-      filtersEnabled: [filter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: ['pos', 'name', 'pts', 'club']
-    };
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = filter;
+    uiSelections.filtersEnabled = [filter];
+    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
 
     const grid = renderer
       .create(
@@ -135,17 +120,13 @@ describe('GridData', () => {
   });
 
   it('should display expected grid data sorted by name asc', () => {
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: NO_FILTER,
-      filtersEnabled: [],
-      order: 'asc',
-      orderBy: 'name',
-      orderEnabledColumns: ['name'],
-      selectedRow: undefined,
-      shownColumns: ['pos', 'name', 'pts', 'club']
-    };
-    executeSorting('name', uiSelections, csv);
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.order = 'asc';
+    uiSelections.orderBy = 'name';
+    uiSelections.orderEnabledColumns = ['name'];
+    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
+
+    csv.sort('name', 'asc');
 
     const grid = renderer
       .create(

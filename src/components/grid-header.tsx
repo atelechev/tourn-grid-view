@@ -7,12 +7,11 @@ import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 import { getColumnVisibilityStyle } from './columns/visibility-utils';
 import { columnStylesHandler } from './columns/column-styles-handler';
-import { executeSorting } from './ordering/execute-sorting';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { DataContext } from './context/data-context';
-import { getSortDirection, isSortEnabledOn } from './ordering/sorting-utils';
 import { DataManager } from './csv/data-manager';
+import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 const headerCellStyle = css({
   fontSize: '12px',
@@ -27,7 +26,7 @@ export default class GridHeader extends React.Component<
       <DataContext.Consumer>
         {(csv: DataManager) => (
           <UiSelectionsContext.Consumer>
-            {(uiSelections: UiSelectionsContext) => (
+            {(uiSelections: UiSelectionsManager) => (
               <TableHead>
                 <TableRow>
                   {csv.header.map((columnName, index) => {
@@ -39,19 +38,11 @@ export default class GridHeader extends React.Component<
                       <TableCell
                         key={index}
                         css={calculatedStyles}
-                        sortDirection={getSortDirection(
-                          columnName,
-                          uiSelections
-                        )}
+                        sortDirection={uiSelections.getSortDirection(columnName)}
                       >
                         <TableSortLabel
-                          active={
-                            uiSelections.interactive &&
-                            uiSelections.orderBy === columnName
-                          }
-                          hideSortIcon={
-                            !isSortEnabledOn(columnName, uiSelections)
-                          }
+                          active={uiSelections.isSortActive(columnName)}
+                          hideSortIcon={!uiSelections.isSortEnabledOn(columnName)}
                           direction={uiSelections.order}
                           onClick={_ =>
                             this.handleSorting(columnName, uiSelections, csv)
@@ -73,11 +64,13 @@ export default class GridHeader extends React.Component<
 
   private handleSorting(
     columnName: string,
-    uiSelections: UiSelectionsContext,
+    uiSelections: UiSelectionsManager,
     csv: DataManager
   ): void {
-    executeSorting(columnName, uiSelections, csv);
-    this.props.forceUpdate();
+    if (uiSelections.applyOrderBy(columnName)) {
+      csv.sort(columnName, uiSelections.order);
+      this.props.forceUpdate();
+    }
   }
 
   private calculateStyles(

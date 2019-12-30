@@ -21,6 +21,7 @@ import { NO_FILTER } from './filters/no-filter';
 import { initializeFilters } from './filters/filters-initialization-util';
 import { DataContext } from './context/data-context';
 import { DataManager } from './csv/data-manager';
+import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 const tableStyle = css({
   minWidth: 600
@@ -56,7 +57,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
 
   private readonly _i18n: I18nContext;
 
-  private readonly _uiSelections: UiSelectionsContext;
+  private readonly _uiSelections: UiSelectionsManager;
 
   constructor(props: GridProperties) {
     super(props);
@@ -72,7 +73,8 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     };
   }
 
-  private initUiSelectionsContext(): UiSelectionsContext {
+  private initUiSelectionsContext(): UiSelectionsManager {
+    const uiSelections = new UiSelectionsManager();
     const isInteractive =
       this.props.interactive !== undefined ? this.props.interactive : true;
     const shownColumns = calculateVisibleColumns(
@@ -80,16 +82,15 @@ export default class TournamentGrid extends React.Component<GridProperties> {
       this.props.hiddenColumns
     );
     const enabledFilters = initializeFilters(this.props.useFilters, this._csv);
-    return {
-      interactive: isInteractive,
-      filterActive: NO_FILTER,
-      filtersEnabled: enabledFilters,
-      order: 'desc',
-      orderBy: COLUMN_PLACE,
-      orderEnabledColumns: this.props.enableOrderingColumns,
-      selectedRow: undefined,
-      shownColumns: shownColumns
-    };
+    uiSelections.interactive = isInteractive;
+    uiSelections.filterActive = NO_FILTER;
+    uiSelections.filtersEnabled = enabledFilters;
+    uiSelections.order = 'asc';
+    uiSelections.orderBy = COLUMN_PLACE;
+    uiSelections.orderEnabledColumns = this.props.enableOrderingColumns;
+    uiSelections.selectedRow = undefined;
+    uiSelections.shownColumns = shownColumns;
+    return uiSelections;
   }
 
   public render(): ReactNode {

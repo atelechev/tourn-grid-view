@@ -5,6 +5,7 @@ import { I18nContext } from '../context/i18n-context';
 import FilteredItemSelector from './filtered-items-selector';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsContext } from '../context/ui-selections-context';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 describe('FilteredItemSelector', () => {
   const lang = 'en';
@@ -18,7 +19,7 @@ describe('FilteredItemSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilteredItemSelector forceUpdate={() => {}} />
+          <FilteredItemSelector forceUpdate={() => { }} />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -30,7 +31,7 @@ describe('FilteredItemSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilteredItemSelector forceUpdate={() => {}} />
+          <FilteredItemSelector forceUpdate={() => { }} />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -49,21 +50,15 @@ describe('FilteredItemSelector', () => {
     const selectedFilter = new SimpleFilter('test');
     selectedFilter.selectableOptions = ['A', 'B'];
     selectedFilter.selectedValue = 'B';
-    const uiSelections: UiSelectionsContext = {
-      interactive: true,
-      filterActive: selectedFilter,
-      filtersEnabled: [selectedFilter],
-      order: 'desc',
-      orderBy: 'pos',
-      orderEnabledColumns: [],
-      selectedRow: undefined,
-      shownColumns: []
-    };
+
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.filterActive = selectedFilter;
+    uiSelections.filtersEnabled = [selectedFilter];
     const element = renderer
       .create(
         <UiSelectionsContext.Provider value={uiSelections}>
           <I18nContext.Provider value={i18n}>
-            <FilteredItemSelector forceUpdate={() => {}} />
+            <FilteredItemSelector forceUpdate={() => { }} />
           </I18nContext.Provider>
         </UiSelectionsContext.Provider>
       )

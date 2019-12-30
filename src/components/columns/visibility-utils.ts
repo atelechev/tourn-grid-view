@@ -4,7 +4,7 @@ import { SerializedStyles } from '@emotion/core';
 import { isRoundColumn } from './round';
 import { visibleStyle, hiddenStyle } from './column-styles';
 import { COLUMN_ROUNDS } from './names';
-import { UiSelectionsContext } from '../context/ui-selections-context';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 export const isAlwaysVisibleColumn = (column: string): boolean =>
   isPlaceColumn(column) || isNameColumn(column);
@@ -74,7 +74,7 @@ export const buildColumnsVisibilityMap = (
 
 export const isRowVisible = (
   row: Array<any>,
-  uiSelections: UiSelectionsContext,
+  uiSelections: UiSelectionsManager,
   placeColumnIndex: number,
   opponentPlacesOfSelected: Set<number>
 ): boolean => {

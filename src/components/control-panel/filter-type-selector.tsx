@@ -7,6 +7,7 @@ import { UiSelectionsContext } from '../context/ui-selections-context';
 import { VALUE_NO_FILTER } from '../filters/filter';
 import { NO_FILTER } from '../filters/no-filter';
 import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
+import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 const selectorStyle = css({
   minWidth: '160px',
@@ -19,11 +20,11 @@ const itemStyle = css({
 
 export default class FilterTypeSelector extends React.Component<
   UpdateViewTriggerAware
-> {
+  > {
   public render(): ReactNode {
     return (
       <UiSelectionsContext.Consumer>
-        {(uiSelections: UiSelectionsContext) => (
+        {(uiSelections: UiSelectionsManager) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => {
               const filterNames = [NO_FILTER]
@@ -60,15 +61,16 @@ export default class FilterTypeSelector extends React.Component<
 
   private filtersSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsContext
+    uiSelections: UiSelectionsManager
   ): void {
     const newSelection = event.target.value as string;
     this.setActiveFilter(uiSelections, newSelection);
     this.props.forceUpdate();
   }
 
+  // TODO refactor
   private setActiveFilter(
-    uiSelections: UiSelectionsContext,
+    uiSelections: UiSelectionsManager,
     filterName: string
   ): void {
     if (!filterName || filterName === VALUE_NO_FILTER) {
