@@ -6,8 +6,8 @@ import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
-import { Csv } from '../csv/csv';
 import { DataContext } from '../context/data-context';
+import { DataManager } from '../csv/data-manager';
 
 const itemStyle = css({
   textTransform: 'capitalize'
@@ -17,7 +17,7 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: Csv) => (
+        {(csv: DataManager) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => (
               <UiSelectionsContext.Consumer>

@@ -1,8 +1,8 @@
-import { Csv } from '../csv/csv';
 import { Filter } from './filter';
 import { SimpleFilter } from './simple-filter';
 import RatingFilter from './rating-filter';
 import { isRatingColumn } from '../columns/rating';
+import { DataManager } from '../csv/data-manager';
 
 const initFilter = (filterName: string): SimpleFilter | RatingFilter => {
   if (isRatingColumn(filterName)) {
@@ -13,7 +13,7 @@ const initFilter = (filterName: string): SimpleFilter | RatingFilter => {
 
 export const initializeFilters = (
   filterNames: Array<string>,
-  csv: Csv
+  csv: DataManager
 ): Array<Filter> => {
   if (!csv) {
     throw Error('csv must be defined for filters initialization.');
@@ -25,9 +25,7 @@ export const initializeFilters = (
     .filter(name => !!name)
     .map(filterName => {
       const filterNameNormalized = filterName.trim().toLowerCase();
-      const columnIndex = csv.header.findIndex(
-        colName => colName === filterNameNormalized
-      );
+      const columnIndex = csv.getColumnIndex(filterNameNormalized);
       if (columnIndex < 0) {
         return undefined;
       } else {

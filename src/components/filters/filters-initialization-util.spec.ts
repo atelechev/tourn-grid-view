@@ -1,16 +1,15 @@
 import { initializeFilters } from './filters-initialization-util';
-import { Csv } from '../csv/csv';
 import { Filter } from './filter';
+import { DataManager } from '../csv/data-manager';
 
 describe('initializeFilters', () => {
-  const sampleCsv: Csv = {
-    header: ['pos', 'name', 'fed', 'rating'],
-    data: [
-      [1, 'Player A', 'FRA', 1960],
-      [2, 'Player B', 'GER', 1940],
-      [3, 'Player C', 'BRA', 2105]
-    ]
-  };
+  const sampleCsv = new DataManager();
+  sampleCsv.header = ['pos', 'name', 'fed', 'rating'];
+  sampleCsv.data = [
+    [1, 'Player A', 'FRA', 1960],
+    [2, 'Player B', 'GER', 1940],
+    [3, 'Player C', 'BRA', 2105]
+  ];
 
   it('should throw expected error if the csv arg is undefined', () => {
     const message = 'csv must be defined for filters initialization.';

@@ -1,11 +1,7 @@
 import React from 'react';
-import { Csv } from '../csv/csv';
+import { DataManager } from '../csv/data-manager';
 
-export interface DataContext extends Csv {}
 
-const defaultDataContext: DataContext = {
-  header: [],
-  data: []
-};
+const defaultDataContext = new DataManager();
 
-export const DataContext = React.createContext<DataContext>(defaultDataContext);
+export const DataContext = React.createContext<DataManager>(defaultDataContext);

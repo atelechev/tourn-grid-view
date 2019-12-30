@@ -12,9 +12,9 @@ describe('loadCsv', () => {
     const id = 'data-wrapper';
     createInlineCsv(
       'Pos,Name,Rating,Fed,R1,R2,R3,Pts,Bu,Club\n' +
-        '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
-        '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
-        '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
+      '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
+      '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
+      '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
       id
     );
     const csv = loadCsv(id);
@@ -97,7 +97,7 @@ describe('loadCsv', () => {
       id
     );
     expect(() => loadCsv(id)).toThrow(
-      'Empty values are not allowed in the CSV header: Pos,,Name'
+      'Empty and undefined values are not allowed in the CSV header: \'Pos,,Name\''
     );
   });
 
@@ -108,7 +108,7 @@ describe('loadCsv', () => {
       id
     );
     expect(() => loadCsv(id)).toThrow(
-      'Empty values are not allowed in the CSV header: Pos,  ,Name'
+      'Empty and undefined values are not allowed in the CSV header: \'Pos,  ,Name\''
     );
   });
 

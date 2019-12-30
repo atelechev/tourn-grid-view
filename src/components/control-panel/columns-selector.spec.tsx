@@ -5,8 +5,8 @@ import { I18nContext } from '../context/i18n-context';
 import { ColumnsSelector } from './columns-selector';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsContext } from '../context/ui-selections-context';
-import { Csv } from '../csv/csv';
 import { DataContext } from '../context/data-context';
+import { DataManager } from '../csv/data-manager';
 
 describe('ColumnsSelector', () => {
   const lang = 'en';
@@ -20,7 +20,7 @@ describe('ColumnsSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <ColumnsSelector forceUpdate={() => {}} />
+          <ColumnsSelector forceUpdate={() => { }} />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -29,17 +29,18 @@ describe('ColumnsSelector', () => {
   });
 
   it('should be enabled if source data and ui selections are set properly', () => {
-    const csv: Csv = {
-      header: ['pos', 'name', 'fed', 'club', 'pts'],
-      data: [
-        [1, 'A', 'FRA', 'aa', 2],
-        [2, 'B', 'GER', 'bb', 1.5],
-        [3, 'C', 'ESP', 'cc', 1]
-      ]
-    };
+    const csv: DataManager = new DataManager();
+    csv.header = ['pos', 'name', 'fed', 'club', 'pts'];
+    csv.data = [
+      [1, 'A', 'FRA', 'aa', 2],
+      [2, 'B', 'GER', 'bb', 1.5],
+      [3, 'C', 'ESP', 'cc', 1]
+    ];
+
     const selectedFilter = new SimpleFilter('test');
     selectedFilter.selectableOptions = ['A', 'B'];
     selectedFilter.selectedValue = 'B';
+
     const uiSelections: UiSelectionsContext = {
       interactive: true,
       filterActive: selectedFilter,
@@ -55,7 +56,7 @@ describe('ColumnsSelector', () => {
         <DataContext.Provider value={csv}>
           <UiSelectionsContext.Provider value={uiSelections}>
             <I18nContext.Provider value={i18n}>
-              <ColumnsSelector forceUpdate={() => {}} />
+              <ColumnsSelector forceUpdate={() => { }} />
             </I18nContext.Provider>
           </UiSelectionsContext.Provider>
         </DataContext.Provider>

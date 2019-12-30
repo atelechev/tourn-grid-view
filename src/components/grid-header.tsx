@@ -10,9 +10,9 @@ import { columnStylesHandler } from './columns/column-styles-handler';
 import { executeSorting } from './ordering/execute-sorting';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
-import { Csv } from './csv/csv';
 import { DataContext } from './context/data-context';
 import { getSortDirection, isSortEnabledOn } from './ordering/sorting-utils';
+import { DataManager } from './csv/data-manager';
 
 const headerCellStyle = css({
   fontSize: '12px',
@@ -25,7 +25,7 @@ export default class GridHeader extends React.Component<
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: Csv) => (
+        {(csv: DataManager) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsContext) => (
               <TableHead>
@@ -74,7 +74,7 @@ export default class GridHeader extends React.Component<
   private handleSorting(
     columnName: string,
     uiSelections: UiSelectionsContext,
-    csv: Csv
+    csv: DataManager
   ): void {
     executeSorting(columnName, uiSelections, csv);
     this.props.forceUpdate();

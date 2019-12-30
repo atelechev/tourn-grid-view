@@ -1,22 +1,16 @@
-import { Csv } from './csv';
-import { isRoundColumn } from '../columns/round';
+import { DataManager } from './data-manager';
 
 const EMPTY_SET = new Set<number>();
 
 export const extractOpponentPlaces = (
   selectedRow: Array<any>,
-  csv: Csv
+  csv: DataManager
 ): Set<number> => {
   if (!selectedRow || selectedRow.length === 0) {
     return EMPTY_SET;
   }
   const extractPosition = /\d+/g;
-  // TODO should not recalculate it on each call, but have it pre-calculated
-  const roundColumns = csv.header.filter(col => isRoundColumn(col));
-  const roundColumnIndices = roundColumns.map(roundCol =>
-    csv.header.findIndex(headerCol => headerCol === roundCol)
-  );
-  const gameResultValues = roundColumnIndices
+  const gameResultValues = csv.roundColumnsIndices
     .map(indexRoundColumn => selectedRow[indexRoundColumn])
     .filter(gameResult => !!gameResult)
     .map(gameResult => {
@@ -28,4 +22,15 @@ export const extractOpponentPlaces = (
     })
     .filter(pos => pos > -1);
   return new Set(gameResultValues);
+};
+
+export const normalizeColumn = (column: string): string | undefined => {
+  if (!column) {
+    return undefined;
+  }
+  const normalized = column.trim().toLowerCase();
+  if (normalized.length > 0) {
+    return normalized;
+  }
+  return undefined;
 };

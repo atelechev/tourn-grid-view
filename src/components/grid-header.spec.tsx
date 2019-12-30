@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { Csv } from './csv/csv';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
 import { DataContext } from './context/data-context';
@@ -9,6 +8,7 @@ import {
   ensureElementDisplayed,
   ensureElementHidden
 } from './cell-value/cell-value.spec';
+import { DataManager } from './csv/data-manager';
 
 export const assertExpectedHtmlElement = (
   elt: any,
@@ -19,19 +19,18 @@ export const assertExpectedHtmlElement = (
 };
 
 describe('GridHeader', () => {
-  const csv: Csv = {
-    header: ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'],
-    data: [
-      [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
-      [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
-      [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
-      [4, 'D', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
-      [5, 'E', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
-      [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
-      [7, 'G', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
-      [8, 'H', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
-    ]
-  };
+  const csv = new DataManager();
+  csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'];
+  csv.data = [
+    [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
+    [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
+    [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
+    [4, 'D', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
+    [5, 'E', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
+    [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
+    [7, 'G', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
+    [8, 'H', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
+  ];
 
   const uiSelections: UiSelectionsContext = {
     interactive: true,
@@ -64,7 +63,7 @@ describe('GridHeader', () => {
       .create(
         <DataContext.Provider value={csv}>
           <UiSelectionsContext.Provider value={uiSelections}>
-            <GridHeader forceUpdate={() => {}} />
+            <GridHeader forceUpdate={() => { }} />
           </UiSelectionsContext.Provider>
         </DataContext.Provider>
       )

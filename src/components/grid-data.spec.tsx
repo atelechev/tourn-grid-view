@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { Csv } from './csv/csv';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
 import { DataContext } from './context/data-context';
@@ -14,6 +13,7 @@ import {
   ensureElementHidden
 } from './cell-value/cell-value.spec';
 import { executeSorting } from './ordering/execute-sorting';
+import { DataManager } from './csv/data-manager';
 
 describe('GridData', () => {
   const lang = 'en';
@@ -23,19 +23,18 @@ describe('GridData', () => {
     i18nProvider: getI18nProvider(lang)
   };
 
-  const csv: Csv = {
-    header: ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'],
-    data: [
-      [1, 'E', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
-      [2, 'G', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
-      [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
-      [4, 'H', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
-      [5, 'A', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
-      [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
-      [7, 'B', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
-      [8, 'D', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
-    ]
-  };
+  const csv = new DataManager();
+  csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'];
+  csv.data = [
+    [1, 'E', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
+    [2, 'G', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
+    [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
+    [4, 'H', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
+    [5, 'A', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
+    [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
+    [7, 'B', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
+    [8, 'D', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
+  ];
 
   const assertCellValueExpected = (cell: any, expected: any): void => {
     assertExpectedHtmlElement(cell, 'td');
@@ -77,7 +76,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData forceUpdate={() => { }} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -117,7 +116,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData forceUpdate={() => { }} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -153,7 +152,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData forceUpdate={() => { }} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>

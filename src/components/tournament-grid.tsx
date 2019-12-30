@@ -20,6 +20,7 @@ import { COLUMN_PLACE } from './columns/names';
 import { NO_FILTER } from './filters/no-filter';
 import { initializeFilters } from './filters/filters-initialization-util';
 import { DataContext } from './context/data-context';
+import { DataManager } from './csv/data-manager';
 
 const tableStyle = css({
   minWidth: 600
@@ -51,7 +52,7 @@ const theme = createMuiTheme({
 });
 
 export default class TournamentGrid extends React.Component<GridProperties> {
-  private readonly _csv: DataContext;
+  private readonly _csv: DataManager;
 
   private readonly _i18n: I18nContext;
 

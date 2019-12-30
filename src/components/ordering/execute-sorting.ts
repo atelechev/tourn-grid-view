@@ -1,19 +1,17 @@
 import { compareOptionalValues } from './comparators';
 import { UiSelectionsContext } from '../context/ui-selections-context';
-import { Csv } from '../csv/csv';
+import { DataManager } from '../csv/data-manager';
 
 // TODO add tests
 export const executeSorting = (
   column: string,
   uiSelections: UiSelectionsContext,
-  csv: Csv
+  csv: DataManager
 ): void => {
   if (!uiSelections.interactive) {
     return;
   }
-  const indexSortColumn = csv.header.findIndex(
-    headerColumn => headerColumn === column
-  );
+  const indexSortColumn = csv.getColumnIndex(column);
   const enabledOnThisColumn =
     uiSelections.orderEnabledColumns.findIndex(
       orderEnabled => orderEnabled === column

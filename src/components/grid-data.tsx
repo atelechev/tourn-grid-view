@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import { CellValue } from './cell-value/cell-value';
-import { isPlaceColumn } from './columns/place';
 import {
   buildColumnsVisibilityMap,
   isRowVisible
@@ -12,10 +11,10 @@ import {
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { NO_FILTER } from './filters/no-filter';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
-import { Csv } from './csv/csv';
 import { DataContext } from './context/data-context';
 import { extractOpponentPlaces } from './csv/data-utils';
 import { hiddenStyle, visibleStyle } from './columns/column-styles';
+import { DataManager } from './csv/data-manager';
 
 const rowHoverStyle = css({
   cursor: 'pointer',
@@ -30,15 +29,12 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: Csv) => (
+        {(csv: DataManager) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsContext) => {
               const columnVisibility = buildColumnsVisibilityMap(
                 csv.header,
                 uiSelections.shownColumns
-              );
-              const placeColumnIndex = csv.header.findIndex(col =>
-                isPlaceColumn(col)
               );
               const opponentPlacesOfSelected = extractOpponentPlaces(
                 uiSelections.selectedRow,
@@ -50,7 +46,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
                     const rowStyles = this.calculateRowStyles(
                       row,
                       uiSelections,
-                      placeColumnIndex,
+                      csv.positionColumnIndex,
                       opponentPlacesOfSelected
                     );
                     return (
