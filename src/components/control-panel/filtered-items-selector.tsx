@@ -19,7 +19,7 @@ const itemStyle = css({
 
 export default class FilteredItemSelector extends React.Component<
   UpdateViewTriggerAware
-  > {
+> {
   public render(): ReactNode {
     return (
       <UiSelectionsContext.Consumer>

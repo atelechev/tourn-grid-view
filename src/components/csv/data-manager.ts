@@ -5,9 +5,7 @@ import { isRoundColumn } from '../columns/round';
 import { Order } from '../ui-selections/order';
 import { compareOptionalValues } from '../ordering/comparators';
 
-
 export class DataManager implements Csv {
-
   private _header: Array<string>;
 
   private readonly _columnIndices: Map<string, number>;
@@ -34,7 +32,9 @@ export class DataManager implements Csv {
       const normalized = normalizeColumn(column);
       if (!normalized) {
         throw Error(
-          `Empty and undefined values are not allowed in the CSV header: \'${hdr.join(',')}\'`
+          `Empty and undefined values are not allowed in the CSV header: \'${hdr.join(
+            ','
+          )}\'`
         );
       }
       return normalized;
@@ -62,8 +62,9 @@ export class DataManager implements Csv {
   }
 
   private updateRoundColumnsIndices(): void {
-    this._roundColumnsIndices =
-      this._roundColumns.map(roundColumn => this._columnIndices.get(roundColumn));
+    this._roundColumnsIndices = this._roundColumns.map(roundColumn =>
+      this._columnIndices.get(roundColumn)
+    );
   }
 
   public set header(hdr: Array<string>) {
@@ -89,9 +90,11 @@ export class DataManager implements Csv {
     dt.forEach(row => {
       if (!row || row.length !== expectedColumnsCount) {
         const rowSerialized = row ? row.join(',') : 'undefined';
-        throw Error(`data rows must contain same number of elements than the header, but got: \'${rowSerialized}\'`);
+        throw Error(
+          `data rows must contain same number of elements than the header, but got: \'${rowSerialized}\'`
+        );
       }
-    })
+    });
     this._data = dt;
   }
 
@@ -131,5 +134,4 @@ export class DataManager implements Csv {
       return order === 'desc' ? -compare : compare;
     });
   }
-
 }

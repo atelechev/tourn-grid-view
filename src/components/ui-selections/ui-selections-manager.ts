@@ -1,11 +1,10 @@
-import { Filter } from '../filters/filter';
+import { Filter, VALUE_NO_FILTER } from '../filters/filter';
 import { Order } from './order';
 import { NO_FILTER } from '../filters/no-filter';
 import { COLUMN_PLACE } from '../columns/names';
 import { SortDirection } from '@material-ui/core';
 
 export class UiSelectionsManager {
-
   private _interactive: boolean;
   private _filterActive: Filter;
   private _filtersEnabled: Array<Filter>;
@@ -35,7 +34,12 @@ export class UiSelectionsManager {
   }
 
   public set filterActive(fActive: Filter) {
-    this._filterActive = fActive;
+    if (!fActive) {
+      this._filterActive = NO_FILTER;
+    } else {
+      const isEnabled = this._filtersEnabled.findIndex(f => f === fActive) > -1;
+      this._filterActive = isEnabled ? fActive : NO_FILTER;
+    }
   }
 
   public get filterActive(): Filter {
@@ -112,8 +116,7 @@ export class UiSelectionsManager {
   }
 
   public isSortActive(columnName: string): boolean {
-    return this._interactive &&
-      this._orderBy === columnName;
+    return this._interactive && this._orderBy === columnName;
   }
 
   public applyOrderBy(columnName: string): boolean {
@@ -129,4 +132,22 @@ export class UiSelectionsManager {
     this._order = this._order === 'desc' ? 'asc' : 'desc';
   }
 
+  public toggleRowSelection(row: Array<any>): boolean {
+    if (!this._interactive) {
+      return false;
+    }
+    if (row === this._selectedRow) {
+      this._selectedRow = undefined;
+    } else {
+      this._selectedRow = row;
+      this._filterActive = NO_FILTER;
+    }
+    return true;
+  }
+
+  public useFilter(filterName: string): void {
+    this.filterActive = this._filtersEnabled.find(
+      filter => filter.name === filterName
+    );
+  }
 }

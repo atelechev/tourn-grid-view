@@ -67,7 +67,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => { }} />
+              <GridData forceUpdate={() => {}} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -92,8 +92,8 @@ describe('GridData', () => {
     filter.filteredColumnIndex = 8;
 
     const uiSelections = new UiSelectionsManager();
-    uiSelections.filterActive = filter;
     uiSelections.filtersEnabled = [filter];
+    uiSelections.filterActive = filter;
     uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
 
     const grid = renderer
@@ -101,7 +101,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => { }} />
+              <GridData forceUpdate={() => {}} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -133,7 +133,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => { }} />
+              <GridData forceUpdate={() => {}} />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>

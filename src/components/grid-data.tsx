@@ -9,7 +9,6 @@ import {
   isRowVisible
 } from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
-import { NO_FILTER } from './filters/no-filter';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { DataContext } from './context/data-context';
 import { extractOpponentPlaces } from './csv/data-utils';
@@ -54,7 +53,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
                       <TableRow
                         key={indexRow}
                         css={rowStyles}
-                        onClick={_ => this.selectRow(row, uiSelections)}
+                        onClick={_ => this.handleSelectRow(row, uiSelections)}
                       >
                         {row.map((cellValue, indexCell) => {
                           const column = csv.header[indexCell];
@@ -79,18 +78,13 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
     );
   }
 
-  private selectRow(row: Array<any>, uiSelections: UiSelectionsManager): void {
-    // TODO refactor
-    if (!uiSelections.interactive) {
-      return;
+  private handleSelectRow(
+    row: Array<any>,
+    uiSelections: UiSelectionsManager
+  ): void {
+    if (uiSelections.toggleRowSelection(row)) {
+      this.props.forceUpdate();
     }
-    if (row === uiSelections.selectedRow) {
-      uiSelections.selectedRow = undefined;
-    } else {
-      uiSelections.selectedRow = row;
-      uiSelections.filterActive = NO_FILTER;
-    }
-    this.props.forceUpdate();
   }
 
   private calculateRowStyles(

@@ -23,19 +23,27 @@ describe('DataManager', () => {
     const dm = new DataManager();
 
     it('should throw expected error if arg is undefined', () => {
-      expect(() => dm.header = undefined).toThrow('header must be a non-empty array.');
+      expect(() => (dm.header = undefined)).toThrow(
+        'header must be a non-empty array.'
+      );
     });
 
     it('should throw expected error if arg is empty', () => {
-      expect(() => dm.header = []).toThrow('header must be a non-empty array.');
+      expect(() => (dm.header = [])).toThrow(
+        'header must be a non-empty array.'
+      );
     });
 
     it('should throw expected error if arg contains an undefined element', () => {
-      expect(() => dm.header = ['a', undefined]).toThrow('Empty and undefined values are not allowed in the CSV header: \'a,\'');
+      expect(() => (dm.header = ['a', undefined])).toThrow(
+        "Empty and undefined values are not allowed in the CSV header: 'a,'"
+      );
     });
 
     it('should throw expected error if arg contains an empty element', () => {
-      expect(() => dm.header = ['a', '  ']).toThrow('Empty and undefined values are not allowed in the CSV header: \'a,  \'');
+      expect(() => (dm.header = ['a', '  '])).toThrow(
+        "Empty and undefined values are not allowed in the CSV header: 'a,  '"
+      );
     });
 
     it('should set header to the expected value if arg is valid', () => {
@@ -77,27 +85,36 @@ describe('DataManager', () => {
     const dm = new DataManager();
 
     it('should throw expected error if arg is undefined', () => {
-      expect(() => dm.data = undefined).toThrow('data must not be undefined or empty');
+      expect(() => (dm.data = undefined)).toThrow(
+        'data must not be undefined or empty'
+      );
     });
 
     it('should throw expected error if arg is empty', () => {
-      expect(() => dm.data = []).toThrow('data must not be undefined or empty');
+      expect(() => (dm.data = [])).toThrow(
+        'data must not be undefined or empty'
+      );
     });
 
     it('should throw expected error if arg has an undefined element', () => {
       dm.header = ['a', 'b', 'c'];
-      expect(() => dm.data = [undefined]).toThrow('data rows must contain same number of elements than the header, but got: \'undefined\'');
+      expect(() => (dm.data = [undefined])).toThrow(
+        "data rows must contain same number of elements than the header, but got: 'undefined'"
+      );
     });
 
     it('should throw expected error if arg has less columns than the header', () => {
       dm.header = ['a', 'b', 'c'];
-      expect(() => dm.data = [[1, 'test']]).toThrow('data rows must contain same number of elements than the header, but got: \'1,test\'');
+      expect(() => (dm.data = [[1, 'test']])).toThrow(
+        "data rows must contain same number of elements than the header, but got: '1,test'"
+      );
     });
 
     it('should throw expected error if arg has more columns than the header', () => {
       dm.header = ['a'];
-      expect(() => dm.data = [[1, 'test']]).toThrow('data rows must contain same number of elements than the header, but got: \'1,test\'');
-
+      expect(() => (dm.data = [[1, 'test']])).toThrow(
+        "data rows must contain same number of elements than the header, but got: '1,test'"
+      );
     });
 
     it('should set the data to the expected value', () => {

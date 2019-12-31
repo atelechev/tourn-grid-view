@@ -64,23 +64,8 @@ export default class FilterTypeSelector extends React.Component<
     uiSelections: UiSelectionsManager
   ): void {
     const newSelection = event.target.value as string;
-    this.setActiveFilter(uiSelections, newSelection);
+    uiSelections.useFilter(newSelection);
     this.props.forceUpdate();
   }
 
-  // TODO refactor
-  private setActiveFilter(
-    uiSelections: UiSelectionsManager,
-    filterName: string
-  ): void {
-    if (!filterName || filterName === VALUE_NO_FILTER) {
-      uiSelections.filterActive = NO_FILTER;
-      return;
-    }
-    const filterNameNormalized = filterName.trim().toLowerCase();
-    uiSelections.filterActive =
-      uiSelections.filtersEnabled.find(
-        filter => filter.name === filterNameNormalized
-      ) || NO_FILTER;
-  }
 }

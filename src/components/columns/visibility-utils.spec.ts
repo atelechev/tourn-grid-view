@@ -18,7 +18,6 @@ import {
 } from './visibility-utils';
 import { hiddenStyle, visibleStyle } from './column-styles';
 import { SimpleFilter } from '../filters/simple-filter';
-import { NO_FILTER } from '../filters/no-filter';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 describe('isAlwaysVisibleColumn', () => {
@@ -241,8 +240,8 @@ describe('isRowVisible', () => {
     filter.selectedValue = 'bb';
 
     const uiSelections = new UiSelectionsManager();
-    uiSelections.filterActive = filter;
     uiSelections.filtersEnabled = [filter];
+    uiSelections.filterActive = filter;
 
     const row = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);
@@ -253,8 +252,8 @@ describe('isRowVisible', () => {
     filter.selectedValue = 'aa';
 
     const uiSelections = new UiSelectionsManager();
-    uiSelections.filterActive = filter;
     uiSelections.filtersEnabled = [filter];
+    uiSelections.filterActive = filter;
 
     const row = [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'];
     const opponentsOfSelected = new Set([7, 5, 2, 4, 3]);

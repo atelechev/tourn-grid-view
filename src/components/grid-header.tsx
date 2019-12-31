@@ -20,7 +20,7 @@ const headerCellStyle = css({
 
 export default class GridHeader extends React.Component<
   UpdateViewTriggerAware
-  > {
+> {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
@@ -38,11 +38,15 @@ export default class GridHeader extends React.Component<
                       <TableCell
                         key={index}
                         css={calculatedStyles}
-                        sortDirection={uiSelections.getSortDirection(columnName)}
+                        sortDirection={uiSelections.getSortDirection(
+                          columnName
+                        )}
                       >
                         <TableSortLabel
                           active={uiSelections.isSortActive(columnName)}
-                          hideSortIcon={!uiSelections.isSortEnabledOn(columnName)}
+                          hideSortIcon={
+                            !uiSelections.isSortEnabledOn(columnName)
+                          }
                           direction={uiSelections.order}
                           onClick={_ =>
                             this.handleSorting(columnName, uiSelections, csv)

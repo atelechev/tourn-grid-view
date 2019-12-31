@@ -1,5 +1,6 @@
 import { UiSelectionsManager } from './ui-selections-manager';
 import { NO_FILTER } from '../filters/no-filter';
+import { SimpleFilter } from '../filters/simple-filter';
 
 describe('UiSelectionsManager', () => {
   describe('constructor', () => {
@@ -13,6 +14,30 @@ describe('UiSelectionsManager', () => {
       expect(usm.orderEnabledColumns).toEqual([]);
       expect(usm.selectedRow).toBeUndefined();
       expect(usm.shownColumns).toEqual([]);
+    });
+  });
+
+  describe('set filterActive', () => {
+    it('should set NO_FILTER if arg is undefined', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.filterActive = undefined;
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+
+    it('should set NO_FILTER if arg is not among the enabled filters', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = new SimpleFilter('fed');
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+
+    it('should set expected filter if it is among the enabled filters', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      expect(uiSelections.filterActive).toEqual(filter);
     });
   });
 
@@ -129,5 +154,90 @@ describe('UiSelectionsManager', () => {
       expect(uiSelections.orderBy).toEqual('name');
       expect(uiSelections.order).toEqual('asc');
     });
-  })
+  });
+
+  describe('toggleRowSelection', () => {
+    const row = [1, 'A', 'test'];
+
+    it('should return false if uiSelections is not interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = false;
+      expect(uiSelections.toggleRowSelection(row)).toBe(false);
+    });
+
+    it('should set selectedRow and filterActive to expected values if row is valid', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      expect(uiSelections.selectedRow).toBeUndefined();
+      expect(uiSelections.filterActive).toEqual(filter);
+
+      expect(uiSelections.toggleRowSelection(row)).toBe(true);
+      expect(uiSelections.selectedRow).toEqual(row);
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+
+    it('should set selectedRow to undefined and keep filterActive if called with same row as already selected', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      uiSelections.selectedRow = row;
+      expect(uiSelections.selectedRow).toEqual(row);
+      expect(uiSelections.filterActive).toEqual(filter);
+
+      expect(uiSelections.toggleRowSelection(row)).toBe(true);
+      expect(uiSelections.selectedRow).toBeUndefined();
+      expect(uiSelections.filterActive).toEqual(filter);
+    });
+
+    it('should set selectedRow to undefined and reset filterActive if called with undefined', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      uiSelections.selectedRow = row;
+      expect(uiSelections.selectedRow).toEqual(row);
+      expect(uiSelections.filterActive).toEqual(filter);
+
+      expect(uiSelections.toggleRowSelection(undefined)).toBe(true);
+      expect(uiSelections.selectedRow).toBeUndefined();
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+  });
+
+  describe('useFilter', () => {
+    it('should set NO_FILTER if filterName is undefined', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      expect(uiSelections.filterActive).toEqual(filter);
+
+      uiSelections.useFilter(undefined);
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+
+    it('should set NO_FILTER if filterName is not among enabled filters', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      expect(uiSelections.filterActive).toEqual(filter);
+
+      uiSelections.useFilter('fed');
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+    });
+
+    it('should set expected filterActive if filterName is among enabled filters', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      expect(uiSelections.filterActive).toEqual(NO_FILTER);
+
+      uiSelections.useFilter('name');
+      expect(uiSelections.filterActive).toEqual(filter);
+    });
+  });
 });

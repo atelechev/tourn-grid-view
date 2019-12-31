@@ -55,7 +55,7 @@ describe('GridHeader', () => {
       .create(
         <DataContext.Provider value={csv}>
           <UiSelectionsContext.Provider value={uiSelections}>
-            <GridHeader forceUpdate={() => { }} />
+            <GridHeader forceUpdate={() => {}} />
           </UiSelectionsContext.Provider>
         </DataContext.Provider>
       )

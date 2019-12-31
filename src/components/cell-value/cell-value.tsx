@@ -15,7 +15,6 @@ const dataCellStyle = css({
 });
 
 export class CellValue extends React.Component<CellValueProps> {
-
   public render(): ReactNode {
     const calculatedStyles = this.calculateStyles();
     return <TableCell css={calculatedStyles}>{this.renderValue()}</TableCell>;

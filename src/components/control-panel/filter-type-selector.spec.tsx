@@ -19,7 +19,7 @@ describe('FilterTypeSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilterTypeSelector forceUpdate={() => { }} />
+          <FilterTypeSelector forceUpdate={() => {}} />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -33,13 +33,13 @@ describe('FilterTypeSelector', () => {
     selectedFilter.selectedValue = 'B';
 
     const uiSelections = new UiSelectionsManager();
-    uiSelections.filterActive = selectedFilter;
     uiSelections.filtersEnabled = [selectedFilter];
+    uiSelections.filterActive = selectedFilter;
     const element = renderer
       .create(
         <UiSelectionsContext.Provider value={uiSelections}>
           <I18nContext.Provider value={i18n}>
-            <FilterTypeSelector forceUpdate={() => { }} />
+            <FilterTypeSelector forceUpdate={() => {}} />
           </I18nContext.Provider>
         </UiSelectionsContext.Provider>
       )
