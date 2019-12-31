@@ -71,12 +71,11 @@ export default class RatingFilter implements Filter {
   }
 
   public set selectableOptions(allItems: Array<any>) {
-    const uniqueGroupIndices = new Set<number>();
-    allItems.forEach(rating => {
-      if (rating) {
-        uniqueGroupIndices.add(this.getGroupIndexForRating(rating));
-      }
-    });
+    const uniqueGroupIndices = new Set<number>(
+      allItems
+        .filter(item => !!item)
+        .map(item => this.getGroupIndexForRating(item))
+    );
     const indicesOrdered = Array.from(uniqueGroupIndices).sort();
     this._selectableOptions = [VALUE_NO_FILTER];
     indicesOrdered.forEach(index =>
@@ -88,7 +87,9 @@ export default class RatingFilter implements Filter {
     this._selectedIndex = this._allRatingGroups.findIndex(
       group => group === value
     );
-    if (this._selectedIndex > -1) {
+    const isInOptions =
+      this._selectableOptions.findIndex(opt => opt === value) > -1;
+    if (isInOptions && this._selectedIndex > -1) {
       this._selectedValue = value;
     } else {
       this._selectedValue = VALUE_NO_FILTER;

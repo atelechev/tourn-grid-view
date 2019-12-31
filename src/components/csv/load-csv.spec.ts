@@ -72,6 +72,12 @@ describe('loadCsv', () => {
     ]);
   });
 
+  it('should throw expected error if CSV contains only the header', () => {
+    const id = 'data-wrapper-header-only';
+    createInlineCsv('Pos,Name,Rating,Fed,R1,R2,R3,Pts,Bu,Club', id);
+    expect(() => loadCsv(id)).toThrow('No CSV data found!');
+  });
+
   it('should throw expected error if target element id was not found', () => {
     expect(() => loadCsv('another')).toThrow(
       "Target element with id='another' not found!"

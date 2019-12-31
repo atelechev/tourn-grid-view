@@ -26,9 +26,26 @@ describe('GameResultValue', () => {
     return findCssRule(cssClass);
   };
 
-  it('should render an empty result as expected', () => {
+  it('should render an undefined result as expected', () => {
     const props = {
       rawResult: undefined
+    };
+    const element = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <GameResultValue {...props} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
+    ensureElementIsOfType(element, 'div');
+    ensureElementTextContentIs(element, '.');
+    const style = collectCssRulesFor(element);
+    expect(style['align-items']).toEqual('center');
+  });
+
+  it('should render an empty result as expected', () => {
+    const props = {
+      rawResult: '  '
     };
     const element = renderer
       .create(
@@ -97,6 +114,25 @@ describe('GameResultValue', () => {
     const style = collectCssRulesFor(element);
     expect(style['align-items']).toEqual('center');
     expect(style['background-color']).toEqual('#e0e0e0');
+    expect(style['border']).toEqual('1px solid #e0e0e0');
+  });
+
+  it('should render a game result without color marker as expected', () => {
+    const props = {
+      rawResult: '-10'
+    };
+    const element = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <GameResultValue {...props} />
+        </I18nContext.Provider>
+      )
+      .toJSON();
+    ensureElementIsOfType(element, 'div');
+    ensureElementTextContentIs(element, '-10');
+    const style = collectCssRulesFor(element);
+    expect(style['align-items']).toEqual('center');
+    expect(style['background-color']).toBeUndefined();
     expect(style['border']).toEqual('1px solid #e0e0e0');
   });
 });

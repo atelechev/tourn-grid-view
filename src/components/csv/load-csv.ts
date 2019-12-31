@@ -10,15 +10,11 @@ export const loadCsv = (idCsvWrapper: string): DataManager => {
   const parsedCSV: Array<any> = Array.from(d3.csv.parseRows(rawCsv)).filter(
     (row: Array<any>) => row && row.length > 0
   );
-  if (!parsedCSV || parsedCSV.length < 1) {
+  if (!parsedCSV || parsedCSV.length < 2) {
     throw Error('No CSV data found!');
-  }
-  let data: Array<any> = [];
-  if (parsedCSV.length > 1) {
-    data = parsedCSV.slice(1, parsedCSV.length);
   }
   const dataManager = new DataManager();
   dataManager.header = parsedCSV[0];
-  dataManager.data = data;
+  dataManager.data = parsedCSV.slice(1, parsedCSV.length);
   return dataManager;
 };

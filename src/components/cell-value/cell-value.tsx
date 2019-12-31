@@ -34,9 +34,7 @@ export class CellValue extends React.Component<CellValueProps> {
     const visibilityClass = this.props.isVisible ? visibleStyle : hiddenStyle;
     const styles: Array<SerializedStyles> = [dataCellStyle, visibilityClass];
     const columnStyle = columnStylesHandler.get(this.props.column);
-    if (columnStyle) {
-      styles.push(columnStyle);
-    }
+    styles.push(columnStyle);
     return styles;
   }
 }

@@ -20,7 +20,7 @@ const itemStyle = css({
 
 export default class FilterTypeSelector extends React.Component<
   UpdateViewTriggerAware
-  > {
+> {
   public render(): ReactNode {
     return (
       <UiSelectionsContext.Consumer>
@@ -67,5 +67,4 @@ export default class FilterTypeSelector extends React.Component<
     uiSelections.useFilter(newSelection);
     this.props.forceUpdate();
   }
-
 }
