@@ -94,7 +94,6 @@ export default class TournamentGrid extends React.Component<GridProperties> {
   }
 
   public render(): ReactNode {
-    const updateView = () => this.forceUpdate();
     return (
       <ThemeProvider theme={theme}>
         <DataContext.Provider value={this._csv}>
@@ -103,7 +102,7 @@ export default class TournamentGrid extends React.Component<GridProperties> {
               <Grid container spacing={1}>
                 {this._uiSelections.interactive && (
                   <Grid item xs={12}>
-                    <ControlPanel forceUpdate={updateView} />
+                    <ControlPanel />
                   </Grid>
                 )}
                 <Grid item xs={12}>
@@ -113,8 +112,8 @@ export default class TournamentGrid extends React.Component<GridProperties> {
                       size="small"
                       aria-label="Tournament grid table"
                     >
-                      <GridHeader forceUpdate={updateView} />
-                      <GridData forceUpdate={updateView} />
+                      <GridHeader />
+                      <GridData />
                     </Table>
                   </Paper>
                 </Grid>
@@ -124,5 +123,16 @@ export default class TournamentGrid extends React.Component<GridProperties> {
         </DataContext.Provider>
       </ThemeProvider>
     );
+  }
+
+  public componentDidMount(): void {
+    this._uiSelections.broadcastShownColumnChanges$.subscribe((_) => this.forceUpdate());
+    this._uiSelections.broadcastFilterTypeChanges$.subscribe((_) => this.forceUpdate());
+    this._uiSelections.broadcastFilterItemChanges$.subscribe((_) => this.forceUpdate());
+    this._uiSelections.broadcastSortColumnChanges$.subscribe((_) => {
+      this._csv.sort(this._uiSelections.orderBy, this._uiSelections.order);
+      this.forceUpdate();
+    });
+    this._uiSelections.broadcastRowSelectionChanges$.subscribe((_) => this.forceUpdate());
   }
 }

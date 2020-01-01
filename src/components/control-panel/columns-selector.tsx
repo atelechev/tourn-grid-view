@@ -5,7 +5,6 @@ import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
 import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
-import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 import { DataContext } from '../context/data-context';
 import { DataManager } from '../csv/data-manager';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
@@ -14,7 +13,7 @@ const itemStyle = css({
   textTransform: 'capitalize'
 });
 
-export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
+export class ColumnsSelector extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
@@ -63,6 +62,5 @@ export class ColumnsSelector extends React.Component<UpdateViewTriggerAware> {
     uiSelections: UiSelectionsManager
   ): void {
     uiSelections.shownColumns = event.target.value as Array<string>;
-    this.props.forceUpdate();
   }
 }

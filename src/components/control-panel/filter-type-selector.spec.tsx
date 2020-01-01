@@ -19,7 +19,7 @@ describe('FilterTypeSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilterTypeSelector forceUpdate={() => {}} />
+          <FilterTypeSelector />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -39,7 +39,7 @@ describe('FilterTypeSelector', () => {
       .create(
         <UiSelectionsContext.Provider value={uiSelections}>
           <I18nContext.Provider value={i18n}>
-            <FilterTypeSelector forceUpdate={() => {}} />
+            <FilterTypeSelector />
           </I18nContext.Provider>
         </UiSelectionsContext.Provider>
       )

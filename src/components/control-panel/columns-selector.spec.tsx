@@ -21,7 +21,7 @@ describe('ColumnsSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <ColumnsSelector forceUpdate={() => {}} />
+          <ColumnsSelector />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -51,7 +51,7 @@ describe('ColumnsSelector', () => {
         <DataContext.Provider value={csv}>
           <UiSelectionsContext.Provider value={uiSelections}>
             <I18nContext.Provider value={i18n}>
-              <ColumnsSelector forceUpdate={() => {}} />
+              <ColumnsSelector />
             </I18nContext.Provider>
           </UiSelectionsContext.Provider>
         </DataContext.Provider>

@@ -4,9 +4,7 @@ import React, { ReactNode } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
-import { VALUE_NO_FILTER } from '../filters/filter';
 import { NO_FILTER } from '../filters/no-filter';
-import { UpdateViewTriggerAware } from '../update-view-trigger-aware';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 
 const selectorStyle = css({
@@ -18,9 +16,7 @@ const itemStyle = css({
   textTransform: 'capitalize'
 });
 
-export default class FilterTypeSelector extends React.Component<
-  UpdateViewTriggerAware
-> {
+export default class FilterTypeSelector extends React.Component {
   public render(): ReactNode {
     return (
       <UiSelectionsContext.Consumer>
@@ -39,9 +35,7 @@ export default class FilterTypeSelector extends React.Component<
                     labelId="selector-filters-label"
                     id="selector-filters"
                     value={uiSelections.filterActive.name}
-                    onChange={evt =>
-                      this.filtersSelectionChanged(evt, uiSelections)
-                    }
+                    onChange={evt => uiSelections.useFilter(evt.target.value as string)}
                     css={selectorStyle}
                   >
                     {filterNames.map((opt, i) => (
@@ -57,14 +51,5 @@ export default class FilterTypeSelector extends React.Component<
         )}
       </UiSelectionsContext.Consumer>
     );
-  }
-
-  private filtersSelectionChanged(
-    event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsManager
-  ): void {
-    const newSelection = event.target.value as string;
-    uiSelections.useFilter(newSelection);
-    this.props.forceUpdate();
   }
 }

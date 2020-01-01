@@ -67,7 +67,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -101,7 +101,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>
@@ -133,7 +133,7 @@ describe('GridData', () => {
         <DataContext.Provider value={csv}>
           <I18nContext.Provider value={i18n}>
             <UiSelectionsContext.Provider value={uiSelections}>
-              <GridData forceUpdate={() => {}} />
+              <GridData />
             </UiSelectionsContext.Provider>
           </I18nContext.Provider>
         </DataContext.Provider>

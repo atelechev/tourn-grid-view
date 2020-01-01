@@ -19,7 +19,7 @@ describe('FilteredItemSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilteredItemSelector forceUpdate={() => {}} />
+          <FilteredItemSelector />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -31,7 +31,7 @@ describe('FilteredItemSelector', () => {
     const element = renderer
       .create(
         <I18nContext.Provider value={i18n}>
-          <FilteredItemSelector forceUpdate={() => {}} />
+          <FilteredItemSelector />
         </I18nContext.Provider>
       )
       .toJSON();
@@ -58,7 +58,7 @@ describe('FilteredItemSelector', () => {
       .create(
         <UiSelectionsContext.Provider value={uiSelections}>
           <I18nContext.Provider value={i18n}>
-            <FilteredItemSelector forceUpdate={() => {}} />
+            <FilteredItemSelector />
           </I18nContext.Provider>
         </UiSelectionsContext.Provider>
       )

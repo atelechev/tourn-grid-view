@@ -8,7 +8,6 @@ import { TableSortLabel } from '@material-ui/core';
 import { getColumnVisibilityStyle } from './columns/visibility-utils';
 import { columnStylesHandler } from './columns/column-styles-handler';
 import { UiSelectionsContext } from './context/ui-selections-context';
-import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { DataContext } from './context/data-context';
 import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
@@ -18,9 +17,7 @@ const headerCellStyle = css({
   textTransform: 'capitalize'
 });
 
-export default class GridHeader extends React.Component<
-  UpdateViewTriggerAware
-> {
+export default class GridHeader extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
@@ -48,9 +45,7 @@ export default class GridHeader extends React.Component<
                             !uiSelections.isSortEnabledOn(columnName)
                           }
                           direction={uiSelections.order}
-                          onClick={_ =>
-                            this.handleSorting(columnName, uiSelections, csv)
-                          }
+                          onClick={_ => uiSelections.applyOrderBy(columnName)}
                         >
                           {columnName}
                         </TableSortLabel>
@@ -64,17 +59,6 @@ export default class GridHeader extends React.Component<
         )}
       </DataContext.Consumer>
     );
-  }
-
-  private handleSorting(
-    columnName: string,
-    uiSelections: UiSelectionsManager,
-    csv: DataManager
-  ): void {
-    if (uiSelections.applyOrderBy(columnName)) {
-      csv.sort(columnName, uiSelections.order);
-      this.props.forceUpdate();
-    }
   }
 
   private calculateStyles(

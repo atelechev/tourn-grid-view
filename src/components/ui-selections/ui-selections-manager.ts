@@ -1,18 +1,43 @@
-import { Filter, VALUE_NO_FILTER } from '../filters/filter';
+import { Filter } from '../filters/filter';
 import { Order } from './order';
 import { NO_FILTER } from '../filters/no-filter';
 import { COLUMN_PLACE } from '../columns/names';
 import { SortDirection } from '@material-ui/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class UiSelectionsManager {
+
   private _interactive: boolean;
+
   private _filterActive: Filter;
+
   private _filtersEnabled: Array<Filter>;
+
   private _order: Order;
+
   private _orderBy: string;
+
   private _orderEnabledColumns: Array<string>;
+
   private _selectedRow: Array<any> | undefined;
+
   private _shownColumns: Array<string>;
+
+  private readonly _broadcastFilterTypeChanges: BehaviorSubject<string>;
+  private readonly _broadcastFilterTypeChanges$: Observable<string>;
+
+  private readonly _broadcastFilterItemChanges: BehaviorSubject<any>;
+  private readonly _broadcastFilterItemChanges$: Observable<any>;
+
+  private readonly _broadcastShownColumnChanges: BehaviorSubject<Array<string>>;
+  private readonly _broadcastShownColumnChanges$: Observable<Array<string>>;
+
+  private readonly _broadcastSortColumnChanges: BehaviorSubject<string>;
+  private readonly _broadcastSortColumnChanges$: Observable<string>;
+
+  private readonly _broadcastRowSelectionChanges: BehaviorSubject<Array<any>>;
+  private readonly _broadcastRowSelectionChanges$: Observable<Array<any>>;
+
 
   constructor() {
     this._interactive = true;
@@ -23,6 +48,21 @@ export class UiSelectionsManager {
     this._orderEnabledColumns = [];
     this._selectedRow = undefined;
     this._shownColumns = [];
+
+    this._broadcastShownColumnChanges = new BehaviorSubject<Array<string>>(this._shownColumns);
+    this._broadcastShownColumnChanges$ = this._broadcastShownColumnChanges.asObservable();
+
+    this._broadcastFilterTypeChanges = new BehaviorSubject<string>(this._filterActive.name);
+    this._broadcastFilterTypeChanges$ = this._broadcastFilterTypeChanges.asObservable();
+
+    this._broadcastFilterItemChanges = new BehaviorSubject<any>(this._filterActive.selectedValue);
+    this._broadcastFilterItemChanges$ = this._broadcastFilterItemChanges.asObservable();
+
+    this._broadcastSortColumnChanges = new BehaviorSubject<string>(this._orderBy);
+    this._broadcastSortColumnChanges$ = this._broadcastSortColumnChanges.asObservable();
+
+    this._broadcastRowSelectionChanges = new BehaviorSubject<Array<any>>(this._selectedRow);
+    this._broadcastRowSelectionChanges$ = this._broadcastRowSelectionChanges.asObservable();
   }
 
   public set interactive(isInteractive: boolean) {
@@ -54,6 +94,12 @@ export class UiSelectionsManager {
     return this._filtersEnabled;
   }
 
+  public set filterByItem(item: any) {
+    this._filterActive.selectedValue = item;
+    this._selectedRow = undefined;
+    this._broadcastFilterItemChanges.next(item);
+  }
+
   public set order(ordr: Order) {
     this._order = ordr;
   }
@@ -80,6 +126,7 @@ export class UiSelectionsManager {
 
   public set selectedRow(selectedRow: Array<any> | undefined) {
     this._selectedRow = selectedRow;
+    this._broadcastRowSelectionChanges.next(this._selectedRow);
   }
 
   public get selectedRow(): Array<any> | undefined {
@@ -88,6 +135,7 @@ export class UiSelectionsManager {
 
   public set shownColumns(sc: Array<string>) {
     this._shownColumns = sc;
+    this._broadcastShownColumnChanges.next(this._shownColumns);
   }
 
   public get shownColumns(): Array<string> {
@@ -119,35 +167,56 @@ export class UiSelectionsManager {
     return this._interactive && this._orderBy === columnName;
   }
 
-  public applyOrderBy(columnName: string): boolean {
+  public applyOrderBy(columnName: string): void {
     if (!this._interactive || !this.isSortEnabledOn(columnName)) {
-      return false;
+      return;
     }
     this.inverseSortOrder();
     this._orderBy = columnName;
-    return true;
+    this._broadcastSortColumnChanges.next(this._orderBy);
   }
 
   public inverseSortOrder(): void {
     this._order = this._order === 'desc' ? 'asc' : 'desc';
   }
 
-  public toggleRowSelection(row: Array<any>): boolean {
+  public toggleRowSelection(row: Array<any>): void {
     if (!this._interactive) {
-      return false;
+      return;
     }
     if (row === this._selectedRow) {
-      this._selectedRow = undefined;
+      this.selectedRow = undefined;
     } else {
-      this._selectedRow = row;
       this._filterActive = NO_FILTER;
+      this.selectedRow = row;
     }
-    return true;
   }
 
   public useFilter(filterName: string): void {
     this.filterActive = this._filtersEnabled.find(
       filter => filter.name === filterName
-    );
+    ) || NO_FILTER;
+    this._broadcastFilterTypeChanges.next(this._filterActive.name);
   }
+
+  public get broadcastShownColumnChanges$(): Observable<Array<string>> {
+    return this._broadcastShownColumnChanges$;
+  }
+
+  public get broadcastFilterTypeChanges$(): Observable<string> {
+    return this._broadcastFilterTypeChanges$;
+  }
+
+  public get broadcastFilterItemChanges$(): Observable<any> {
+    return this._broadcastFilterItemChanges$;
+  }
+
+  public get broadcastSortColumnChanges$(): Observable<string> {
+    return this._broadcastSortColumnChanges$;
+  }
+
+  public get broadcastRowSelectionChanges$(): Observable<Array<any>> {
+    return this._broadcastRowSelectionChanges$;
+  }
+
 }

@@ -9,7 +9,6 @@ import {
   isRowVisible
 } from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
-import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { DataContext } from './context/data-context';
 import { hiddenStyle, visibleStyle } from './columns/column-styles';
 import { DataManager } from './csv/data-manager';
@@ -24,7 +23,7 @@ const rowStyle = css({
   ':hover,:focus': rowHoverStyle
 });
 
-export default class GridData extends React.Component<UpdateViewTriggerAware> {
+export default class GridData extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
@@ -50,7 +49,7 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
                       <TableRow
                         key={indexRow}
                         css={rowStyles}
-                        onClick={_ => this.handleSelectRow(row, uiSelections)}
+                        onClick={_ => uiSelections.toggleRowSelection(row)}
                       >
                         {row.map((cellValue, indexCell) => {
                           const column = csv.header[indexCell];
@@ -73,15 +72,6 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
         )}
       </DataContext.Consumer>
     );
-  }
-
-  private handleSelectRow(
-    row: Array<any>,
-    uiSelections: UiSelectionsManager
-  ): void {
-    if (uiSelections.toggleRowSelection(row)) {
-      this.props.forceUpdate();
-    }
   }
 
   private calculateRowStyles(
