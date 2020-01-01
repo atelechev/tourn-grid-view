@@ -31,5 +31,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })
-  ]
+  ],
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    'react-is': 'ReactIs',
+    rxjs: 'rxjs',
+    d3: 'd3',
+    jss: 'jss',
+    'popper.js': 'Popper'
+  },
+  performance: {
+    maxAssetSize: 400000,
+    maxEntrypointSize: 400000
+  }
 };
