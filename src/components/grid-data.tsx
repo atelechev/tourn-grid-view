@@ -11,7 +11,6 @@ import {
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { UpdateViewTriggerAware } from './update-view-trigger-aware';
 import { DataContext } from './context/data-context';
-import { extractOpponentPlaces } from './csv/data-utils';
 import { hiddenStyle, visibleStyle } from './columns/column-styles';
 import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
@@ -36,10 +35,8 @@ export default class GridData extends React.Component<UpdateViewTriggerAware> {
                 csv.header,
                 uiSelections.shownColumns
               );
-              const opponentPlacesOfSelected = extractOpponentPlaces(
-                uiSelections.selectedRow,
-                csv
-              );
+              const position = csv.getPositionFor(uiSelections.selectedRow);
+              const opponentPlacesOfSelected = csv.getOpponentsFor(position);
               return (
                 <TableBody>
                   {csv.data.map((row, indexRow) => {

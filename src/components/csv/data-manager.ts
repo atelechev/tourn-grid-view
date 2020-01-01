@@ -5,6 +5,9 @@ import { isRoundColumn } from '../columns/round';
 import { Order } from '../ui-selections/order';
 import { compareOptionalValues } from '../ordering/comparators';
 
+const EMPTY_SET = new Set<number>();
+const extractPositionRegex = /\d+/g;
+
 export class DataManager implements Csv {
   private _header: Array<string>;
 
@@ -18,9 +21,18 @@ export class DataManager implements Csv {
 
   private _data: Array<Array<any>>;
 
+  private readonly _positionsToRows: Map<number, Array<Array<any>>>;
+
+  private readonly _rowsToPositions: Map<Array<Array<any>>, number>;
+
+  private readonly _opponents: Map<number, Set<number>>;
+
   constructor() {
     this._header = [];
     this._data = [];
+    this._positionsToRows = new Map<number, Array<any>>();
+    this._rowsToPositions = new Map<Array<any>, number>();
+    this._opponents = new Map<number, Set<number>>();
     this._columnIndices = new Map<string, number>();
     this._positionColumnIndex = -1;
     this._roundColumns = [];
@@ -96,6 +108,54 @@ export class DataManager implements Csv {
       }
     });
     this._data = dt;
+    this.updatePositionMaps();
+    this.updateOpponentsMap();
+  }
+
+  private updatePositionMaps(): void {
+    this._positionsToRows.clear();
+    this._rowsToPositions.clear();
+    this._data.forEach((row: Array<Array<any>>, index: number) => {
+      this._positionsToRows.set(index, row);
+      this._rowsToPositions.set(row, index);
+    });
+  }
+
+  private updateOpponentsMap(): void {
+    this._opponents.clear();
+    this._positionsToRows.forEach((row: Array<Array<any>>, index: number) => {
+      this._opponents.set(index, this.extractOpponents(row));
+    });
+  }
+
+  private extractOpponents(row: Array<Array<any>>): Set<number> {
+    const opponents = this._roundColumnsIndices
+      .map(indexRoundColumn => row[indexRoundColumn])
+      .filter(gameResult => !!gameResult)
+      .map(gameResult => {
+        const matchResult = gameResult.toString().match(extractPositionRegex);
+        if (matchResult && matchResult.length > 0) {
+          return parseInt(matchResult[0]);
+        }
+        return -1;
+      })
+      .filter(pos => pos > -1);
+    return new Set(opponents);
+  }
+
+  public getPositionFor(row: Array<any>): number {
+    if (this._rowsToPositions.has(row)) {
+      return this._rowsToPositions.get(row);
+    }
+    return -1;
+  }
+
+  public getOpponentsFor(position: number): Set<number> {
+    const opponents = this._opponents.get(position);
+    if (!opponents) {
+      return EMPTY_SET;
+    }
+    return opponents;
   }
 
   public get data(): Array<Array<any>> {

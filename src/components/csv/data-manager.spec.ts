@@ -204,4 +204,77 @@ describe('DataManager', () => {
       expect(dm.data[2]).toEqual([1, 'C']);
     });
   });
+
+  describe('getOpponentsFor', () => {
+    const csv = new DataManager();
+    csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts'];
+    csv.data = [
+      [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4],
+      [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5],
+      [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3],
+      [4, 'D', '+6B', '+3W', '+8W', '-1B', '-2B', 3],
+      [5, 'E', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5],
+      [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2],
+      [7, 'G', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5],
+      [8, 'H', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5]
+    ];
+
+    it('should return an empty set if position is undefined', () => {
+      expect(csv.getOpponentsFor(undefined)).toEqual(new Set());
+    });
+
+    it('should return an empty set if position is negative', () => {
+      expect(csv.getOpponentsFor(-1)).toEqual(new Set());
+    });
+
+    it('should return an expected set for a valid position', () => {
+      expect(csv.getOpponentsFor(0)).toEqual(new Set([7, 5, 2, 4, 3]));
+      expect(csv.getOpponentsFor(1)).toEqual(new Set([3, 8, 1, 5, 4]));
+      expect(csv.getOpponentsFor(2)).toEqual(new Set([2, 4, 6, 7, 1]));
+      expect(csv.getOpponentsFor(3)).toEqual(new Set([6, 3, 8, 1, 2]));
+      expect(csv.getOpponentsFor(4)).toEqual(new Set([8, 1, 7, 2, 6]));
+    });
+  });
+
+  describe('getPositionFor', () => {
+    const csv = new DataManager();
+    csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts'];
+    csv.data = [
+      [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4],
+      [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5],
+      [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3],
+      [4, 'D', '+6B', '+3W', '+8W', '-1B', '-2B', 3],
+      [5, 'E', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5],
+      [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2],
+      [7, 'G', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5],
+      [8, 'H', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5],
+      [9, 'I', '<', null, null, null, null, 0]
+    ];
+
+    it('should return -1 for undefined arg', () => {
+      expect(csv.getPositionFor(undefined)).toEqual(-1);
+    });
+
+    it('should return -1 for empty arg', () => {
+      expect(csv.getPositionFor([])).toEqual(-1);
+    });
+
+    it('should return -1 if row does not exist', () => {
+      expect(
+        csv.getPositionFor([10, 'J', null, null, null, null, null, 0])
+      ).toEqual(-1);
+    });
+
+    it('should return expected values for valid rows', () => {
+      expect(csv.getPositionFor(csv.data[0])).toEqual(0);
+      expect(csv.getPositionFor(csv.data[1])).toEqual(1);
+      expect(csv.getPositionFor(csv.data[2])).toEqual(2);
+      expect(csv.getPositionFor(csv.data[3])).toEqual(3);
+      expect(csv.getPositionFor(csv.data[4])).toEqual(4);
+      expect(csv.getPositionFor(csv.data[5])).toEqual(5);
+      expect(csv.getPositionFor(csv.data[6])).toEqual(6);
+      expect(csv.getPositionFor(csv.data[7])).toEqual(7);
+      expect(csv.getPositionFor(csv.data[8])).toEqual(8);
+    });
+  });
 });
