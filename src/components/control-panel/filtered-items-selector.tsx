@@ -35,7 +35,9 @@ export default class FilteredItemSelector extends React.Component {
                     id="selector-filtered-items"
                     disabled={uiSelections.filterActive === NO_FILTER}
                     value={uiSelections.filterActive.selectedValue}
-                    onChange={evt => uiSelections.filterByItem = evt.target.value}
+                    onChange={evt =>
+                      (uiSelections.filterByItem = evt.target.value)
+                    }
                     css={selectorStyle}
                   >
                     {filterableItems.map((opt, i) => (

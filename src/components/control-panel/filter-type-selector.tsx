@@ -35,7 +35,9 @@ export default class FilterTypeSelector extends React.Component {
                     labelId="selector-filters-label"
                     id="selector-filters"
                     value={uiSelections.filterActive.name}
-                    onChange={evt => uiSelections.useFilter(evt.target.value as string)}
+                    onChange={evt =>
+                      uiSelections.useFilter(evt.target.value as string)
+                    }
                     css={selectorStyle}
                   >
                     {filterNames.map((opt, i) => (

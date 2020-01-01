@@ -1,6 +1,8 @@
 import { UiSelectionsManager } from './ui-selections-manager';
 import { NO_FILTER } from '../filters/no-filter';
 import { SimpleFilter } from '../filters/simple-filter';
+import { UiEvent } from '../ui-selections/ui-event';
+import { VALUE_NO_FILTER } from '../filters/filter';
 
 describe('UiSelectionsManager', () => {
   describe('constructor', () => {
@@ -38,6 +40,27 @@ describe('UiSelectionsManager', () => {
       uiSelections.filtersEnabled = [filter];
       uiSelections.filterActive = filter;
       expect(uiSelections.filterActive).toEqual(filter);
+    });
+  });
+
+  describe('set selectedRow', () => {
+    it('should have no effect if uiSelections is not interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = false;
+      expect(uiSelections.selectedRow).toBeUndefined();
+
+      uiSelections.selectedRow = [1, 'test', 10];
+      expect(uiSelections.selectedRow).toBeUndefined();
+    });
+
+    it('should set selected row to expected value if uiSelections is interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = true;
+      expect(uiSelections.selectedRow).toBeUndefined();
+
+      const row = [1, 'test', 10];
+      uiSelections.selectedRow = row;
+      expect(uiSelections.selectedRow).toEqual(row);
     });
   });
 
@@ -133,24 +156,30 @@ describe('UiSelectionsManager', () => {
   });
 
   describe('applyOrderBy', () => {
-    it('should return false if uiSelections is not interactive', () => {
+    it('should have no effect if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = false;
-      expect(uiSelections.applyOrderBy('pos')).toBe(false);
+      expect(uiSelections.orderBy).toEqual('pos');
+
+      uiSelections.applyOrderBy('name');
+      expect(uiSelections.orderBy).toEqual('pos');
     });
 
-    it('should return false if the column is not among enabled for sorting', () => {
+    it('should have no effect if the column is not among enabled for sorting', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.orderEnabledColumns = ['pos'];
-      expect(uiSelections.applyOrderBy('name')).toBe(false);
+
+      uiSelections.applyOrderBy('name');
+      expect(uiSelections.orderBy).toEqual('pos');
     });
 
-    it('should return true and inverse ordering if the column is enabled for sorting', () => {
+    it('should inverse ordering if the column is enabled for sorting', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.orderEnabledColumns = ['pos', 'name'];
       expect(uiSelections.orderBy).toEqual('pos');
       expect(uiSelections.order).toEqual('desc');
-      expect(uiSelections.applyOrderBy('name')).toBe(true);
+
+      uiSelections.applyOrderBy('name');
       expect(uiSelections.orderBy).toEqual('name');
       expect(uiSelections.order).toEqual('asc');
     });
@@ -159,10 +188,12 @@ describe('UiSelectionsManager', () => {
   describe('toggleRowSelection', () => {
     const row = [1, 'A', 'test'];
 
-    it('should return false if uiSelections is not interactive', () => {
+    it('should have no effect if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = false;
-      expect(uiSelections.toggleRowSelection(row)).toBe(false);
+      expect(uiSelections.selectedRow).toBeUndefined();
+      uiSelections.toggleRowSelection(row);
+      expect(uiSelections.selectedRow).toBeUndefined();
     });
 
     it('should set selectedRow and filterActive to expected values if row is valid', () => {
@@ -173,7 +204,7 @@ describe('UiSelectionsManager', () => {
       expect(uiSelections.selectedRow).toBeUndefined();
       expect(uiSelections.filterActive).toEqual(filter);
 
-      expect(uiSelections.toggleRowSelection(row)).toBe(true);
+      uiSelections.toggleRowSelection(row);
       expect(uiSelections.selectedRow).toEqual(row);
       expect(uiSelections.filterActive).toEqual(NO_FILTER);
     });
@@ -187,7 +218,7 @@ describe('UiSelectionsManager', () => {
       expect(uiSelections.selectedRow).toEqual(row);
       expect(uiSelections.filterActive).toEqual(filter);
 
-      expect(uiSelections.toggleRowSelection(row)).toBe(true);
+      uiSelections.toggleRowSelection(row);
       expect(uiSelections.selectedRow).toBeUndefined();
       expect(uiSelections.filterActive).toEqual(filter);
     });
@@ -201,7 +232,7 @@ describe('UiSelectionsManager', () => {
       expect(uiSelections.selectedRow).toEqual(row);
       expect(uiSelections.filterActive).toEqual(filter);
 
-      expect(uiSelections.toggleRowSelection(undefined)).toBe(true);
+      uiSelections.toggleRowSelection(undefined);
       expect(uiSelections.selectedRow).toBeUndefined();
       expect(uiSelections.filterActive).toEqual(NO_FILTER);
     });
@@ -238,6 +269,55 @@ describe('UiSelectionsManager', () => {
 
       uiSelections.useFilter('name');
       expect(uiSelections.filterActive).toEqual(filter);
+    });
+  });
+
+  describe('getObservable', () => {
+    it('should return values for all elements of UiEvent', () => {
+      const uiSelections = new UiSelectionsManager();
+      [
+        'filter-type-change',
+        'filter-item-change',
+        'shown-columns-change',
+        'sort-column-change',
+        'selected-row-change'
+      ].forEach((element: UiEvent) => {
+        expect(uiSelections.getObservable(element)).toBeDefined();
+      });
+    });
+  });
+
+  describe('filterByItem', () => {
+    it('should have no effect if uiSelections is not interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = false;
+      expect(uiSelections.filterActive.selectedValue).toEqual(VALUE_NO_FILTER);
+
+      uiSelections.filterByItem = 'test';
+      expect(uiSelections.filterActive.selectedValue).toEqual(VALUE_NO_FILTER);
+    });
+
+    it('should set the selectedValue of the active filter', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      expect(uiSelections.filterActive.selectedValue).toEqual(VALUE_NO_FILTER);
+
+      uiSelections.filterByItem = 'test';
+      expect(uiSelections.filterActive.selectedValue).toEqual('test');
+    });
+
+    it('should unset the previous selectedRow', () => {
+      const uiSelections = new UiSelectionsManager();
+      const filter = new SimpleFilter('name');
+      uiSelections.filtersEnabled = [filter];
+      uiSelections.filterActive = filter;
+      uiSelections.selectedRow = [1, 'test', 10];
+      expect(uiSelections.selectedRow).toBeDefined();
+
+      uiSelections.filterByItem = 'test';
+      expect(uiSelections.selectedRow).toBeUndefined();
     });
   });
 });

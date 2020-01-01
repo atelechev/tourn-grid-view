@@ -22,6 +22,8 @@ import { initializeFilters } from './filters/filters-initialization-util';
 import { DataContext } from './context/data-context';
 import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
+import { UiEvent } from 'components/ui-selections/ui-event';
+import { Observable } from 'rxjs';
 
 const tableStyle = css({
   minWidth: 600
@@ -126,13 +128,19 @@ export default class TournamentGrid extends React.Component<GridProperties> {
   }
 
   public componentDidMount(): void {
-    this._uiSelections.broadcastShownColumnChanges$.subscribe((_) => this.forceUpdate());
-    this._uiSelections.broadcastFilterTypeChanges$.subscribe((_) => this.forceUpdate());
-    this._uiSelections.broadcastFilterItemChanges$.subscribe((_) => this.forceUpdate());
-    this._uiSelections.broadcastSortColumnChanges$.subscribe((_) => {
+    [
+      'shown-columns-change',
+      'filter-type-change',
+      'filter-item-change',
+      'selected-row-change'
+    ]
+      .map((event: UiEvent) => this._uiSelections.getObservable(event))
+      .forEach((observable: Observable<any>) =>
+        observable.subscribe(_ => this.forceUpdate())
+      );
+    this._uiSelections.getObservable('sort-column-change').subscribe(_ => {
       this._csv.sort(this._uiSelections.orderBy, this._uiSelections.order);
       this.forceUpdate();
     });
-    this._uiSelections.broadcastRowSelectionChanges$.subscribe((_) => this.forceUpdate());
   }
 }

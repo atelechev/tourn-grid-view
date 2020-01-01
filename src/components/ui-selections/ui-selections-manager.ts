@@ -4,9 +4,9 @@ import { NO_FILTER } from '../filters/no-filter';
 import { COLUMN_PLACE } from '../columns/names';
 import { SortDirection } from '@material-ui/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UiEvent } from 'components/ui-selections/ui-event';
 
 export class UiSelectionsManager {
-
   private _interactive: boolean;
 
   private _filterActive: Filter;
@@ -23,21 +23,9 @@ export class UiSelectionsManager {
 
   private _shownColumns: Array<string>;
 
-  private readonly _broadcastFilterTypeChanges: BehaviorSubject<string>;
-  private readonly _broadcastFilterTypeChanges$: Observable<string>;
+  private readonly _eventSubjects: Map<UiEvent, BehaviorSubject<any>>;
 
-  private readonly _broadcastFilterItemChanges: BehaviorSubject<any>;
-  private readonly _broadcastFilterItemChanges$: Observable<any>;
-
-  private readonly _broadcastShownColumnChanges: BehaviorSubject<Array<string>>;
-  private readonly _broadcastShownColumnChanges$: Observable<Array<string>>;
-
-  private readonly _broadcastSortColumnChanges: BehaviorSubject<string>;
-  private readonly _broadcastSortColumnChanges$: Observable<string>;
-
-  private readonly _broadcastRowSelectionChanges: BehaviorSubject<Array<any>>;
-  private readonly _broadcastRowSelectionChanges$: Observable<Array<any>>;
-
+  private readonly _eventObservables: Map<UiEvent, Observable<any>>;
 
   constructor() {
     this._interactive = true;
@@ -49,20 +37,57 @@ export class UiSelectionsManager {
     this._selectedRow = undefined;
     this._shownColumns = [];
 
-    this._broadcastShownColumnChanges = new BehaviorSubject<Array<string>>(this._shownColumns);
-    this._broadcastShownColumnChanges$ = this._broadcastShownColumnChanges.asObservable();
+    this._eventSubjects = new Map<UiEvent, BehaviorSubject<any>>();
+    this._eventObservables = new Map<UiEvent, Observable<any>>();
 
-    this._broadcastFilterTypeChanges = new BehaviorSubject<string>(this._filterActive.name);
-    this._broadcastFilterTypeChanges$ = this._broadcastFilterTypeChanges.asObservable();
+    this.initEventSubjects();
+    this.initObservables();
+  }
 
-    this._broadcastFilterItemChanges = new BehaviorSubject<any>(this._filterActive.selectedValue);
-    this._broadcastFilterItemChanges$ = this._broadcastFilterItemChanges.asObservable();
+  private initEventSubjects(): void {
+    this._eventSubjects.set(
+      'shown-columns-change',
+      new BehaviorSubject<Array<string>>(this._shownColumns)
+    );
+    this._eventSubjects.set(
+      'filter-type-change',
+      new BehaviorSubject<string>(this._filterActive.name)
+    );
+    this._eventSubjects.set(
+      'filter-item-change',
+      new BehaviorSubject<any>(this._filterActive.selectedValue)
+    );
+    this._eventSubjects.set(
+      'sort-column-change',
+      new BehaviorSubject<string>(this._orderBy)
+    );
+    this._eventSubjects.set(
+      'selected-row-change',
+      new BehaviorSubject<Array<any>>(this._selectedRow)
+    );
+  }
 
-    this._broadcastSortColumnChanges = new BehaviorSubject<string>(this._orderBy);
-    this._broadcastSortColumnChanges$ = this._broadcastSortColumnChanges.asObservable();
+  private initObservables(): void {
+    [
+      'filter-type-change',
+      'filter-item-change',
+      'shown-columns-change',
+      'sort-column-change',
+      'selected-row-change'
+    ].forEach((event: UiEvent) => {
+      this._eventObservables.set(
+        event,
+        this.getEventHandler(event).asObservable()
+      );
+    });
+  }
 
-    this._broadcastRowSelectionChanges = new BehaviorSubject<Array<any>>(this._selectedRow);
-    this._broadcastRowSelectionChanges$ = this._broadcastRowSelectionChanges.asObservable();
+  private getEventHandler(event: UiEvent): BehaviorSubject<any> {
+    return this._eventSubjects.get(event);
+  }
+
+  public getObservable(event: UiEvent): Observable<any> {
+    return this._eventObservables.get(event);
   }
 
   public set interactive(isInteractive: boolean) {
@@ -95,9 +120,12 @@ export class UiSelectionsManager {
   }
 
   public set filterByItem(item: any) {
+    if (!this._interactive) {
+      return;
+    }
     this._filterActive.selectedValue = item;
     this._selectedRow = undefined;
-    this._broadcastFilterItemChanges.next(item);
+    this.getEventHandler('filter-item-change').next(item);
   }
 
   public set order(ordr: Order) {
@@ -125,8 +153,11 @@ export class UiSelectionsManager {
   }
 
   public set selectedRow(selectedRow: Array<any> | undefined) {
+    if (!this._interactive) {
+      return;
+    }
     this._selectedRow = selectedRow;
-    this._broadcastRowSelectionChanges.next(this._selectedRow);
+    this.getEventHandler('selected-row-change').next(this._selectedRow);
   }
 
   public get selectedRow(): Array<any> | undefined {
@@ -135,7 +166,7 @@ export class UiSelectionsManager {
 
   public set shownColumns(sc: Array<string>) {
     this._shownColumns = sc;
-    this._broadcastShownColumnChanges.next(this._shownColumns);
+    this.getEventHandler('shown-columns-change').next(this._shownColumns);
   }
 
   public get shownColumns(): Array<string> {
@@ -173,7 +204,7 @@ export class UiSelectionsManager {
     }
     this.inverseSortOrder();
     this._orderBy = columnName;
-    this._broadcastSortColumnChanges.next(this._orderBy);
+    this.getEventHandler('sort-column-change').next(this._orderBy);
   }
 
   public inverseSortOrder(): void {
@@ -193,30 +224,9 @@ export class UiSelectionsManager {
   }
 
   public useFilter(filterName: string): void {
-    this.filterActive = this._filtersEnabled.find(
-      filter => filter.name === filterName
-    ) || NO_FILTER;
-    this._broadcastFilterTypeChanges.next(this._filterActive.name);
+    this.filterActive =
+      this._filtersEnabled.find(filter => filter.name === filterName) ||
+      NO_FILTER;
+    this.getEventHandler('filter-type-change').next(this._filterActive.name);
   }
-
-  public get broadcastShownColumnChanges$(): Observable<Array<string>> {
-    return this._broadcastShownColumnChanges$;
-  }
-
-  public get broadcastFilterTypeChanges$(): Observable<string> {
-    return this._broadcastFilterTypeChanges$;
-  }
-
-  public get broadcastFilterItemChanges$(): Observable<any> {
-    return this._broadcastFilterItemChanges$;
-  }
-
-  public get broadcastSortColumnChanges$(): Observable<string> {
-    return this._broadcastSortColumnChanges$;
-  }
-
-  public get broadcastRowSelectionChanges$(): Observable<Array<any>> {
-    return this._broadcastRowSelectionChanges$;
-  }
-
 }
