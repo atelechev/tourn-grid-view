@@ -3,4 +3,5 @@ export type UiEvent =
   | 'filter-item-change'
   | 'shown-columns-change'
   | 'sort-column-change'
-  | 'selected-row-change';
+  | 'selected-row-change'
+  | 'control-panel-toggle';

@@ -9,6 +9,8 @@ import { UiEvent } from 'components/ui-selections/ui-event';
 export class UiSelectionsManager {
   private _interactive: boolean;
 
+  private _showControlPanel: boolean;
+
   private _filterActive: Filter;
 
   private _filtersEnabled: Array<Filter>;
@@ -29,6 +31,7 @@ export class UiSelectionsManager {
 
   constructor() {
     this._interactive = true;
+    this._showControlPanel = false;
     this._filterActive = NO_FILTER;
     this._filtersEnabled = [];
     this._order = 'desc';
@@ -65,6 +68,10 @@ export class UiSelectionsManager {
       'selected-row-change',
       new BehaviorSubject<Array<any>>(this._selectedRow)
     );
+    this._eventSubjects.set(
+      'control-panel-toggle',
+      new BehaviorSubject<boolean>(this._showControlPanel)
+    );
   }
 
   private initObservables(): void {
@@ -73,7 +80,8 @@ export class UiSelectionsManager {
       'filter-item-change',
       'shown-columns-change',
       'sort-column-change',
-      'selected-row-change'
+      'selected-row-change',
+      'control-panel-toggle'
     ].forEach((event: UiEvent) => {
       this._eventObservables.set(
         event,
@@ -171,6 +179,18 @@ export class UiSelectionsManager {
 
   public get shownColumns(): Array<string> {
     return this._shownColumns;
+  }
+
+  public get showControlPanel(): boolean {
+    return this._showControlPanel;
+  }
+
+  public set showControlPanel(show: boolean) {
+    if (!this._interactive) {
+      return;
+    }
+    this._showControlPanel = show;
+    this.getEventHandler('control-panel-toggle').next(this._showControlPanel);
   }
 
   public getSortDirection(columnName: string): SortDirection {

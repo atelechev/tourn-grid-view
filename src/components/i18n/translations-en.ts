@@ -4,5 +4,6 @@ export const translationsEn: Map<string, string> = new Map<string, string>([
   ['control-panel.visible-columns', 'Shown columns'],
   ['dialog.ok', 'OK'],
   ['header-tools.about', 'About this component'],
-  ['header-tools.about.text', 'This project on Github:']
+  ['header-tools.about.text', 'This project on Github:'],
+  ['header-tools.show-panel', 'Show/hide the control panel']
 ]);

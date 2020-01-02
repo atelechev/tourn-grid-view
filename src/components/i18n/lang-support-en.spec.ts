@@ -100,4 +100,10 @@ describe('translate', () => {
       'This project on Github:'
     );
   });
+
+  it('should return expected translation for header-tools.show-panel', () => {
+    expect(langSupportEn.translate('header-tools.show-panel')).toEqual(
+      'Show/hide the control panel'
+    );
+  });
 });

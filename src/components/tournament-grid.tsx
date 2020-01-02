@@ -132,7 +132,8 @@ export default class TournamentGrid extends React.Component<GridProperties> {
       'shown-columns-change',
       'filter-type-change',
       'filter-item-change',
-      'selected-row-change'
+      'selected-row-change',
+      'control-panel-toggle'
     ]
       .map((event: UiEvent) => this._uiSelections.getObservable(event))
       .forEach((observable: Observable<any>) =>

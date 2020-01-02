@@ -8,15 +8,17 @@ import {
   DialogActions,
   Button,
   DialogContent,
-  DialogContentText
+  DialogContentText,
+  IconButton
 } from '@material-ui/core';
 
-const buttonStyle = css({
+export const buttonStyle = css({
   width: '16px',
-  height: '16px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center'
+  height: '16px'
+});
+
+const dialogTextStyle = css({
+  fontSize: 'smaller'
 });
 
 interface ShowInfoProps {}
@@ -41,27 +43,29 @@ export default class ShowInfo extends React.Component<
       <I18nContext.Consumer>
         {(i18n: I18nContext) => (
           <React.Fragment>
-            <div
+            <IconButton
               css={buttonStyle}
               title={i18n.i18nProvider.translate('header-tools.about')}
               onClick={() => this.setDialogState(true)}
             >
               <InfoOutlinedIcon />
-            </div>
+            </IconButton>
             <Dialog
               open={this.state.dialogShown}
               onClose={() => this.setDialogState(false)}
             >
               <DialogContent>
                 <DialogContentText>
-                  {i18n.i18nProvider.translate('header-tools.about.text')}
-                  <br />
-                  <a
-                    href="https://github.com/atelechev/tourn-grid-view"
-                    target="_blank"
-                  >
-                    tourn-grid-view
-                  </a>
+                  <div css={dialogTextStyle}>
+                    {i18n.i18nProvider.translate('header-tools.about.text')}
+                    <br />
+                    <a
+                      href="https://github.com/atelechev/tourn-grid-view"
+                      target="_blank"
+                    >
+                      tourn-grid-view
+                    </a>
+                  </div>
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

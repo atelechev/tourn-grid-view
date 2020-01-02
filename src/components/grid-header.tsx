@@ -13,6 +13,7 @@ import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 import { isNameColumn } from './columns/name';
 import ShowInfo from './control-panel/show-info';
+import ShowPanel from './control-panel/show-panel';
 
 const headerCellStyle = css({
   fontSize: '12px',
@@ -81,6 +82,7 @@ export default class GridHeader extends React.Component {
     }
     return (
       <span css={toolsStyle}>
+        <ShowPanel />
         <ShowInfo />
       </span>
     );

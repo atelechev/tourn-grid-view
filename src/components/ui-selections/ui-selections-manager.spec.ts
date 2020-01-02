@@ -9,6 +9,7 @@ describe('UiSelectionsManager', () => {
     it('should instantiate the object with expected field values', () => {
       const usm = new UiSelectionsManager();
       expect(usm.interactive).toBe(true);
+      expect(usm.showControlPanel).toBe(false);
       expect(usm.filterActive).toEqual(NO_FILTER);
       expect(usm.filtersEnabled).toEqual([]);
       expect(usm.order).toEqual('desc');
@@ -61,6 +62,26 @@ describe('UiSelectionsManager', () => {
       const row = [1, 'test', 10];
       uiSelections.selectedRow = row;
       expect(uiSelections.selectedRow).toEqual(row);
+    });
+  });
+
+  describe('set showControlPanel', () => {
+    it('should have no effect if uiSelections is not interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = false;
+      expect(uiSelections.showControlPanel).toBe(false);
+
+      uiSelections.showControlPanel = true;
+      expect(uiSelections.showControlPanel).toBe(false);
+    });
+
+    it('should set showControlPanel to expected value if uiSelections is interactive', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.interactive = true;
+      expect(uiSelections.showControlPanel).toBe(false);
+
+      uiSelections.showControlPanel = true;
+      expect(uiSelections.showControlPanel).toBe(true);
     });
   });
 
@@ -280,7 +301,8 @@ describe('UiSelectionsManager', () => {
         'filter-item-change',
         'shown-columns-change',
         'sort-column-change',
-        'selected-row-change'
+        'selected-row-change',
+        'control-panel-toggle'
       ].forEach((element: UiEvent) => {
         expect(uiSelections.getObservable(element)).toBeDefined();
       });
