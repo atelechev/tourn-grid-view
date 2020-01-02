@@ -4,7 +4,7 @@
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
-    <title>TypeScript + React</title>
+    <title>Grand Swiss 2019</title>
     <script src="https://unpkg.com/d3@3.5.17/d3.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/popper.js@1.16.0/dist/umd/popper.min.js" type="text/javascript"></script>
@@ -12,9 +12,11 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/react-is@16.12.0/umd/react-is.production.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/jss@10.0.3/dist/jss.min.js" type="text/javascript"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/atelechev/tourn-grid-view@d88f8df/dist/tourn-grid-view.min.js" type="text/javascript"></script>
   </head> 
   <body> 
-<div id="grid-raw-csv" style="display: none;">Pos,Fed,Name,Rating,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,Pts,TB1,TB2,TB3
+    <div id="grid-raw-csv-en" style="display: none;">Pos,Fed,Name,Rating,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,Pts,TB1,TB2,TB3
 1,"CHN","Wang Hao",2726,"+56W","+69B","+86W","=2B","=14W","+73W","-4B","=6W","=8B","+26B","+11W",8,2735,67.5,73
 2,"USA","Caruana Fabiano",2812,"+53B","+31W","+66B","=1W","=73B","+17W","=9B","=4W","=6B","+5W","=7B",8,2720,69.5,75
 3,"RUS","Alekseenko Kirill",2674,"=109B","+74W","+61B","=9W","=81B","+50W","=6W","=27B","=26W","+23B","=8W",7.5,2716,64.5,69.5
@@ -171,12 +173,12 @@
 <script>
       window.onload = () => {
 	      TournamentGrid.renderGrid({
-          idCsvElement: 'grid-raw-csv',
+          idCsvElement: 'grid-raw-csv-en',
           idGridContainer: 'root',
-          hiddenColumns: ['Rating', 'Tb3'],
+          hiddenColumns: ['Rating', 'Tb2', 'Tb3'],
           interactive: true,
           useFilters: ['rating', 'fed'],
-          enableOrderingColumns: ['pos', 'name', 'rating', 'fed'],
+          enableOrderingColumns: ['pos', 'name', 'rating', 'perf', 'fed'],
           lang: 'en'
         });
       };
