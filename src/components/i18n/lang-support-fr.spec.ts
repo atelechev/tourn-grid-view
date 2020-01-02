@@ -84,4 +84,20 @@ describe('translate', () => {
       'Colonnes affichées'
     );
   });
+
+  it('should return expected translation for dialog.ok', () => {
+    expect(langSupportFr.translate('dialog.ok')).toEqual('OK');
+  });
+
+  it('should return expected translation for header-tools.about', () => {
+    expect(langSupportFr.translate('header-tools.about')).toEqual(
+      'A propos de ce composant'
+    );
+  });
+
+  it('should return expected translation for header-tools.about.text', () => {
+    expect(langSupportFr.translate('header-tools.about.text')).toEqual(
+      'Ce projet sur Github:'
+    );
+  });
 });

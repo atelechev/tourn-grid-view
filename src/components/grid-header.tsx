@@ -11,10 +11,23 @@ import { UiSelectionsContext } from './context/ui-selections-context';
 import { DataContext } from './context/data-context';
 import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
+import { isNameColumn } from './columns/name';
+import ShowInfo from './control-panel/show-info';
 
 const headerCellStyle = css({
   fontSize: '12px',
   textTransform: 'capitalize'
+});
+
+const toolsStyle = css({
+  minWidth: '40px',
+  marginRight: '8px',
+  height: '24px',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  float: 'right'
 });
 
 export default class GridHeader extends React.Component {
@@ -49,6 +62,7 @@ export default class GridHeader extends React.Component {
                         >
                           {columnName}
                         </TableSortLabel>
+                        {this.renderTools(columnName)}
                       </TableCell>
                     );
                   })}
@@ -58,6 +72,17 @@ export default class GridHeader extends React.Component {
           </UiSelectionsContext.Consumer>
         )}
       </DataContext.Consumer>
+    );
+  }
+
+  private renderTools(columnName: string): ReactNode {
+    if (!isNameColumn(columnName)) {
+      return undefined;
+    }
+    return (
+      <span css={toolsStyle}>
+        <ShowInfo />
+      </span>
     );
   }
 

@@ -9,6 +9,8 @@ import {
 } from './cell-value/cell-value.spec';
 import { DataManager } from './csv/data-manager';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
+import { I18nContext } from './context/i18n-context';
+import { getI18nProvider } from './i18n/i18n-provider';
 
 export const assertExpectedHtmlElement = (
   elt: any,
@@ -50,14 +52,21 @@ describe('GridHeader', () => {
     displayCheck(elt);
   };
 
+  const i18n: I18nContext = {
+    lang: 'en',
+    i18nProvider: getI18nProvider('en')
+  };
+
   it('should render the expected header', () => {
     const header = renderer
       .create(
-        <DataContext.Provider value={csv}>
-          <UiSelectionsContext.Provider value={uiSelections}>
-            <GridHeader />
-          </UiSelectionsContext.Provider>
-        </DataContext.Provider>
+        <I18nContext.Provider value={i18n}>
+          <DataContext.Provider value={csv}>
+            <UiSelectionsContext.Provider value={uiSelections}>
+              <GridHeader />
+            </UiSelectionsContext.Provider>
+          </DataContext.Provider>
+        </I18nContext.Provider>
       )
       .toJSON();
     assertExpectedHtmlElement(header, 'thead');
