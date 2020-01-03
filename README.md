@@ -2,7 +2,7 @@
 
 ---
 
-[![Build Status](https://img.shields.io/azure-devops/build/antonteleshev/tourn-grid-view/1)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/antonteleshev/tourn-grid-view/1)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master) [![Coverage](https://img.shields.io/azure-devops/coverage/antonteleshev/tourn-grid-view/1)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master)
 
 ---
 
