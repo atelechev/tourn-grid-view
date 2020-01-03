@@ -9,7 +9,7 @@
     "format": "prettier-eslint '**/*.{js,ts,tsx}' --write",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "npm run clean && webpack --mode production",
-    "test": "jest --coverage --reporters=default --reporters=jest-junit",
+    "test": "jest --coverage --reporters=jest-junit",
     "test:watch": "jest --watch"
   },
   "repository": {

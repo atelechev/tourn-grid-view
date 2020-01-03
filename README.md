@@ -2,7 +2,7 @@
 
 ---
 
-[![Build Status](https://dev.azure.com/antonteleshev/tourn-grid-view/_apis/build/status/atelechev.tourn-grid-view?branchName=master)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master)
+[![Build Status](https://img.shields.io/azure-devops/build/antonteleshev/tourn-grid-view/1)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master)
 
 ---
 
