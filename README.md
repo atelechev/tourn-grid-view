@@ -1,5 +1,11 @@
 # Chess Tournament Grid Viewer
 
+---
+
+[![Build Status](https://dev.azure.com/antonteleshev/tourn-grid-view/_apis/build/status/atelechev.tourn-grid-view?branchName=master)](https://dev.azure.com/antonteleshev/tourn-grid-view/_build/latest?definitionId=1&branchName=master)
+
+---
+
 This component, developed in ReactJs, provides a possibility to render interactive chess tournament grids in HTML pages.
 
 It is particularly useful in a static HTML context, because it does not require any back-end services.
