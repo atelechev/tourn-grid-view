@@ -32,35 +32,19 @@ The interactivity of the grid includes:
 
 The steps to use this library are simple:
 
-0. Include the required third-party dependencies by adding the following scripts in the HTML page before the parts inserted in the futher steps. _This preliminary step is the most cumbersome of the usage sequence and is subjet to future improvements._
+1. Include the required scripts and their dependencies by adding the script entries in the HTML page:
 
 ```html
-<script src="https://unpkg.com/d3@3.5.17/d3.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/rxjs/bundles/rxjs.umd.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/popper.js@1.16.0/dist/umd/popper.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/react@16/umd/react.production.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/react-is@16.12.0/umd/react-is.production.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/jss@10.0.3/dist/jss.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/atelechev/tourn-grid-view@{commit_hash}/dist/tourn-grid-view-vendor.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/atelechev/tourn-grid-view@{commit_hash}/dist/tourn-grid-view.min.js"></script>
 ```
-
-1. Include the library script into your HTML page, after the scripts above:
-
-```html
-<script type="text/javascript" src="tourn-grid-view.min.js"></script>
-```
-
-It is also available via the CDN URL: 
-
-```javascript
-<script crossorigin src="https://cdn.jsdelivr.net/gh/atelechev/tourn-grid-view@{commit_hash}/dist/tourn-grid-view.min.js"></script>
-```
+The `tourn-grid-view-vendor.min.js` must precede the `tourn-grid-view.min.js` script.
 
 2. Add the raw CSV data wrapped into a HTML element having an `id` and preferably hidden:
 
 ```html
 <div id="demo" style="display: none;">Pos,Fed,Name,Rating,R1,R2,R3,R4,R5,Pts,TB1,TB2
-1,"CHN","Wang Hao",2726,"+56W","+69B","+86W","=2B","=14W",8,2735,67.5
+1,CHN,Wang Hao,2726,+56W,+69B,+86W,=2B,=14W,8,2735,67.5
 <!-- other CSV rows follow -->
 </div>
 ```
@@ -152,7 +136,7 @@ The cells with the game results are expected to respect the pattern
 
 `{color}` is the first character of the name of the pieces color. In English, `W` (white) or `B` (black). In French, `B` (blanc) for white or `N` (noir) for black.
 
-`{bye}` is a language specific value when the player was not paired in the respective round. THe expected values are `BYE` in English and `EXE` in French.
+`{bye}` is a language specific value when the player was not paired in the respective round. The expected values are `BYE` in English and `EXE` in French.
 
 Examples of valid values:
 
