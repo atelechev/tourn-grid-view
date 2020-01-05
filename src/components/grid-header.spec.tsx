@@ -87,7 +87,7 @@ describe('GridHeader', () => {
   const assertButtonExpected = (button: any, expectedTitle: string): void => {
     assertExpectedHtmlElement(button, 'button');
     expect(button.props.title).toEqual(expectedTitle);
-  }
+  };
 
   it('should render the toggle panel button when the UI is interactive', () => {
     const uiSelections = new UiSelectionsManager();
@@ -113,7 +113,10 @@ describe('GridHeader', () => {
     expect(nameCell.children.length).toEqual(2);
     const buttonsWrapper = nameCell.children[1];
     expect(buttonsWrapper.children.length).toEqual(2);
-    assertButtonExpected(buttonsWrapper.children[0], 'Show/hide the control panel');
+    assertButtonExpected(
+      buttonsWrapper.children[0],
+      'Show/hide the control panel'
+    );
     assertButtonExpected(buttonsWrapper.children[1], 'About this component');
   });
 

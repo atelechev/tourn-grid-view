@@ -81,9 +81,7 @@ export default class GridHeader extends React.Component {
     }
     return (
       <span css={toolsStyle}>
-        {isInteractive &&
-          <ShowPanel />
-        }
+        {isInteractive && <ShowPanel />}
         <ShowInfo />
       </span>
     );

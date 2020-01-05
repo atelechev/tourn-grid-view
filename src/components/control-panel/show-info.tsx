@@ -17,7 +17,7 @@ export const buttonStyle = css({
   height: '16px'
 });
 
-interface ShowInfoProps { }
+interface ShowInfoProps {}
 
 interface ShowInfoState {
   dialogShown: boolean;
@@ -26,7 +26,7 @@ interface ShowInfoState {
 export default class ShowInfo extends React.Component<
   ShowInfoProps,
   ShowInfoState
-  > {
+> {
   constructor(props: ShowInfoProps) {
     super(props);
     this.state = {
