@@ -17,11 +17,7 @@ export const buttonStyle = css({
   height: '16px'
 });
 
-const dialogTextStyle = css({
-  fontSize: 'smaller'
-});
-
-interface ShowInfoProps {}
+interface ShowInfoProps { }
 
 interface ShowInfoState {
   dialogShown: boolean;
@@ -30,7 +26,7 @@ interface ShowInfoState {
 export default class ShowInfo extends React.Component<
   ShowInfoProps,
   ShowInfoState
-> {
+  > {
   constructor(props: ShowInfoProps) {
     super(props);
     this.state = {
@@ -56,7 +52,7 @@ export default class ShowInfo extends React.Component<
             >
               <DialogContent>
                 <DialogContentText>
-                  <div css={dialogTextStyle}>
+                  <span>
                     {i18n.i18nProvider.translate('header-tools.about.text')}
                     <br />
                     <a
@@ -65,7 +61,7 @@ export default class ShowInfo extends React.Component<
                     >
                       tourn-grid-view
                     </a>
-                  </div>
+                  </span>
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
