@@ -1,5 +1,9 @@
-import { COLUMN_NAME } from './names';
-import { isSimpleColumnIdentifier } from './column-utils';
+const nameColumnIdentifiers = new Set<string>(['name', 'nom']);
 
-export const isNameColumn = (column: string): boolean =>
-  isSimpleColumnIdentifier(column, COLUMN_NAME);
+export const isNameColumn = (column: string): boolean => {
+  if (!column) {
+    return false;
+  }
+  const normalized = column.trim().toLowerCase();
+  return nameColumnIdentifiers.has(normalized);
+};
