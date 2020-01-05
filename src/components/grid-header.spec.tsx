@@ -83,4 +83,64 @@ describe('GridHeader', () => {
     assertColumnExpected(trow.children[7], 'pts', true);
     assertColumnExpected(trow.children[8], 'club', false);
   });
+
+  const assertButtonExpected = (button: any, expectedTitle: string): void => {
+    assertExpectedHtmlElement(button, 'button');
+    expect(button.props.title).toEqual(expectedTitle);
+  }
+
+  it('should render the toggle panel button when the UI is interactive', () => {
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.shownColumns = ['pos', 'name', 'pts'];
+    uiSelections.interactive = true;
+
+    const header = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <DataContext.Provider value={csv}>
+            <UiSelectionsContext.Provider value={uiSelections}>
+              <GridHeader />
+            </UiSelectionsContext.Provider>
+          </DataContext.Provider>
+        </I18nContext.Provider>
+      )
+      .toJSON();
+    assertExpectedHtmlElement(header, 'thead');
+    const trow = header.children[0];
+    assertExpectedHtmlElement(trow, 'tr');
+    expect(trow.children.length).toEqual(9);
+    const nameCell = trow.children[1];
+    expect(nameCell.children.length).toEqual(2);
+    const buttonsWrapper = nameCell.children[1];
+    expect(buttonsWrapper.children.length).toEqual(2);
+    assertButtonExpected(buttonsWrapper.children[0], 'Show/hide the control panel');
+    assertButtonExpected(buttonsWrapper.children[1], 'About this component');
+  });
+
+  it('should not render the toggle panel button when the UI is not interactive', () => {
+    const uiSelections = new UiSelectionsManager();
+    uiSelections.shownColumns = ['pos', 'name', 'pts'];
+    uiSelections.interactive = false;
+
+    const header = renderer
+      .create(
+        <I18nContext.Provider value={i18n}>
+          <DataContext.Provider value={csv}>
+            <UiSelectionsContext.Provider value={uiSelections}>
+              <GridHeader />
+            </UiSelectionsContext.Provider>
+          </DataContext.Provider>
+        </I18nContext.Provider>
+      )
+      .toJSON();
+    assertExpectedHtmlElement(header, 'thead');
+    const trow = header.children[0];
+    assertExpectedHtmlElement(trow, 'tr');
+    expect(trow.children.length).toEqual(9);
+    const nameCell = trow.children[1];
+    expect(nameCell.children.length).toEqual(2);
+    const buttonsWrapper = nameCell.children[1];
+    expect(buttonsWrapper.children.length).toEqual(1);
+    assertButtonExpected(buttonsWrapper.children[0], 'About this component');
+  });
 });

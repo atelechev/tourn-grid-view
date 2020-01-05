@@ -16,7 +16,6 @@ import ShowInfo from './control-panel/show-info';
 import ShowPanel from './control-panel/show-panel';
 
 const headerCellStyle = css({
-  fontSize: '12px',
   textTransform: 'capitalize'
 });
 
@@ -63,7 +62,7 @@ export default class GridHeader extends React.Component {
                         >
                           {columnName}
                         </TableSortLabel>
-                        {this.renderTools(columnName)}
+                        {this.renderTools(columnName, uiSelections.interactive)}
                       </TableCell>
                     );
                   })}
@@ -76,13 +75,15 @@ export default class GridHeader extends React.Component {
     );
   }
 
-  private renderTools(columnName: string): ReactNode {
+  private renderTools(columnName: string, isInteractive: boolean): ReactNode {
     if (!isNameColumn(columnName)) {
       return undefined;
     }
     return (
       <span css={toolsStyle}>
-        <ShowPanel />
+        {isInteractive &&
+          <ShowPanel />
+        }
         <ShowInfo />
       </span>
     );

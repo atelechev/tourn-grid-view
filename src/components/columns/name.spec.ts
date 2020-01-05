@@ -5,6 +5,10 @@ describe('isNameColumn', () => {
     expect(isNameColumn('Name')).toBe(true);
   });
 
+  it('should return true for Nom', () => {
+    expect(isNameColumn('Name')).toBe(true);
+  });
+
   it('should return true for Name ignore case', () => {
     expect(isNameColumn('name')).toBe(true);
   });
