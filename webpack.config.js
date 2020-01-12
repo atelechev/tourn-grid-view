@@ -7,7 +7,16 @@ const fileNameBase = 'tourn-grid-view';
 module.exports = {
   entry: {
     main: './src/index.tsx',
-    vendor: ['react', 'react-dom', 'react-is', 'rxjs', 'd3', 'jss', 'popper.js']
+    vendor: [
+      'react',
+      'react-dom',
+      'react-is',
+      'rxjs',
+      'd3-dsv',
+      'd3-selection',
+      'jss',
+      'popper.js'
+    ]
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']

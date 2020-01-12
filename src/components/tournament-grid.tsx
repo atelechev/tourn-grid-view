@@ -99,10 +99,10 @@ export default class TournamentGrid extends React.Component<GridProperties> {
     uiSelections.filtersEnabled = enabledFilters;
     uiSelections.order = 'asc';
     uiSelections.orderBy = COLUMN_PLACE;
-    uiSelections.orderEnabledColumns =
-      this.props.enableOrderingColumns.filter(column => !!column)
-        .map(rawColumn => rawColumn.trim().toLowerCase())
-        .filter(normalized => normalized.length > 0);
+    uiSelections.orderEnabledColumns = this.props.enableOrderingColumns
+      .filter(column => !!column)
+      .map(rawColumn => rawColumn.trim().toLowerCase())
+      .filter(normalized => normalized.length > 0);
     uiSelections.selectedRow = undefined;
     uiSelections.shownColumns = shownColumns;
     return uiSelections;

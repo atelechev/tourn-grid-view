@@ -68,7 +68,8 @@
     "@emotion/styled": "^10.0.23",
     "@material-ui/core": "^4.6.1",
     "@material-ui/icons": "^4.5.1",
-    "d3": "^3.5.17",
+    "d3-dsv": "^1.2.0",
+    "d3-selection": "^1.4.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "rxjs": "^6.5.4"

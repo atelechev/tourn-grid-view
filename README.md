@@ -6,7 +6,7 @@
 
 ---
 
-This component, developed in ReactJs, provides a possibility to render interactive chess tournament grids in HTML pages.
+This component provides a possibility to render interactive chess tournament grids in HTML pages.
 
 It is particularly useful in a static HTML context, because it does not require any back-end services.
 
@@ -54,8 +54,6 @@ The `tourn-grid-view-vendor.min.js` must precede the `tourn-grid-view.min.js` sc
 <!-- other CSV rows follow -->
 </div>
 ```
-
-The CSV data should not have blank lines.
 
 3. Define a HTML element which will contain the rendered grid. It must have an `id`:
 
