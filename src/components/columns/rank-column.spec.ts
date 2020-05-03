@@ -3,7 +3,7 @@ import { placeColumnStyle } from './column-styles';
 
 describe('RankColumn', () => {
 
-  const column = new RankColumn('Rank', 0, false, false, false);
+  const column = new RankColumn('Rank', 0, false);
 
   describe('semantics', () => {
     it('should have expected value', () => {
@@ -30,6 +30,18 @@ describe('RankColumn', () => {
   describe('styles', () => {
     it('should return expected value', () => {
       expect(column.styles).toEqual(placeColumnStyle);
+    });
+  });
+
+  describe('hidden', () => {
+    it('should be false', () => {
+      expect(column.hidden).toBe(false);
+    });
+  });
+
+  describe('canFilterOn', () => {
+    it('should be false', () => {
+      expect(column.canFilterOn).toBe(false);
     });
   });
 

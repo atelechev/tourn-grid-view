@@ -3,7 +3,7 @@ import { nameColumnStyle } from './column-styles';
 
 describe('NameColumn', () => {
 
-  const column = new NameColumn('name', 0, false, false, false);
+  const column = new NameColumn('name', 0, false);
 
   describe('semantics', () => {
     it('should have expected value', () => {
@@ -30,6 +30,18 @@ describe('NameColumn', () => {
   describe('styles', () => {
     it('should return expected value', () => {
       expect(column.styles).toEqual(nameColumnStyle);
+    });
+  });
+
+  describe('hidden', () => {
+    it('should be false', () => {
+      expect(column.hidden).toBe(false);
+    });
+  });
+
+  describe('canFilterOn', () => {
+    it('should be false', () => {
+      expect(column.canFilterOn).toBe(false);
     });
   });
 

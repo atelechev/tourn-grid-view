@@ -7,10 +7,8 @@ export class RankColumn extends Column {
 
   constructor(code: string,
     index: number,
-    hidden: boolean,
-    canOrderBy: boolean,
-    canFilterOn: boolean) {
-    super(code, index, 'rank', hidden, canOrderBy, canFilterOn);
+    canOrderBy: boolean) {
+    super(code, index, 'rank', false, canOrderBy, false);
   }
 
   public get styles(): SerializedStyles {

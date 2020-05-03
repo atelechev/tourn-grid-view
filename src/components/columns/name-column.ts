@@ -7,10 +7,8 @@ export class NameColumn extends Column {
 
   constructor(code: string,
     index: number,
-    hidden: boolean,
-    canOrderBy: boolean,
-    canFilterOn: boolean) {
-    super(code, index, 'name', hidden, canOrderBy, canFilterOn);
+    canOrderBy: boolean) {
+    super(code, index, 'name', false, canOrderBy, false);
   }
 
   public get styles(): SerializedStyles {
