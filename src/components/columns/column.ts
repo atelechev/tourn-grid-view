@@ -1,15 +1,19 @@
+import { SerializedStyles } from '@emotion/core';
+import { Semantics } from './semantics';
+import { standardNarrowColumnStyle } from './column-styles';
 
-export class Column {
+export abstract class Column {
 
-  constructor(private readonly _code: string,
+  constructor(private readonly _name: string,
     private readonly _index: number,
+    private readonly _semantics: Semantics,
     private _hidden: boolean,
     private readonly _canOrderBy: boolean,
     private readonly _canFilterOn: boolean) {
   }
 
-  public get code(): string {
-    return this._code;
+  public get name(): string {
+    return this._name;
   }
 
   public get index(): number {
@@ -26,6 +30,18 @@ export class Column {
 
   public get hidden(): boolean {
     return this._hidden;
+  }
+
+  public get semantics(): Semantics {
+    return this._semantics;
+  }
+
+  public hasSemantics(semantics: Semantics): boolean {
+    return this.semantics == semantics;
+  }
+
+  public get styles(): SerializedStyles {
+    return standardNarrowColumnStyle;
   }
 
 }
