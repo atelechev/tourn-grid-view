@@ -1,83 +1,60 @@
 import { DataManager } from './data-manager';
+import { buildColumn } from '../columns/column-factory';
 
 describe('DataManager', () => {
+
+  const testColumns = [
+    buildColumn('pos', 0),
+    buildColumn('name', 1),
+    buildColumn('r1', 2),
+    buildColumn('r2', 3),
+    buildColumn('r3', 4)
+  ];
+
   describe('constructor', () => {
     const dm = new DataManager();
 
-    it('should create an instance with empty header and data', () => {
-      expect(dm.header).toEqual([]);
+    it('should create an instance with empty columns and data', () => {
+      expect(dm.columns).toEqual([]);
       expect(dm.data).toEqual([]);
     });
 
-    it('should set positionColumnIndex to -1', () => {
-      expect(dm.positionColumnIndex).toEqual(-1);
-    });
-
-    it('should set roundColumns and roundColumnsIndices to []', () => {
+    it('should set roundColumns to []', () => {
       expect(dm.roundColumns).toEqual([]);
-      expect(dm.roundColumnsIndices).toEqual([]);
     });
   });
 
-  describe('set header', () => {
+  describe('set columns', () => {
     const dm = new DataManager();
 
     it('should throw expected error if arg is undefined', () => {
-      expect(() => (dm.header = undefined)).toThrow(
-        'header must be a non-empty array.'
+      expect(() => dm.columns = undefined).toThrow(
+        'columns must be a non-empty array.'
       );
     });
 
     it('should throw expected error if arg is empty', () => {
-      expect(() => (dm.header = [])).toThrow(
-        'header must be a non-empty array.'
+      expect(() => dm.columns = []).toThrow(
+        'columns must be a non-empty array.'
       );
     });
 
     it('should throw expected error if arg contains an undefined element', () => {
-      expect(() => (dm.header = ['a', undefined])).toThrow(
-        "Empty and undefined values are not allowed in the CSV header: 'a,'"
-      );
-    });
-
-    it('should throw expected error if arg contains an empty element', () => {
-      expect(() => (dm.header = ['a', '  '])).toThrow(
-        "Empty and undefined values are not allowed in the CSV header: 'a,  '"
+      expect(() => dm.columns = [buildColumn('test', 0), undefined]).toThrow(
+        'columns must not contain undefined elements.'
       );
     });
 
     it('should set header to the expected value if arg is valid', () => {
-      dm.header = ['a', 'b', 'c'];
-      expect(dm.header).toEqual(['a', 'b', 'c']);
-    });
-
-    it('should trim the column names', () => {
-      dm.header = [' a '];
-      expect(dm.header).toEqual(['a']);
-    });
-
-    it('should make the column names lower case', () => {
-      dm.header = [' A '];
-      expect(dm.header).toEqual(['a']);
-    });
-
-    it('should update the index of position column', () => {
-      expect(dm.positionColumnIndex).toEqual(-1);
-      dm.header = ['a', 'pos'];
-      expect(dm.positionColumnIndex).toEqual(1);
+      const cols = [buildColumn('pos', 0), buildColumn('name', 1), buildColumn('points', 2)];
+      dm.columns = cols;
+      expect(dm.columns).toEqual(cols);
     });
 
     it('should update roundColumns', () => {
       expect(dm.roundColumns).toEqual([]);
-      dm.header = ['pos', 'name', 'r1', 'r2', 'r3'];
-      expect(dm.roundColumns).toEqual(['r1', 'r2', 'r3']);
-    });
-
-    it('should update roundColumnsIndices', () => {
-      dm.header = ['pos', 'name'];
-      expect(dm.roundColumnsIndices).toEqual([]);
-      dm.header = ['pos', 'name', 'r1', 'r2', 'r3'];
-      expect(dm.roundColumnsIndices).toEqual([2, 3, 4]);
+      dm.columns = testColumns;
+      expect(dm.roundColumns).toEqual(testColumns.slice(2));
     });
   });
 
@@ -97,66 +74,44 @@ describe('DataManager', () => {
     });
 
     it('should throw expected error if arg has an undefined element', () => {
-      dm.header = ['a', 'b', 'c'];
+      dm.columns = testColumns;
       expect(() => (dm.data = [undefined])).toThrow(
         "data rows must contain same number of elements than the header, but got: 'undefined'"
       );
     });
 
     it('should throw expected error if arg has less columns than the header', () => {
-      dm.header = ['a', 'b', 'c'];
+      dm.columns = testColumns;
       expect(() => (dm.data = [[1, 'test']])).toThrow(
         "data rows must contain same number of elements than the header, but got: '1,test'"
       );
     });
 
     it('should throw expected error if arg has more columns than the header', () => {
-      dm.header = ['a'];
+      dm.columns = [buildColumn('a', 0)];
       expect(() => (dm.data = [[1, 'test']])).toThrow(
         "data rows must contain same number of elements than the header, but got: '1,test'"
       );
     });
 
     it('should set the data to the expected value', () => {
-      dm.header = ['a', 'b', 'c'];
+      dm.columns = [buildColumn('a', 0), buildColumn('b', 1), buildColumn('c', 2)];
       dm.data = [[1, 'test', 'X']];
       expect(dm.data).toBeTruthy();
       expect(dm.data[0]).toEqual([1, 'test', 'X']);
     });
   });
 
-  describe('getColumnIndex', () => {
-    const dm = new DataManager();
-
-    it('should return -1 if arg is undefined', () => {
-      expect(dm.getColumnIndex(undefined)).toEqual(-1);
-    });
-
-    it('should return -1 if arg is empty', () => {
-      expect(dm.getColumnIndex('  ')).toEqual(-1);
-    });
-
-    it('should return -1 if column was not found', () => {
-      dm.header = ['a', 'b', 'c'];
-      expect(dm.getColumnIndex('d')).toEqual(-1);
-    });
-
-    it('should return expected value if column was found', () => {
-      dm.header = ['a', 'b', 'c'];
-      expect(dm.getColumnIndex('b')).toEqual(1);
-    });
-  });
-
   describe('sort', () => {
     it('does not have any effect if the column does not exist', () => {
       const dm = new DataManager();
-      dm.header = ['pos', 'name'];
+      dm.columns = [buildColumn('pos', 0), buildColumn('name', 1)];
       dm.data = [
         [1, 'C'],
         [2, 'B'],
         [3, 'A']
       ];
-      dm.sort('fed', 'asc');
+      dm.sort(buildColumn('fed', 2), 'asc');
       expect(dm.data[0]).toEqual([1, 'C']);
       expect(dm.data[1]).toEqual([2, 'B']);
       expect(dm.data[2]).toEqual([3, 'A']);
@@ -164,41 +119,41 @@ describe('DataManager', () => {
 
     it('does not have any effect if order is undefined', () => {
       const dm = new DataManager();
-      dm.header = ['pos', 'name'];
+      dm.columns = [buildColumn('pos', 0), buildColumn('name', 1)];
       dm.data = [
         [1, 'C'],
         [2, 'B'],
         [3, 'A']
       ];
-      dm.sort('name', undefined);
+      dm.sort(buildColumn('name', 1), undefined);
       expect(dm.data[0]).toEqual([1, 'C']);
       expect(dm.data[1]).toEqual([2, 'B']);
       expect(dm.data[2]).toEqual([3, 'A']);
     });
 
-    it('executed sorting in descending order', () => {
+    it('should execute sorting in descending order', () => {
       const dm = new DataManager();
-      dm.header = ['pos', 'name'];
+      dm.columns = [buildColumn('pos', 0), buildColumn('name', 1)];
       dm.data = [
         [1, 'C'],
         [2, 'B'],
         [3, 'A']
       ];
-      dm.sort('pos', 'desc');
+      dm.sort(buildColumn('pos', 0), 'desc');
       expect(dm.data[0]).toEqual([3, 'A']);
       expect(dm.data[1]).toEqual([2, 'B']);
       expect(dm.data[2]).toEqual([1, 'C']);
     });
 
-    it('executed sorting in ascending order', () => {
+    it('should execute sorting in ascending order', () => {
       const dm = new DataManager();
-      dm.header = ['pos', 'name'];
+      dm.columns = [buildColumn('pos', 0), buildColumn('name', 1)];
       dm.data = [
         [1, 'C'],
         [2, 'B'],
         [3, 'A']
       ];
-      dm.sort('name', 'asc');
+      dm.sort(buildColumn('name', 1), 'asc');
       expect(dm.data[0]).toEqual([3, 'A']);
       expect(dm.data[1]).toEqual([2, 'B']);
       expect(dm.data[2]).toEqual([1, 'C']);
@@ -207,7 +162,11 @@ describe('DataManager', () => {
 
   describe('getOpponentsFor', () => {
     const csv = new DataManager();
-    csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts'];
+    csv.columns = testColumns.concat([
+      buildColumn('r4', 5),
+      buildColumn('r5', 6),
+      buildColumn('pts', 7)
+    ]);
     csv.data = [
       [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4],
       [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5],
@@ -238,7 +197,11 @@ describe('DataManager', () => {
 
   describe('getPositionFor', () => {
     const csv = new DataManager();
-    csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts'];
+    csv.columns = testColumns.concat([
+      buildColumn('r4', 5),
+      buildColumn('r5', 6),
+      buildColumn('pts', 7)
+    ]);
     csv.data = [
       [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4],
       [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5],
