@@ -3,8 +3,14 @@ import { NO_FILTER } from '../filters/no-filter';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiEvent } from '../ui-selections/ui-event';
 import { VALUE_NO_FILTER } from '../filters/filter';
+import { buildColumn } from '../columns/column-factory';
 
 describe('UiSelectionsManager', () => {
+
+  const columnPos = buildColumn('pos', 0);
+  const columnName = buildColumn('name', 1);
+  const columnClub = buildColumn('club', 2);
+
   describe('constructor', () => {
     it('should instantiate the object with expected field values', () => {
       const usm = new UiSelectionsManager();
@@ -13,7 +19,7 @@ describe('UiSelectionsManager', () => {
       expect(usm.filterActive).toEqual(NO_FILTER);
       expect(usm.filtersEnabled).toEqual([]);
       expect(usm.order).toEqual('desc');
-      expect(usm.orderBy).toEqual('pos');
+      expect(usm.orderBy).toBeUndefined();
       expect(usm.orderEnabledColumns).toEqual([]);
       expect(usm.selectedRow).toBeUndefined();
       expect(usm.shownColumns).toEqual([]);
@@ -89,27 +95,27 @@ describe('UiSelectionsManager', () => {
     it('should return false if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = false;
-      expect(uiSelections.getSortDirection('pos')).toBe(false);
+      expect(uiSelections.getSortDirection(columnPos)).toBe(false);
     });
 
     it('should return false if the ordering is set on another column', () => {
       const uiSelections = new UiSelectionsManager();
-      uiSelections.orderBy = 'pos';
-      expect(uiSelections.getSortDirection('name')).toBe(false);
+      uiSelections.orderBy = columnPos;
+      expect(uiSelections.getSortDirection(columnName)).toBe(false);
     });
 
     it('should return asc if the ordering is set to asc on the specified column', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.order = 'asc';
-      uiSelections.orderBy = 'name';
-      expect(uiSelections.getSortDirection('name')).toBe('asc');
+      uiSelections.orderBy = columnName;
+      expect(uiSelections.getSortDirection(columnName)).toBe('asc');
     });
 
     it('should return desc if the ordering is set to desc on the specified column', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.order = 'desc';
-      uiSelections.orderBy = 'fed';
-      expect(uiSelections.getSortDirection('fed')).toBe('desc');
+      uiSelections.orderBy = columnClub;
+      expect(uiSelections.getSortDirection(columnClub)).toBe('desc');
     });
   });
 
@@ -117,19 +123,26 @@ describe('UiSelectionsManager', () => {
     it('should return false if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = false;
-      expect(uiSelections.isSortEnabledOn('pos')).toBe(false);
+      expect(uiSelections.isSortEnabledOn(columnPos)).toBe(false);
     });
 
     it('should return false if sorting is not enabled on this column', () => {
       const uiSelections = new UiSelectionsManager();
-      uiSelections.orderEnabledColumns = ['pos', 'name'];
-      expect(uiSelections.isSortEnabledOn('club')).toBe(false);
+      uiSelections.orderEnabledColumns = [
+        columnPos,
+        columnName
+      ];
+      expect(uiSelections.isSortEnabledOn(columnClub)).toBe(false);
     });
 
     it('should return true if sorting is enabled on this column', () => {
       const uiSelections = new UiSelectionsManager();
-      uiSelections.orderEnabledColumns = ['pos', 'name', 'club'];
-      expect(uiSelections.isSortEnabledOn('club')).toBe(true);
+      uiSelections.orderEnabledColumns = [
+        columnPos,
+        columnName,
+        columnClub
+      ];
+      expect(uiSelections.isSortEnabledOn(columnClub)).toBe(true);
     });
   });
 
@@ -137,26 +150,27 @@ describe('UiSelectionsManager', () => {
     it('should return false if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = false;
-      expect(uiSelections.isSortActive('pos')).toBe(false);
+      expect(uiSelections.isSortActive(columnPos)).toBe(false);
     });
 
     it('should return false if called with undefined', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = true;
+      uiSelections.orderBy = columnPos;
       expect(uiSelections.isSortActive(undefined)).toBe(false);
     });
 
     it('should return false if called with column other than assigned in orderBy', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = true;
-      expect(uiSelections.isSortActive('name')).toBe(false);
+      expect(uiSelections.isSortActive(columnName)).toBe(false);
     });
 
     it('should return true if called with column assigned in orderBy', () => {
       const uiSelections = new UiSelectionsManager();
       uiSelections.interactive = true;
-      uiSelections.orderBy = 'name';
-      expect(uiSelections.isSortActive('name')).toBe(true);
+      uiSelections.orderBy = columnName;
+      expect(uiSelections.isSortActive(columnName)).toBe(true);
     });
   });
 
@@ -179,29 +193,35 @@ describe('UiSelectionsManager', () => {
   describe('applyOrderBy', () => {
     it('should have no effect if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
+      uiSelections.orderBy = columnPos;
       uiSelections.interactive = false;
-      expect(uiSelections.orderBy).toEqual('pos');
+      expect(uiSelections.orderBy).toEqual(columnPos);
 
-      uiSelections.applyOrderBy('name');
-      expect(uiSelections.orderBy).toEqual('pos');
+      uiSelections.applyOrderBy(columnName);
+      expect(uiSelections.orderBy).toEqual(columnPos);
     });
 
     it('should have no effect if the column is not among enabled for sorting', () => {
       const uiSelections = new UiSelectionsManager();
-      uiSelections.orderEnabledColumns = ['pos'];
+      uiSelections.orderBy = columnPos;
+      uiSelections.orderEnabledColumns = [columnPos];
 
-      uiSelections.applyOrderBy('name');
-      expect(uiSelections.orderBy).toEqual('pos');
+      uiSelections.applyOrderBy(columnName);
+      expect(uiSelections.orderBy).toEqual(columnPos);
     });
 
     it('should inverse ordering if the column is enabled for sorting', () => {
       const uiSelections = new UiSelectionsManager();
-      uiSelections.orderEnabledColumns = ['pos', 'name'];
-      expect(uiSelections.orderBy).toEqual('pos');
+      uiSelections.orderEnabledColumns = [
+        columnPos,
+        columnName
+      ];
+      uiSelections.orderBy = columnPos;
+      expect(uiSelections.orderBy).toEqual(columnPos);
       expect(uiSelections.order).toEqual('desc');
 
-      uiSelections.applyOrderBy('name');
-      expect(uiSelections.orderBy).toEqual('name');
+      uiSelections.applyOrderBy(columnName);
+      expect(uiSelections.orderBy).toEqual(columnName);
       expect(uiSelections.order).toEqual('asc');
     });
   });

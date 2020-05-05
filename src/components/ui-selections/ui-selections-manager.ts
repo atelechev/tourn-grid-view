@@ -1,10 +1,10 @@
 import { Filter } from '../filters/filter';
 import { Order } from './order';
 import { NO_FILTER } from '../filters/no-filter';
-import { COLUMN_PLACE } from '../columns/names';
 import { SortDirection } from '@material-ui/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UiEvent } from 'components/ui-selections/ui-event';
+import { UiEvent } from './ui-event';
+import { Column } from '../columns/column';
 
 export class UiSelectionsManager {
   private _interactive: boolean;
@@ -17,13 +17,13 @@ export class UiSelectionsManager {
 
   private _order: Order;
 
-  private _orderBy: string;
+  private _orderBy: Column;
 
-  private _orderEnabledColumns: Array<string>;
+  private _orderEnabledColumns: Array<Column>;
 
   private _selectedRow: Array<any> | undefined;
 
-  private _shownColumns: Array<string>;
+  private _shownColumns: Array<Column>;
 
   private readonly _eventSubjects: Map<UiEvent, BehaviorSubject<any>>;
 
@@ -35,7 +35,7 @@ export class UiSelectionsManager {
     this._filterActive = NO_FILTER;
     this._filtersEnabled = [];
     this._order = 'desc';
-    this._orderBy = COLUMN_PLACE;
+    this._orderBy = undefined;
     this._orderEnabledColumns = [];
     this._selectedRow = undefined;
     this._shownColumns = [];
@@ -50,7 +50,7 @@ export class UiSelectionsManager {
   private initEventSubjects(): void {
     this._eventSubjects.set(
       'shown-columns-change',
-      new BehaviorSubject<Array<string>>(this._shownColumns)
+      new BehaviorSubject<Array<Column>>(this._shownColumns)
     );
     this._eventSubjects.set(
       'filter-type-change',
@@ -62,7 +62,7 @@ export class UiSelectionsManager {
     );
     this._eventSubjects.set(
       'sort-column-change',
-      new BehaviorSubject<string>(this._orderBy)
+      new BehaviorSubject<Column>(this._orderBy)
     );
     this._eventSubjects.set(
       'selected-row-change',
@@ -144,19 +144,19 @@ export class UiSelectionsManager {
     return this._order;
   }
 
-  public set orderBy(ordrBy: string) {
+  public set orderBy(ordrBy: Column) {
     this._orderBy = ordrBy;
   }
 
-  public get orderBy(): string {
+  public get orderBy(): Column {
     return this._orderBy;
   }
 
-  public set orderEnabledColumns(oec: Array<string>) {
+  public set orderEnabledColumns(oec: Array<Column>) {
     this._orderEnabledColumns = oec;
   }
 
-  public get orderEnabledColumns(): Array<string> {
+  public get orderEnabledColumns(): Array<Column> {
     return this._orderEnabledColumns;
   }
 
@@ -172,12 +172,12 @@ export class UiSelectionsManager {
     return this._selectedRow;
   }
 
-  public set shownColumns(sc: Array<string>) {
+  public set shownColumns(sc: Array<Column>) {
     this._shownColumns = sc;
     this.getEventHandler('shown-columns-change').next(this._shownColumns);
   }
 
-  public get shownColumns(): Array<string> {
+  public get shownColumns(): Array<Column> {
     return this._shownColumns;
   }
 
@@ -193,37 +193,37 @@ export class UiSelectionsManager {
     this.getEventHandler('control-panel-toggle').next(this._showControlPanel);
   }
 
-  public getSortDirection(columnName: string): SortDirection {
+  public getSortDirection(column: Column): SortDirection {
     if (!this._interactive) {
       return false;
     }
-    if (this._orderBy === columnName) {
+    if (this._orderBy === column) {
       return this._order;
     }
     return false;
   }
 
-  public isSortEnabledOn(columnName: string): boolean {
+  public isSortEnabledOn(column: Column): boolean {
     if (!this._interactive) {
       return false;
     }
     return (
       this._orderEnabledColumns.findIndex(
-        sortableColumn => sortableColumn === columnName
+        sortableColumn => sortableColumn === column
       ) > -1
     );
   }
 
-  public isSortActive(columnName: string): boolean {
-    return this._interactive && this._orderBy === columnName;
+  public isSortActive(column: Column): boolean {
+    return this._interactive && this._orderBy === column;
   }
 
-  public applyOrderBy(columnName: string): void {
-    if (!this._interactive || !this.isSortEnabledOn(columnName)) {
+  public applyOrderBy(column: Column): void {
+    if (!this._interactive || !this.isSortEnabledOn(column)) {
       return;
     }
     this.inverseSortOrder();
-    this._orderBy = columnName;
+    this._orderBy = column;
     this.getEventHandler('sort-column-change').next(this._orderBy);
   }
 
