@@ -1,29 +1,26 @@
 import { initializeFilters } from './filters-initialization-util';
 import { Filter } from './filter';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
+import { buildColumn } from '../columns/column-factory';
 
 describe('initializeFilters', () => {
-  const sampleCsv = new DataManager();
-  sampleCsv.header = ['pos', 'name', 'fed', 'rating'];
-  sampleCsv.data = [
-    [1, 'Player A', 'FRA', 1960],
-    [2, 'Player B', 'GER', 1940],
-    [3, 'Player C', 'BRA', 2105]
-  ];
 
-  it('should throw expected error if the csv arg is undefined', () => {
-    const message = 'csv must be defined for filters initialization.';
-    expect(() => initializeFilters(['fed', 'rating'], undefined)).toThrow(
+  it('should throw expected error if the tournament arg is undefined', () => {
+    const message = 'tournament must be defined for filters initialization.';
+    expect(() => initializeFilters(undefined)).toThrow(
       message
     );
   });
 
-  it('should return an empty array if the filterNames arg is undefined', () => {
-    expect(initializeFilters(undefined, sampleCsv)).toEqual([]);
-  });
-
-  it('should return an empty array if the filterNames arg is empty', () => {
-    expect(initializeFilters([], sampleCsv)).toEqual([]);
+  it('should return an empty array if no filters are defined in the data', () => {
+    const sampleCsv = new LoadedTournament();
+    sampleCsv.columns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('fed', 2),
+      buildColumn('rating', 3)
+    ];
+    expect(initializeFilters(sampleCsv)).toEqual([]);
   });
 
   const ensureFilterExpected = (
@@ -37,7 +34,19 @@ describe('initializeFilters', () => {
   };
 
   it('should return expected filters for valid args', () => {
-    const filters = initializeFilters(['fed', 'rating'], sampleCsv);
+    const sampleCsv = new LoadedTournament();
+    sampleCsv.columns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('fed|f', 2),
+      buildColumn('rating|f', 3)
+    ];
+    sampleCsv.data = [
+      [1, 'Player A', 'FRA', 1960],
+      [2, 'Player B', 'GER', 1940],
+      [3, 'Player C', 'BRA', 2105]
+    ];
+    const filters = initializeFilters(sampleCsv);
     expect(filters).toBeTruthy();
     expect(filters.length).toEqual(2);
     ensureFilterExpected(filters[0], 'fed', ['---', 'BRA', 'FRA', 'GER']);
@@ -48,17 +57,4 @@ describe('initializeFilters', () => {
     ]);
   });
 
-  it('should initialize filters by name case insensitive', () => {
-    const filters = initializeFilters(['FED'], sampleCsv);
-    expect(filters).toBeTruthy();
-    expect(filters.length).toEqual(1);
-    ensureFilterExpected(filters[0], 'fed', ['---', 'BRA', 'FRA', 'GER']);
-  });
-
-  it('should skip empty identifiers', () => {
-    const filters = initializeFilters(['FED', undefined, '   '], sampleCsv);
-    expect(filters).toBeTruthy();
-    expect(filters.length).toEqual(1);
-    ensureFilterExpected(filters[0], 'fed', ['---', 'BRA', 'FRA', 'GER']);
-  });
 });
