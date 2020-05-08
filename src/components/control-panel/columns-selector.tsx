@@ -6,8 +6,9 @@ import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { DataContext } from '../context/data-context';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { Column } from '../columns/column';
 
 const itemStyle = css({
   textTransform: 'capitalize'
@@ -17,12 +18,13 @@ export class ColumnsSelector extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: DataManager) => (
+        {(tournament: LoadedTournament) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => (
               <UiSelectionsContext.Consumer>
                 {(uiSelections: UiSelectionsManager) => {
-                  const selectableOptions = buildSelectableColumns(csv.header);
+                  const allColumns = tournament.columns;
+                  const selectableOptions = buildSelectableColumns(allColumns);
                   return (
                     <FormControl>
                       <InputLabel id="selector-columns-label">
@@ -35,13 +37,13 @@ export class ColumnsSelector extends React.Component {
                         multiple
                         labelId="selector-columns-label"
                         id="selector-columns"
-                        value={uiSelections.shownColumns}
+                        value={this.shownColumnsAsString(uiSelections)}
                         onChange={evt =>
-                          this.columnsSelectionChanged(evt, uiSelections)
+                          this.columnsSelectionChanged(evt, uiSelections, allColumns)
                         }
                       >
                         {selectableOptions.map((opt, i) => (
-                          <MenuItem key={i} value={opt} css={itemStyle}>
+                          <MenuItem key={i} value={opt.name} css={itemStyle}>
                             {opt}
                           </MenuItem>
                         ))}
@@ -57,10 +59,18 @@ export class ColumnsSelector extends React.Component {
     );
   }
 
+  private shownColumnsAsString(uiSelections: UiSelectionsManager): Array<string> {
+    return uiSelections.shownColumns.map(col => col.name);
+  }
+
   private columnsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsManager
+    uiSelections: UiSelectionsManager,
+    allColumns: Array<Column>
   ): void {
-    uiSelections.shownColumns = event.target.value as Array<string>;
+    const mappedFromStrings = (event.target.value as Array<string>)
+      .map(colName => allColumns.find(column => column.name === colName))
+      .filter(column => column !== undefined);
+    uiSelections.shownColumns = mappedFromStrings;
   }
 }

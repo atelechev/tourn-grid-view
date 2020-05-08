@@ -6,9 +6,8 @@ import { placeColumnStyle } from './column-styles';
 export class RankColumn extends Column {
 
   constructor(code: string,
-    index: number,
-    canOrderBy: boolean) {
-    super(code, index, 'rank', false, canOrderBy, false);
+    index: number) {
+    super(code, index, 'rank', false, true, false);
   }
 
   public get styles(): SerializedStyles {

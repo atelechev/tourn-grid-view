@@ -90,7 +90,7 @@ const instantiateColumn = (semantics: Semantics,
     case 'federation': return new FederationColumn(name, index, hidden, orderBy, filterable);
     case 'name': return new NameColumn(name, index, orderBy);
     case 'points': return new PointsColumn(name, index, hidden, orderBy, filterable);
-    case 'rank': return new RankColumn(name, index, orderBy);
+    case 'rank': return new RankColumn(name, index);
     case 'rating': return new RatingColumn(name, index, hidden, orderBy, filterable);
     case 'round': return new RoundColumn(name, index, hidden, orderBy, filterable);
     case 'tiebreak': return new TieBreakColumn(name, index, hidden, orderBy, filterable);

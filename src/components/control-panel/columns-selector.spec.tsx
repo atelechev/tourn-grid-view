@@ -6,8 +6,9 @@ import { ColumnsSelector } from './columns-selector';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { DataContext } from '../context/data-context';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { buildColumn } from '../columns/column-factory';
 
 describe('ColumnsSelector', () => {
   const lang = 'en';
@@ -30,8 +31,14 @@ describe('ColumnsSelector', () => {
   });
 
   it('should be enabled if source data and ui selections are set properly', () => {
-    const csv: DataManager = new DataManager();
-    csv.header = ['pos', 'name', 'fed', 'club', 'pts'];
+    const csv: LoadedTournament = new LoadedTournament();
+    csv.columns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('fed', 2),
+      buildColumn('club', 3),
+      buildColumn('pts', 4)
+    ];
     csv.data = [
       [1, 'A', 'FRA', 'aa', 2],
       [2, 'B', 'GER', 'bb', 1.5],
@@ -45,7 +52,10 @@ describe('ColumnsSelector', () => {
     const uiSelections = new UiSelectionsManager();
     uiSelections.filterActive = selectedFilter;
     uiSelections.filtersEnabled = [selectedFilter];
-    uiSelections.shownColumns = ['fed', 'pts'];
+    uiSelections.shownColumns = [
+      buildColumn('fed', 2),
+      buildColumn('pts', 4)
+    ];
     const element = renderer
       .create(
         <DataContext.Provider value={csv}>
@@ -62,6 +72,7 @@ describe('ColumnsSelector', () => {
     const input = element.children[1];
     expect(input.type).toEqual('div');
     const selectionSummaryText = input.children[0].children[0];
+    // FIXME fails after the introduction of Column
     expect(selectionSummaryText).toEqual('fed, pts');
   });
 });

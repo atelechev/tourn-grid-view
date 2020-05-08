@@ -7,7 +7,7 @@ export abstract class Column {
   constructor(private readonly _name: string,
     private readonly _index: number,
     private readonly _semantics: Semantics,
-    private _hidden: boolean,
+    private readonly _hidden: boolean,
     private readonly _canOrderBy: boolean,
     private readonly _canFilterOn: boolean) {
   }

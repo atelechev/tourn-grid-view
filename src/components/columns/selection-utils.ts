@@ -1,25 +1,13 @@
-import { isRoundColumn } from './round';
-import { COLUMN_ROUNDS } from './names';
 import { isAlwaysVisibleColumn } from './visibility-utils';
+import { Column } from './column';
 
 export const buildSelectableColumns = (
-  allHeaderColumns: Array<string>
-): Array<string> => {
+  allHeaderColumns: Array<Column>
+): Array<Column> => {
   if (!allHeaderColumns || allHeaderColumns.length === 0) {
     return [];
   }
-  const noAlwaysVisible = allHeaderColumns.filter(
-    column => !isAlwaysVisibleColumn(column)
+  return allHeaderColumns.filter(
+    column => !isAlwaysVisibleColumn(column) && !column.hasSemantics('round')
   );
-  const firstRoundColumnIndex = noAlwaysVisible.findIndex(colName =>
-    isRoundColumn(colName)
-  );
-  if (firstRoundColumnIndex === -1) {
-    return noAlwaysVisible;
-  }
-  const noRoundColumns = noAlwaysVisible.filter(
-    column => !isRoundColumn(column)
-  );
-  noRoundColumns.splice(firstRoundColumnIndex, 0, COLUMN_ROUNDS);
-  return noRoundColumns;
 };

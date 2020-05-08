@@ -9,7 +9,6 @@ import { UiSelectionsContext } from './context/ui-selections-context';
 import { DataContext } from './context/data-context';
 import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { isNameColumn } from './columns/name';
 import ShowInfo from './control-panel/show-info';
 import ShowPanel from './control-panel/show-panel';
 import { Column } from './columns/column';
@@ -58,7 +57,7 @@ export default class GridHeader extends React.Component {
                         >
                           {column.name}
                         </TableSortLabel>
-                        {this.renderTools(column.name, uiSelections.interactive)}
+                        {this.renderTools(column, uiSelections.interactive)}
                       </TableCell>
                     );
                   })}
@@ -71,8 +70,8 @@ export default class GridHeader extends React.Component {
     );
   }
 
-  private renderTools(columnName: string, isInteractive: boolean): ReactNode {
-    if (!isNameColumn(columnName)) {
+  private renderTools(column: Column, isInteractive: boolean): ReactNode {
+    if (!column.hasSemantics('name')) {
       return undefined;
     }
     return (
