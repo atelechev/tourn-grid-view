@@ -5,15 +5,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { getColumnVisibilityStyle } from './columns/visibility-utils';
-import { columnStylesHandler } from './columns/column-styles-handler';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { DataContext } from './context/data-context';
-import { DataManager } from './csv/data-manager';
+import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 import { isNameColumn } from './columns/name';
 import ShowInfo from './control-panel/show-info';
 import ShowPanel from './control-panel/show-panel';
+import { Column } from './columns/column';
+import { visibleStyle, hiddenStyle } from './columns/column-styles';
 
 const headerCellStyle = css({
   textTransform: 'capitalize'
@@ -34,35 +34,31 @@ export default class GridHeader extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: DataManager) => (
+        {(csv: LoadedTournament) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsManager) => (
               <TableHead>
                 <TableRow>
-                  {csv.header.map((columnName, index) => {
+                  {csv.columns.map(column => {
                     const calculatedStyles = this.calculateStyles(
-                      columnName,
-                      uiSelections.shownColumns
+                      column,
+                      uiSelections
                     );
                     return (
                       <TableCell
-                        key={index}
+                        key={column.index}
                         css={calculatedStyles}
-                        sortDirection={uiSelections.getSortDirection(
-                          columnName
-                        )}
+                        sortDirection={uiSelections.getSortDirection(column)}
                       >
                         <TableSortLabel
-                          active={uiSelections.isSortActive(columnName)}
-                          hideSortIcon={
-                            !uiSelections.isSortEnabledOn(columnName)
-                          }
+                          active={uiSelections.isSortActive(column)}
+                          hideSortIcon={!uiSelections.isSortEnabledOn(column)}
                           direction={uiSelections.order}
-                          onClick={_ => uiSelections.applyOrderBy(columnName)}
+                          onClick={_ => uiSelections.applyOrderBy(column)}
                         >
-                          {columnName}
+                          {column.name}
                         </TableSortLabel>
-                        {this.renderTools(columnName, uiSelections.interactive)}
+                        {this.renderTools(column.name, uiSelections.interactive)}
                       </TableCell>
                     );
                   })}
@@ -88,15 +84,12 @@ export default class GridHeader extends React.Component {
   }
 
   private calculateStyles(
-    column: string,
-    shownColumns: Array<string>
+    column: Column,
+    uiSelections: UiSelectionsManager
   ): Array<SerializedStyles> {
-    const visibilityClass = getColumnVisibilityStyle(column, shownColumns);
-    const styles: Array<SerializedStyles> = [headerCellStyle, visibilityClass];
-    const columnStyle = columnStylesHandler.get(column);
-    if (columnStyle) {
-      styles.push(columnStyle);
-    }
-    return styles;
+    const isVisible = uiSelections.isShown(column);
+    const visibilityClass = isVisible ? visibleStyle : hiddenStyle;
+    return [headerCellStyle, visibilityClass, column.styles];
   }
+
 }

@@ -1,5 +1,7 @@
+import { Column } from '../columns/column';
+
 export interface CellValueProps {
-  column: string;
+  column: Column;
   isVisible: boolean;
   cellValue: any;
 }

@@ -1,12 +1,9 @@
 /** @jsx jsx */
 import React, { ReactNode } from 'react';
 import { CellValueProps } from './cell-value-props';
-import { columnStylesHandler } from '../columns/column-styles-handler';
 import { CountryFlag } from '../country-flag/country-flag';
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GameResultValue } from './game-result-value';
-import { isFederationColumn } from '../columns/federation';
-import { isRoundColumn } from '../columns/round';
 import { TableCell } from '@material-ui/core';
 import { visibleStyle, hiddenStyle } from '../columns/column-styles';
 
@@ -21,10 +18,10 @@ export class CellValue extends React.Component<CellValueProps> {
   }
 
   private renderValue() {
-    if (isRoundColumn(this.props.column)) {
+    if (this.props.column.hasSemantics('round')) {
       return <GameResultValue rawResult={this.props.cellValue} />;
     }
-    if (isFederationColumn(this.props.column)) {
+    if (this.props.column.hasSemantics('federation')) {
       return <CountryFlag countryCode={this.props.cellValue} />;
     }
     return <span>{this.props.cellValue}</span>;
@@ -33,7 +30,7 @@ export class CellValue extends React.Component<CellValueProps> {
   private calculateStyles(): Array<SerializedStyles> {
     const visibilityClass = this.props.isVisible ? visibleStyle : hiddenStyle;
     const styles: Array<SerializedStyles> = [dataCellStyle, visibilityClass];
-    const columnStyle = columnStylesHandler.get(this.props.column);
+    const columnStyle = this.props.column.styles;
     styles.push(columnStyle);
     return styles;
   }
