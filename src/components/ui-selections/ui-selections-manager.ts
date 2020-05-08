@@ -173,12 +173,27 @@ export class UiSelectionsManager {
   }
 
   public set shownColumns(sc: Array<Column>) {
-    this._shownColumns = sc;
+    this._shownColumns = sc ? sc : [];
     this.getEventHandler('shown-columns-change').next(this._shownColumns);
   }
 
   public get shownColumns(): Array<Column> {
     return this._shownColumns;
+  }
+
+  private isAlwaysShown(column: Column): boolean {
+    return column &&
+      (column.hasSemantics('rank') || column.hasSemantics('name'));
+  }
+
+  public isShown(column: Column): boolean {
+    // TODO maybe a pre-calculated map can be more performant
+    if (!column) {
+      return false;
+    }
+    return this.isAlwaysShown(column) ||
+      this._shownColumns
+        .findIndex(shown => shown.name === column.name) > -1;
   }
 
   public get showControlPanel(): boolean {

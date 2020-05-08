@@ -11,7 +11,7 @@ import {
   ensureElementDisplayed,
   ensureElementHidden
 } from './cell-value/cell-value.spec';
-import { DataManager } from './csv/data-manager';
+import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 describe('GridData', () => {
@@ -22,7 +22,7 @@ describe('GridData', () => {
     i18nProvider: getI18nProvider(lang)
   };
 
-  const csv = new DataManager();
+  const csv = new LoadedTournament();
   csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'];
   csv.data = [
     [1, 'E', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],

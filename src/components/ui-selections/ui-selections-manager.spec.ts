@@ -362,4 +362,49 @@ describe('UiSelectionsManager', () => {
       expect(uiSelections.selectedRow).toBeUndefined();
     });
   });
+
+  describe('isShown', () => {
+
+    it('should return false for undefined arg', () => {
+      const uiSelections = new UiSelectionsManager();
+      expect(uiSelections.isShown(undefined)).toBe(false);
+    });
+
+    it('should always return true for ranking column', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.shownColumns = [
+        buildColumn('fed', 1),
+        buildColumn('rating', 2),
+      ]
+      expect(uiSelections.isShown(buildColumn('rank', 0))).toBe(true);
+    });
+
+    it('should always return true for name column', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.shownColumns = [
+        buildColumn('fed', 1),
+        buildColumn('rating', 2),
+      ]
+      expect(uiSelections.isShown(buildColumn('name', 0))).toBe(true);
+    });
+
+    it('should return true if column is among shownColumns', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.shownColumns = [
+        buildColumn('fed', 1),
+        buildColumn('rating', 2),
+      ]
+      expect(uiSelections.isShown(buildColumn('rating', 2))).toBe(true);
+    });
+
+    it('should return false if column is not among shownColumns', () => {
+      const uiSelections = new UiSelectionsManager();
+      uiSelections.shownColumns = [
+        buildColumn('fed', 1),
+        buildColumn('rating', 2),
+      ]
+      expect(uiSelections.isShown(buildColumn('club', 3))).toBe(false);
+    });
+
+  });
 });
