@@ -170,7 +170,11 @@ describe('loadCsv', () => {
       id
     );
     const csv = loadCsv(id);
-    expect(csv.header).toEqual(['pos', 'fed', 'name']);
+    expect(csv.columns).toEqual([
+      buildColumn('pos', 0),
+      buildColumn('fed', 1),
+      buildColumn('name', 2)
+    ]);
     expect(csv.data[0]).toEqual(['1', 'FRA', 'Player A']);
     expect(csv.data[1]).toEqual(['2', 'USA', 'Player B']);
   });
