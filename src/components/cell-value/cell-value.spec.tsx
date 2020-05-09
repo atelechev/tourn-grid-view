@@ -3,6 +3,7 @@ import * as renderer from 'react-test-renderer';
 import { CellValue } from './cell-value';
 import { getI18nProvider } from '../i18n/i18n-provider';
 import { I18nContext } from '../context/i18n-context';
+import { buildColumn } from '../columns/column-factory';
 
 export const getCssClassName = (json: any): string => {
   const allClasses = json.props.className.split(' ') as Array<string>;
@@ -60,7 +61,7 @@ describe('CellValue', () => {
 
   it('should render the federation column value if it is visible', () => {
     const props = {
-      column: 'Fed',
+      column: buildColumn('Fed', 0),
       isVisible: true,
       cellValue: 'FRA'
     };
@@ -71,7 +72,7 @@ describe('CellValue', () => {
 
   it('should not render the federation column value if it is not visible', () => {
     const props = {
-      column: 'Fed',
+      column: buildColumn('Fed', 0),
       isVisible: false,
       cellValue: 'FRA'
     };
@@ -82,7 +83,7 @@ describe('CellValue', () => {
 
   it('should render a simple text column value if it is visible', () => {
     const props = {
-      column: 'Club',
+      column: buildColumn('Club', 0),
       isVisible: true,
       cellValue: 'test1'
     };
@@ -94,7 +95,7 @@ describe('CellValue', () => {
 
   it('should not render a simple text column value if it is not visible', () => {
     const props = {
-      column: 'Club',
+      column: buildColumn('Club', 0),
       isVisible: false,
       cellValue: 'test2'
     };
@@ -106,7 +107,7 @@ describe('CellValue', () => {
 
   it('should render a game result column value if it is visible', () => {
     const props = {
-      column: 'R1',
+      column: buildColumn('R1', 0),
       isVisible: true,
       cellValue: '+1W'
     };
@@ -123,7 +124,7 @@ describe('CellValue', () => {
 
   it('should not render a game result column value if it is not visible', () => {
     const props = {
-      column: 'R1',
+      column: buildColumn('R1', 0),
       isVisible: false,
       cellValue: '+1W'
     };

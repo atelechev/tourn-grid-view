@@ -5,13 +5,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import { CellValue } from './cell-value/cell-value';
 import {
-  buildColumnsVisibilityMap,
   isRowVisible
 } from './columns/visibility-utils';
 import { UiSelectionsContext } from './context/ui-selections-context';
 import { DataContext } from './context/data-context';
 import { hiddenStyle, visibleStyle } from './columns/column-styles';
-import { DataManager } from './csv/data-manager';
+import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 
 const rowHoverStyle = css({
@@ -27,22 +26,18 @@ export default class GridData extends React.Component {
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: DataManager) => (
+        {(tournament: LoadedTournament) => (
           <UiSelectionsContext.Consumer>
             {(uiSelections: UiSelectionsManager) => {
-              const columnVisibility = buildColumnsVisibilityMap(
-                csv.header,
-                uiSelections.shownColumns
-              );
-              const position = csv.getPositionFor(uiSelections.selectedRow);
-              const opponentPlacesOfSelected = csv.getOpponentsFor(position);
+              const position = tournament.getPositionFor(uiSelections.selectedRow);
+              const opponentPlacesOfSelected = tournament.getOpponentsFor(position);
               return (
                 <TableBody>
-                  {csv.data.map((row, indexRow) => {
+                  {tournament.data.map((row, indexRow) => {
                     const rowStyles = this.calculateRowStyles(
                       row,
                       uiSelections,
-                      csv.positionColumnIndex,
+                      tournament.rankColumn.index,
                       opponentPlacesOfSelected
                     );
                     return (
@@ -52,12 +47,12 @@ export default class GridData extends React.Component {
                         onClick={_ => uiSelections.toggleRowSelection(row)}
                       >
                         {row.map((cellValue, indexCell) => {
-                          const column = csv.header[indexCell];
+                          const column = tournament.columns[indexCell];
                           return (
                             <CellValue
                               key={indexCell}
                               column={column}
-                              isVisible={columnVisibility.get(column)}
+                              isVisible={uiSelections.isShown(column)}
                               cellValue={cellValue}
                             />
                           );

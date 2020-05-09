@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx, SerializedStyles } from '@emotion/core';
+import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import { I18nContext } from '../context/i18n-context';
@@ -17,7 +17,7 @@ export const buttonStyle = css({
   height: '16px'
 });
 
-interface ShowInfoProps {}
+interface ShowInfoProps { }
 
 interface ShowInfoState {
   dialogShown: boolean;
@@ -26,7 +26,7 @@ interface ShowInfoState {
 export default class ShowInfo extends React.Component<
   ShowInfoProps,
   ShowInfoState
-> {
+  > {
   constructor(props: ShowInfoProps) {
     super(props);
     this.state = {

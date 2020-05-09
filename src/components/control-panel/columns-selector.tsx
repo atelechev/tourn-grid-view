@@ -2,27 +2,30 @@
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
-import { buildSelectableColumns } from '../columns/selection-utils';
 import { I18nContext } from '../context/i18n-context';
 import { UiSelectionsContext } from '../context/ui-selections-context';
 import { DataContext } from '../context/data-context';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { Column } from '../columns/column';
 
 const itemStyle = css({
   textTransform: 'capitalize'
 });
 
 export class ColumnsSelector extends React.Component {
+
+  private readonly _roundsGroupName = 'rounds';
+
   public render(): ReactNode {
     return (
       <DataContext.Consumer>
-        {(csv: DataManager) => (
+        {(tournament: LoadedTournament) => (
           <I18nContext.Consumer>
             {(i18n: I18nContext) => (
               <UiSelectionsContext.Consumer>
                 {(uiSelections: UiSelectionsManager) => {
-                  const selectableOptions = buildSelectableColumns(csv.header);
+                  const selectableOptions = this.buildSelectableColumns(tournament);
                   return (
                     <FormControl>
                       <InputLabel id="selector-columns-label">
@@ -35,9 +38,9 @@ export class ColumnsSelector extends React.Component {
                         multiple
                         labelId="selector-columns-label"
                         id="selector-columns"
-                        value={uiSelections.shownColumns}
+                        value={this.extractCheckedFromSelectable(selectableOptions, uiSelections.shownColumns)}
                         onChange={evt =>
-                          this.columnsSelectionChanged(evt, uiSelections)
+                          this.columnsSelectionChanged(evt, uiSelections, tournament)
                         }
                       >
                         {selectableOptions.map((opt, i) => (
@@ -57,10 +60,42 @@ export class ColumnsSelector extends React.Component {
     );
   }
 
+  private buildSelectableColumns(tournament: LoadedTournament): Array<string> {
+    const selectable = tournament.columns
+      .filter(column => !column.hasSemantics('round')
+        && !(column.hasSemantics('rank') || column.hasSemantics('name')))
+      .map(column => column.name);
+    if (tournament.roundColumns.length > 0) {
+      selectable.push(this._roundsGroupName);
+    }
+    return selectable;
+  }
+
+  private extractCheckedFromSelectable(
+    selectable: Array<string>,
+    shownColumns: Array<Column>
+  ): Array<string> {
+    const shownNames = new Set<string>(shownColumns.filter(column => !column.hasSemantics('round'))
+      .map(column => column.name));
+    const checked = selectable.filter(colName => shownNames.has(colName));
+    const roundsShown = shownColumns.find(column => column.hasSemantics('round')) !== undefined;
+    if (roundsShown) {
+      checked.push(this._roundsGroupName);
+    }
+    return checked;
+  }
+
   private columnsSelectionChanged(
     event: React.ChangeEvent<{ value: unknown }>,
-    uiSelections: UiSelectionsManager
+    uiSelections: UiSelectionsManager,
+    tournament: LoadedTournament
   ): void {
-    uiSelections.shownColumns = event.target.value as Array<string>;
+    const selections = (event.target.value as Array<string>);
+    const mappedFromStrings = selections
+      .map(colName => tournament.columns.find(column => column.name === colName))
+      .filter(column => column !== undefined);
+    const roundsSelected = selections.find(selected => selected === this._roundsGroupName) !== undefined;
+    const mappedRounds = roundsSelected ? tournament.roundColumns : [];
+    uiSelections.shownColumns = mappedFromStrings.concat(mappedRounds);
   }
 }
