@@ -1,8 +1,9 @@
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
 import { Column } from './column';
 
-export const isAlwaysVisibleColumn = (column: Column): boolean =>
-  column.hasSemantics('rank') || column.hasSemantics('name');
+export const isAlwaysVisibleColumn = (column: Column): boolean => {
+  return !!column && (column.hasSemantics('rank') || column.hasSemantics('name'));
+}
 
 export const isRowVisible = (
   row: Array<any>,

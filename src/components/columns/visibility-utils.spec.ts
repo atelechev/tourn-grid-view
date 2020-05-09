@@ -1,55 +1,47 @@
 import {
-  COLUMN_PLACE,
-  COLUMN_NAME,
-  COLUMN_POINTS,
-  COLUMN_ROUNDS,
-  COLUMN_CATEGORY,
-  COLUMN_CLUB,
-  COLUMN_FEDERATION,
-  COLUMN_RATING
-} from './names';
-import {
   isAlwaysVisibleColumn,
   isRowVisible
 } from './visibility-utils';
 import { SimpleFilter } from '../filters/simple-filter';
 import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { buildColumn } from './column-factory';
 
 describe('isAlwaysVisibleColumn', () => {
-  it('should return true for Pos', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_PLACE)).toBe(true);
-  });
-
-  it('should return true for Name', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_NAME)).toBe(true);
-  });
 
   it('should return false for undefined', () => {
     expect(isAlwaysVisibleColumn(undefined)).toBe(false);
   });
 
+  it('should return true for Pos', () => {
+    expect(isAlwaysVisibleColumn(buildColumn('pos', 0))).toBe(true);
+  });
+
+  it('should return true for Name', () => {
+    expect(isAlwaysVisibleColumn(buildColumn('name', 0))).toBe(true);
+  });
+
   it('should return false for Cat', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_CATEGORY)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('cat', 0))).toBe(false);
   });
 
   it('should return false for Club', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_CLUB)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('club', 0))).toBe(false);
   });
 
   it('should return false for Fed', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_FEDERATION)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('fed', 0))).toBe(false);
   });
 
   it('should return false for Pts', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_POINTS)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('points', 0))).toBe(false);
   });
 
   it('should return false for Rating', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_RATING)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('rating', 0))).toBe(false);
   });
 
   it('should return false for Rounds', () => {
-    expect(isAlwaysVisibleColumn(COLUMN_ROUNDS)).toBe(false);
+    expect(isAlwaysVisibleColumn(buildColumn('rounds', 0))).toBe(false);
   });
 });
 

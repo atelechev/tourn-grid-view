@@ -1,5 +1,5 @@
 import { buildSelectableColumns } from './selection-utils';
-import { buildColumn } from 'components/columns/column-factory';
+import { buildColumn } from './column-factory';
 
 describe('buildSelectableColumns', () => {
   it('should return an empty array if arg is undefined', () => {
@@ -31,8 +31,8 @@ describe('buildSelectableColumns', () => {
       buildColumn('R2', 4),
       buildColumn('R3', 5)
     ])).toEqual([
-      'Fed',
-      'Cat',
+      buildColumn('Fed', 0),
+      buildColumn('Cat', 1),
       'rounds' // TODO
     ]);
   });
