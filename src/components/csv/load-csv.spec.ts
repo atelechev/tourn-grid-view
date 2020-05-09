@@ -162,4 +162,16 @@ describe('loadCsv', () => {
     expect(csv.data[0]).toEqual(['1', 'FRA', 'Player A']);
     expect(csv.data[1]).toEqual(['2', 'USA', 'Player B']);
   });
+
+  it('should skip all empty lines', () => {
+    const id = 'data-emptylines';
+    createInlineCsv(
+      '\nPOS,FED,NAME\n\n' + '1,FRA,"Player A"\n' + '\n2,USA,"Player B"\n\n',
+      id
+    );
+    const csv = loadCsv(id);
+    expect(csv.header).toEqual(['pos', 'fed', 'name']);
+    expect(csv.data[0]).toEqual(['1', 'FRA', 'Player A']);
+    expect(csv.data[1]).toEqual(['2', 'USA', 'Player B']);
+  });
 });
