@@ -7,7 +7,7 @@ import Table from '@material-ui/core/Table';
 import GridHeader from './grid-header';
 import GridData from './grid-data';
 import { ControlPanel } from './control-panel/control-panel';
-import { GridProperties } from './grid-properties';
+import { InitialConfig } from './initial-config';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { getI18nProvider } from './i18n/i18n-provider';
@@ -17,9 +17,9 @@ import { UiSelectionsContext } from './context/ui-selections-context';
 import { DataContext } from './context/data-context';
 import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { UiEvent } from 'components/ui-selections/ui-event';
+import { UiEvent } from './ui-selections/ui-event';
 import { Observable } from 'rxjs';
-import { initUiSelectionsContext } from 'components/ui-selections/context-initializer';
+import { initUiSelectionsContext } from './ui-selections/context-initializer';
 
 const tableStyle = css({
   minWidth: 600
@@ -60,18 +60,18 @@ const theme = createMuiTheme({
   }
 });
 
-export default class TournamentGrid extends React.Component<GridProperties> {
+export default class TournamentGrid extends React.Component<InitialConfig> {
   private readonly _csv: LoadedTournament;
 
   private readonly _i18n: I18nContext;
 
   private readonly _uiSelections: UiSelectionsManager;
 
-  constructor(props: GridProperties) {
-    super(props);
+  constructor(config: InitialConfig) {
+    super(config);
     this._csv = loadCsv(this.props.idCsvElement);
     this._i18n = this.initI18nContext();
-    this._uiSelections = initUiSelectionsContext(props, this._csv);
+    this._uiSelections = initUiSelectionsContext(config, this._csv);
   }
 
   private initI18nContext(): I18nContext {

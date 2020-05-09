@@ -8,7 +8,7 @@
   </head> 
   <body> 
 <div id="grid-raw-csv" style="display: none;">
-Pos,Fed,Name,Rating,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,Pts,TB1,TB2,TB3
+Pos|o,Fed|fo,Name|o,Rating|hfo,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,Pts,TB1,TB2,TB3|h
 1,"CHN","Wang Hao",2726,"+56W","+69B","+86W","=2B","=14W","+73W","-4B","=6W","=8B","+26B","+11W",8,2735,67.5,73
 2,"USA","Caruana Fabiano",2812,"+53B","+31W","+66B","=1W","=73B","+17W","=9B","=4W","=6B","+5W","=7B",8,2720,69.5,75
 3,"RUS","Alekseenko Kirill",2674,"=109B","+74W","+61B","=9W","=81B","+50W","=6W","=27B","=26W","+23B","=8W",7.5,2716,64.5,69.5
@@ -167,10 +167,7 @@ Pos,Fed,Name,Rating,R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,Pts,TB1,TB2,TB3
 	      TournamentGrid.renderGrid({
           idCsvElement: 'grid-raw-csv',
           idGridContainer: 'root',
-          hiddenColumns: ['Rating', 'Tb3'],
           interactive: true,
-          useFilters: ['rating', 'fed'],
-          enableOrderingColumns: ['pos', 'name', 'rating', 'fed'],
           lang: 'en'
         });
       };

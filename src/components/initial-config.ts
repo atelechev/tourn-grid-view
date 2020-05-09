@@ -1,6 +1,5 @@
 
-// TODO rename to InitialConfig
-export interface GridProperties {
+export interface InitialConfig {
   idCsvElement: string;
   idGridContainer: string;
   interactive: boolean;

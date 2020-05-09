@@ -1,11 +1,11 @@
 import { UiSelectionsManager } from './ui-selections-manager';
 import { NO_FILTER } from '../filters/no-filter';
 import { initializeFilters } from '../filters/filters-initialization-util';
-import { GridProperties } from '../grid-properties';
+import { InitialConfig } from '../initial-config';
 import { LoadedTournament } from '../csv/loaded-tournament';
 
 export const initUiSelectionsContext = (
-  initialConfig: GridProperties,
+  initialConfig: InitialConfig,
   tournament: LoadedTournament
 ): UiSelectionsManager => {
   const uiSelections = new UiSelectionsManager();
