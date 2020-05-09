@@ -69,9 +69,7 @@ The `tourn-grid-view-vendor.min.js` must precede the `tourn-grid-view.min.js` sc
     TournamentGrid.renderGrid({
       idCsvElement: 'demo',
       idGridContainer: 'demo-grid',
-      hiddenColumns: ['Rating'],
-      useFilters: ['Rating', 'Fed'],
-      enableOrderingColumns: ['Pos', 'Name'],
+      interactive: true,
       lang: 'en'
     });
   };
@@ -90,13 +88,10 @@ The configuration of the grid can be done with an object containing the followin
 
 ```javascript
 {
-  enableOrderingColumns: string[],
   idCsvElement: string,
   idGridContainer: string,
   interactive: boolean,
-  hiddenColumns: string[],
   lang: string,
-  useFilters: string[]
 }
 ```
 
@@ -106,21 +101,17 @@ The configuration of the grid can be done with an object containing the followin
 
 `interactive` is an optional boolean which enables the interactive features of the grid. The default value is _true_. If set to _false_, no control panel will be available above the grid, the sorting and the filtering will be disabled on the rendered table.
 
-`hiddenColumns` is an array of the names of the CSV columns that should not be shown in the initially rendered view. This value is _optional_.
-
-`useFilters` is an array of the names of the CSV columns for which the filters should be enabled. This value is _optional_.
-
-`enableOrderingColumns` is an array of the names of the CSV columns for which the sorting should be enabled. This value is _optional_.
-
 `lang` is the two-digits code of the source language of the data. This value is _mandatory_. Currently, only the `en` (English) and the `fr` (French) languages are supported by the tool.
-
-The column names specified in the configuration options must match the ones in the header of the raw CSV data.
 
 ### Requirements for CSV Data
 
 In order to be transformed and rendered properly into a grid representation, the raw CSV data must conform with the following requirements.
 
-The column names belows are not case sensitive. The original values are lower-cased and their first letter is capitalized when they are rendered in the grid header.
+#### CSV Header
+
+The column names are not case sensitive. The original values are lower-cased and their first letter is capitalized when they are rendered in the grid header.
+
+The columns with players position and name are always visible in the grid.
 
 The `pos` (for _position_) column must be present in the CSV header. _This is the only mandatory column_. Its data are expected to contain the values of the positions of the players, in integer numbers. The values should be unique in this column.
 
@@ -128,7 +119,25 @@ If the `rating` column is present in the CSV, it is expected to contain numeric 
 
 The `fed` (for _federation_) column is expected to contain alpha-3 country codes (having the length of three letter characters). The values in this column are transformed into SVG images from the Github [hjnilsson/country-flags](https://github.com/hjnilsson/country-flags) repository.
 
-The names of the columns corresponding to the rounds of the tournament are expected to respect the pattern `R{number}`. For example, `R1` for round 1, `R2` for round 2 etc. The `Rounds` identifier is used to denote all the columns that respect this pattern. For example, if the tournament consists of 11 rounds and you need to hide the columns `R1`... `R11` in the initial view, it can be done with the option `hiddenColumns: ['Rounds']`.
+The names of the columns corresponding to the rounds of the tournament are expected to respect the pattern `R{number}`. For example, `R1` for round 1, `R2` for round 2 etc.
+
+#### Interactivity Modifiers
+
+Each column name in the CSV header can be combined with flags that define the interactivity enabled for this column. For example:
+
+    club|hfo
+
+* The pipe `|` is the separator of the column name from the interactivity modifiers.
+
+* The `h` char (for Hidden) sets that this column should be hidden in the initial view.
+
+* The `f` char (for Filter) sets that the filtering by values is enabled on this column. For example, list only the participants that belong to the same club.
+
+* The `o` char (for Ordering) sets that the ordering by values is enabled on this column. For example, list all the participants by rating.
+
+The position and name columns have a special status. They cannot be hidden (the `h` modifier is not applicable to them) and no filtering is available on them (it does not make sense, because all the names and positions are different). The ordering is always enabled on the position column.
+
+#### CSV Cell Values
 
 The cells with the game results are expected to respect the pattern
 

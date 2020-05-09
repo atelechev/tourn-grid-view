@@ -7,10 +7,11 @@ import {
   ensureElementDisplayed,
   ensureElementHidden
 } from './cell-value/cell-value.spec';
-import { DataManager } from './csv/data-manager';
+import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
 import { I18nContext } from './context/i18n-context';
 import { getI18nProvider } from './i18n/i18n-provider';
+import { buildColumn } from './columns/column-factory';
 
 export const assertExpectedHtmlElement = (
   elt: any,
@@ -21,8 +22,18 @@ export const assertExpectedHtmlElement = (
 };
 
 describe('GridHeader', () => {
-  const csv = new DataManager();
-  csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'];
+  const csv = new LoadedTournament();
+  csv.columns = [
+    buildColumn('pos', 0),
+    buildColumn('name', 1),
+    buildColumn('r1', 2),
+    buildColumn('r2', 3),
+    buildColumn('r3', 4),
+    buildColumn('r4', 5),
+    buildColumn('r5', 6),
+    buildColumn('pts', 7),
+    buildColumn('club', 8)
+  ];
   csv.data = [
     [1, 'A', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
     [2, 'B', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
@@ -35,7 +46,11 @@ describe('GridHeader', () => {
   ];
 
   const uiSelections = new UiSelectionsManager();
-  uiSelections.shownColumns = ['pos', 'name', 'pts'];
+  uiSelections.shownColumns = [
+    buildColumn('pos', 0),
+    buildColumn('name', 1),
+    buildColumn('pts', 7)
+  ];
 
   const assertColumnExpected = (
     elt: any,
@@ -91,7 +106,11 @@ describe('GridHeader', () => {
 
   it('should render the toggle panel button when the UI is interactive', () => {
     const uiSelections = new UiSelectionsManager();
-    uiSelections.shownColumns = ['pos', 'name', 'pts'];
+    uiSelections.shownColumns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('pts', 7)
+    ];
     uiSelections.interactive = true;
 
     const header = renderer
@@ -122,7 +141,11 @@ describe('GridHeader', () => {
 
   it('should not render the toggle panel button when the UI is not interactive', () => {
     const uiSelections = new UiSelectionsManager();
-    uiSelections.shownColumns = ['pos', 'name', 'pts'];
+    uiSelections.shownColumns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('pts', 7)
+    ];
     uiSelections.interactive = false;
 
     const header = renderer
@@ -146,4 +169,5 @@ describe('GridHeader', () => {
     expect(buttonsWrapper.children.length).toEqual(1);
     assertButtonExpected(buttonsWrapper.children[0], 'About this component');
   });
+
 });

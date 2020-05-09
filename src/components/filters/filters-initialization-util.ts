@@ -1,39 +1,26 @@
 import { Filter } from './filter';
 import { SimpleFilter } from './simple-filter';
 import RatingFilter from './rating-filter';
-import { isRatingColumn } from '../columns/rating';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
+import { Column } from '../columns/column';
 
-const initFilter = (filterName: string): SimpleFilter | RatingFilter => {
-  if (isRatingColumn(filterName)) {
+const initFilter = (column: Column): SimpleFilter | RatingFilter => {
+  if (column.hasSemantics('rating')) {
     return new RatingFilter();
   }
-  return new SimpleFilter(filterName);
+  return new SimpleFilter(column.name);
 };
 
-export const initializeFilters = (
-  filterNames: Array<string>,
-  csv: DataManager
-): Array<Filter> => {
-  if (!csv) {
-    throw Error('csv must be defined for filters initialization.');
+export const initializeFilters = (tournament: LoadedTournament): Array<Filter> => {
+  if (!tournament) {
+    throw Error('tournament must be defined for filters initialization.');
   }
-  if (!filterNames || filterNames.length === 0) {
-    return [];
-  }
-  return filterNames
-    .filter(name => !!name)
-    .map(filterName => {
-      const filterNameNormalized = filterName.trim().toLowerCase();
-      const columnIndex = csv.getColumnIndex(filterNameNormalized);
-      if (columnIndex < 0) {
-        return undefined;
-      } else {
-        const filter = initFilter(filterNameNormalized);
-        filter.filteredColumnIndex = columnIndex;
-        filter.selectableOptions = csv.data.map(row => row[columnIndex]);
-        return filter;
-      }
+  return tournament.filteringEnabledOn
+    .map(column => {
+      const filter = initFilter(column);
+      filter.filteredColumnIndex = column.index;
+      filter.selectableOptions = tournament.data.map(row => row[column.index]);
+      return filter;
     })
     .filter(f => f !== undefined);
 };

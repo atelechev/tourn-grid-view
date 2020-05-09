@@ -1,6 +1,6 @@
 import React from 'react';
-import { DataManager } from '../csv/data-manager';
+import { LoadedTournament } from '../csv/loaded-tournament';
 
-const defaultDataContext = new DataManager();
+const defaultDataContext = new LoadedTournament();
 
-export const DataContext = React.createContext<DataManager>(defaultDataContext);
+export const DataContext = React.createContext<LoadedTournament>(defaultDataContext);

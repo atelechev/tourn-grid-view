@@ -1,4 +1,5 @@
 import { loadCsv } from './load-csv';
+import { buildColumn } from '../columns/column-factory';
 
 describe('loadCsv', () => {
   const createInlineCsv = (csvAsText: string, idElement: string): void => {
@@ -12,24 +13,24 @@ describe('loadCsv', () => {
     const id = 'data-wrapper';
     createInlineCsv(
       'Pos,Name,Rating,Fed,R1,R2,R3,Pts,Bu,Club\n' +
-        '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
-        '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
-        '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
+      '1,GM GLEK Igor,2473,GER,+48B,+24N,+5B,6.5,30,""\n' +
+      '2,IM BENITAH Yohan,2530,FRA,+39N,+30B,+6N,6,31,"Lyon Olympique Echecs"\n' +
+      '3,IM OLIVIER Jean-Christophe,2440,FRA,+41B,+8N,+13B,6,29,"Club d\'Echecs de l\'Agglomeration Chambérienne"\n',
       id
     );
     const csv = loadCsv(id);
     expect(csv).toBeTruthy();
-    expect(csv.header).toEqual([
-      'pos',
-      'name',
-      'rating',
-      'fed',
-      'r1',
-      'r2',
-      'r3',
-      'pts',
-      'bu',
-      'club'
+    expect(csv.columns).toEqual([
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('rating', 2),
+      buildColumn('fed', 3),
+      buildColumn('r1', 4),
+      buildColumn('r2', 5),
+      buildColumn('r3', 6),
+      buildColumn('pts', 7),
+      buildColumn('bu', 8),
+      buildColumn('club', 9)
     ]);
     const data = csv.data;
     expect(data).toBeTruthy();
@@ -103,7 +104,7 @@ describe('loadCsv', () => {
       id
     );
     expect(() => loadCsv(id)).toThrow(
-      "Empty and undefined values are not allowed in the CSV header: 'Pos,,Name'"
+      'rawHeader arg must not be undefined or empty'
     );
   });
 
@@ -114,7 +115,7 @@ describe('loadCsv', () => {
       id
     );
     expect(() => loadCsv(id)).toThrow(
-      "Empty and undefined values are not allowed in the CSV header: 'Pos,  ,Name'"
+      'rawHeader arg must not be undefined or empty'
     );
   });
 
@@ -125,7 +126,11 @@ describe('loadCsv', () => {
       id
     );
     const csv = loadCsv(id);
-    expect(csv.header).toEqual(['pos', 'fed', 'name']);
+    expect(csv.columns).toEqual([
+      buildColumn('pos', 0),
+      buildColumn('fed', 1),
+      buildColumn('name', 2)
+    ]);
   });
 
   it('should lowercase all the values in the header', () => {
@@ -135,7 +140,11 @@ describe('loadCsv', () => {
       id
     );
     const csv = loadCsv(id);
-    expect(csv.header).toEqual(['pos', 'fed', 'name']);
+    expect(csv.columns).toEqual([
+      buildColumn('pos', 0),
+      buildColumn('fed', 1),
+      buildColumn('name', 2)
+    ]);
   });
 
   it('should skip all empty lines', () => {
@@ -145,7 +154,11 @@ describe('loadCsv', () => {
       id
     );
     const csv = loadCsv(id);
-    expect(csv.header).toEqual(['pos', 'fed', 'name']);
+    expect(csv.columns).toEqual([
+      buildColumn('pos', 0),
+      buildColumn('fed', 1),
+      buildColumn('name', 2)
+    ]);
     expect(csv.data[0]).toEqual(['1', 'FRA', 'Player A']);
     expect(csv.data[1]).toEqual(['2', 'USA', 'Player B']);
   });

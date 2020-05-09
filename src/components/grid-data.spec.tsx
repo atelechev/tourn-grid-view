@@ -11,8 +11,9 @@ import {
   ensureElementDisplayed,
   ensureElementHidden
 } from './cell-value/cell-value.spec';
-import { DataManager } from './csv/data-manager';
+import { LoadedTournament } from './csv/loaded-tournament';
 import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
+import { buildColumn } from './columns/column-factory';
 
 describe('GridData', () => {
   const lang = 'en';
@@ -22,18 +23,31 @@ describe('GridData', () => {
     i18nProvider: getI18nProvider(lang)
   };
 
-  const csv = new DataManager();
-  csv.header = ['pos', 'name', 'r1', 'r2', 'r3', 'r4', 'r5', 'pts', 'club'];
-  csv.data = [
-    [1, 'E', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
-    [2, 'G', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
-    [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
-    [4, 'H', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
-    [5, 'A', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
-    [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
-    [7, 'B', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
-    [8, 'D', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
-  ];
+  const buildTournament = (): LoadedTournament => {
+    const csv = new LoadedTournament();
+    csv.columns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('r1', 2),
+      buildColumn('r2', 3),
+      buildColumn('r3', 4),
+      buildColumn('r4', 5),
+      buildColumn('r5', 6),
+      buildColumn('pts', 7),
+      buildColumn('club', 8)
+    ];
+    csv.data = [
+      [1, 'E', '+7B', '+5W', '=2B', '+4W', '=3B', 4, 'aa'],
+      [2, 'G', '-3B', '+8W', '=1W', '+5B', '+4W', 3.5, 'bb'],
+      [3, 'C', '+2W', '-4B', '=6W', '+7B', '=1W', 3, 'aa'],
+      [4, 'H', '+6B', '+3W', '+8W', '-1B', '-2B', 3, 'cc'],
+      [5, 'A', '+8B', '-1B', '=7W', '-2W', '+6B', 2.5, 'bb'],
+      [6, 'F', '-4W', '+7B', '=3B', '=8W', '-5W', 2, 'cc'],
+      [7, 'B', '-1W', '-6W', '=5B', '-3W', '+8B', 1.5, 'aa'],
+      [8, 'D', '-5W', '-2B', '-4B', '=6B', '-7W', 0.5, 'cc']
+    ];
+    return csv;
+  }
 
   const assertCellValueExpected = (cell: any, expected: any): void => {
     assertExpectedHtmlElement(cell, 'td');
@@ -59,8 +73,14 @@ describe('GridData', () => {
   };
 
   it('should display expected grid data without filters', () => {
+    const csv = buildTournament();
     const uiSelections = new UiSelectionsManager();
-    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
+    uiSelections.shownColumns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('pts', 7),
+      buildColumn('club', 8)
+    ];
 
     const grid = renderer
       .create(
@@ -86,6 +106,8 @@ describe('GridData', () => {
   });
 
   it('should display expected grid data filtered by club', () => {
+    const csv = buildTournament();
+
     const filter = new SimpleFilter('club');
     filter.selectableOptions = ['aa', 'bb', 'cc'];
     filter.selectedValue = 'bb';
@@ -94,7 +116,12 @@ describe('GridData', () => {
     const uiSelections = new UiSelectionsManager();
     uiSelections.filtersEnabled = [filter];
     uiSelections.filterActive = filter;
-    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
+    uiSelections.shownColumns = [
+      buildColumn('pos', 0),
+      buildColumn('name', 1),
+      buildColumn('pts', 7),
+      buildColumn('club', 8)
+    ];
 
     const grid = renderer
       .create(
@@ -120,13 +147,21 @@ describe('GridData', () => {
   });
 
   it('should display expected grid data sorted by name asc', () => {
+    const csv = buildTournament();
+    const colName = buildColumn('name', 1);
+
     const uiSelections = new UiSelectionsManager();
     uiSelections.order = 'asc';
-    uiSelections.orderBy = 'name';
-    uiSelections.orderEnabledColumns = ['name'];
-    uiSelections.shownColumns = ['pos', 'name', 'pts', 'club'];
+    uiSelections.orderBy = colName;
+    uiSelections.orderEnabledColumns = [colName];
+    uiSelections.shownColumns = [
+      buildColumn('pos', 0),
+      colName,
+      buildColumn('pts', 7),
+      buildColumn('club', 8)
+    ];
 
-    csv.sort('name', 'asc');
+    csv.sort(colName, 'asc');
 
     const grid = renderer
       .create(
