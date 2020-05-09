@@ -72,7 +72,6 @@ describe('ColumnsSelector', () => {
     const input = element.children[1];
     expect(input.type).toEqual('div');
     const selectionSummaryText = input.children[0].children[0];
-    // FIXME fails after the introduction of Column
     expect(selectionSummaryText).toEqual('fed, pts');
   });
 });
