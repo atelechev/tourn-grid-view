@@ -19,8 +19,9 @@ export const loadCsv = (idCsvWrapper: string): LoadedTournament => {
   if (!parsedCSV || parsedCSV.length < 2) {
     throw Error('No CSV data found!');
   }
+  const columns = (parsedCSV[0] as Array<string>).map((colName, index) => buildColumn(colName, index));
   const loadedTournament = new LoadedTournament();
-  loadedTournament.columns = (parsedCSV[0] as Array<string>).map((colName, index) => buildColumn(colName, index));
+  loadedTournament.columns = columns;
   loadedTournament.data = parsedCSV.slice(1, parsedCSV.length);
   return loadedTournament;
 };

@@ -45,8 +45,24 @@ describe('LoadedTournament', () => {
       );
     });
 
+    it('should throw expected error if arg contains non unique values, case insensitive', () => {
+      const columns = [
+        buildColumn('Pos', 0),
+        buildColumn('Name', 1),
+        buildColumn('NAME', 2),
+        buildColumn('Fed', 3)
+      ];
+      expect(() => dm.columns = columns).toThrow(
+        'header column names must be unique, but found: pos,name,name,fed'
+      );
+    });
+
     it('should set header to the expected value if arg is valid', () => {
-      const cols = [buildColumn('pos', 0), buildColumn('name', 1), buildColumn('points', 2)];
+      const cols = [
+        buildColumn('pos', 0),
+        buildColumn('name', 1),
+        buildColumn('points', 2)
+      ];
       dm.columns = cols;
       expect(dm.columns).toEqual(cols);
     });

@@ -40,13 +40,28 @@ export class LoadedTournament {
     this._rankColumn = this._columns.find(col => col.hasSemantics('rank'));
   }
 
-  public set columns(cls: Array<Column>) {
-    if (!cls || cls.length === 0) {
+  private ensureColumnsValid(columns: Array<Column>): void {
+    if (!columns || columns.length === 0) {
       throw Error('columns must be a non-empty array.');
     }
-    if (cls.findIndex(elt => elt === null || elt === undefined) > -1) {
-      throw Error('columns must not contain undefined elements.');
+    columns.forEach(column => {
+      if (!column || column.name.trim().length === 0) {
+        throw Error('columns must not contain undefined elements.');
+      }
+    });
+  }
+
+  private ensureColumnNamesUnique(columns: Array<Column>): void {
+    const colNames = new Set(columns.map(col => col.name.toLowerCase()));
+    if (columns.length !== colNames.size) {
+      const names = columns.map(col => col.name).join(',');
+      throw Error(`header column names must be unique, but found: ${names}`);
     }
+  }
+
+  public set columns(cls: Array<Column>) {
+    this.ensureColumnsValid(cls);
+    this.ensureColumnNamesUnique(cls);
     this._columns = cls;
     this.updateRankColumn();
     this.updateRoundColumns();
