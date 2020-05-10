@@ -2,9 +2,8 @@ import { Filter } from '../filters/filter';
 import { Order } from './order';
 import { NO_FILTER } from '../filters/no-filter';
 import { SortDirection } from '@material-ui/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { UiEvent } from './ui-event';
 import { Column } from '../columns/column';
+import { EventsHandler } from './events-handler';
 
 export class UiSelectionsManager {
   private _interactive: boolean;
@@ -25,9 +24,7 @@ export class UiSelectionsManager {
 
   private _shownColumns: Array<Column>;
 
-  private readonly _eventSubjects: Map<UiEvent, BehaviorSubject<any>>;
-
-  private readonly _eventObservables: Map<UiEvent, Observable<any>>;
+  private readonly _eventsHandler: EventsHandler;
 
   constructor() {
     this._interactive = true;
@@ -39,63 +36,11 @@ export class UiSelectionsManager {
     this._orderEnabledColumns = [];
     this._selectedRow = undefined;
     this._shownColumns = [];
-
-    this._eventSubjects = new Map<UiEvent, BehaviorSubject<any>>();
-    this._eventObservables = new Map<UiEvent, Observable<any>>();
-
-    this.initEventSubjects();
-    this.initObservables();
+    this._eventsHandler = new EventsHandler();
   }
 
-  private initEventSubjects(): void {
-    this._eventSubjects.set(
-      'shown-columns-change',
-      new BehaviorSubject<Array<Column>>(this._shownColumns)
-    );
-    this._eventSubjects.set(
-      'filter-type-change',
-      new BehaviorSubject<string>(this._filterActive.name)
-    );
-    this._eventSubjects.set(
-      'filter-item-change',
-      new BehaviorSubject<any>(this._filterActive.selectedValue)
-    );
-    this._eventSubjects.set(
-      'sort-column-change',
-      new BehaviorSubject<Column>(this._orderBy)
-    );
-    this._eventSubjects.set(
-      'selected-row-change',
-      new BehaviorSubject<Array<any>>(this._selectedRow)
-    );
-    this._eventSubjects.set(
-      'control-panel-toggle',
-      new BehaviorSubject<boolean>(this._showControlPanel)
-    );
-  }
-
-  private initObservables(): void {
-    [
-      'filter-type-change',
-      'filter-item-change',
-      'shown-columns-change',
-      'sort-column-change',
-      'selected-row-change',
-      'control-panel-toggle'
-    ].forEach((event: UiEvent) => {
-      this._eventObservables.set(
-        event,
-        this.getEventHandler(event).asObservable()
-      );
-    });
-  }
-
-  private getEventHandler(event: UiEvent): BehaviorSubject<any> {
-    return this._eventSubjects.get(event);
-  }
-
-  public getObservable(event: UiEvent): Observable<any> {
-    return this._eventObservables.get(event);
+  public get eventsHandler(): EventsHandler {
+    return this._eventsHandler;
   }
 
   public set interactive(isInteractive: boolean) {
@@ -133,7 +78,7 @@ export class UiSelectionsManager {
     }
     this._filterActive.selectedValue = item;
     this._selectedRow = undefined;
-    this.getEventHandler('filter-item-change').next(item);
+    this._eventsHandler.fireEvent('filter-item-change', item);
   }
 
   public set order(ordr: Order) {
@@ -165,7 +110,7 @@ export class UiSelectionsManager {
       return;
     }
     this._selectedRow = selectedRow;
-    this.getEventHandler('selected-row-change').next(this._selectedRow);
+    this._eventsHandler.fireEvent('selected-row-change', this._selectedRow);
   }
 
   public get selectedRow(): Array<any> | undefined {
@@ -174,7 +119,7 @@ export class UiSelectionsManager {
 
   public set shownColumns(sc: Array<Column>) {
     this._shownColumns = sc ? sc : [];
-    this.getEventHandler('shown-columns-change').next(this._shownColumns);
+    this._eventsHandler.fireEvent('shown-columns-change', this._shownColumns);
   }
 
   public get shownColumns(): Array<Column> {
@@ -205,7 +150,7 @@ export class UiSelectionsManager {
       return;
     }
     this._showControlPanel = show;
-    this.getEventHandler('control-panel-toggle').next(this._showControlPanel);
+    this._eventsHandler.fireEvent('control-panel-toggle', this._showControlPanel);
   }
 
   public getSortDirection(column: Column): SortDirection {
@@ -239,7 +184,7 @@ export class UiSelectionsManager {
     }
     this.inverseSortOrder();
     this._orderBy = column;
-    this.getEventHandler('sort-column-change').next(this._orderBy);
+    this._eventsHandler.fireEvent('sort-column-change', this._orderBy);
   }
 
   public inverseSortOrder(): void {
@@ -262,6 +207,7 @@ export class UiSelectionsManager {
     this.filterActive =
       this._filtersEnabled.find(filter => filter.name === filterName) ||
       NO_FILTER;
-    this.getEventHandler('filter-type-change').next(this._filterActive.name);
+    this._eventsHandler.fireEvent('filter-type-change', this._filterActive.name);
   }
+
 }

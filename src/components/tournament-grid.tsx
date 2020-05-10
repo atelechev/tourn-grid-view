@@ -121,13 +121,17 @@ export default class TournamentGrid extends React.Component<InitialConfig> {
       'selected-row-change',
       'control-panel-toggle'
     ]
-      .map((event: UiEvent) => this._uiSelections.getObservable(event))
+      .map((event: UiEvent) => this._uiSelections
+        .eventsHandler
+        .getObservable(event))
       .forEach((observable: Observable<any>) =>
         observable.subscribe(_ => this.forceUpdate())
       );
-    this._uiSelections.getObservable('sort-column-change').subscribe(_ => {
-      this._csv.sort(this._uiSelections.orderBy, this._uiSelections.order);
-      this.forceUpdate();
-    });
+    this._uiSelections
+      .eventsHandler
+      .getObservable('sort-column-change').subscribe(_ => {
+        this._csv.sort(this._uiSelections.orderBy, this._uiSelections.order);
+        this.forceUpdate();
+      });
   }
 }

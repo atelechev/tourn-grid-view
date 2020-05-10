@@ -313,22 +313,6 @@ describe('UiSelectionsManager', () => {
     });
   });
 
-  describe('getObservable', () => {
-    it('should return values for all elements of UiEvent', () => {
-      const uiSelections = new UiSelectionsManager();
-      [
-        'filter-type-change',
-        'filter-item-change',
-        'shown-columns-change',
-        'sort-column-change',
-        'selected-row-change',
-        'control-panel-toggle'
-      ].forEach((element: UiEvent) => {
-        expect(uiSelections.getObservable(element)).toBeDefined();
-      });
-    });
-  });
-
   describe('filterByItem', () => {
     it('should have no effect if uiSelections is not interactive', () => {
       const uiSelections = new UiSelectionsManager();
