@@ -6,5 +6,6 @@ module.exports = {
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   testRegex: '.*\\.spec\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  reporters: ['default', 'jest-junit']
+  reporters: ['default', 'jest-junit'],
+  moduleDirectories: ['node_modules', 'src']
 };
