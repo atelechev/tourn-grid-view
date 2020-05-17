@@ -1,5 +1,5 @@
-import { loadCsv } from './load-csv';
-import { buildColumn } from '../columns/column-factory';
+import { loadCsv } from 'components/csv/load-csv';
+import { buildColumn } from 'components/columns/column-factory';
 
 describe('loadCsv', () => {
   const createInlineCsv = (csvAsText: string, idElement: string): void => {

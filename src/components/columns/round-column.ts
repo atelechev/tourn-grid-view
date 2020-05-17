@@ -1,6 +1,6 @@
-import { Column } from './column';
+import { Column } from 'components/columns/column';
 import { SerializedStyles } from '@emotion/core';
-import { roundColumnStyle } from './column-styles';
+import { roundColumnStyle } from 'components/columns/column-styles';
 
 
 export class RoundColumn extends Column {

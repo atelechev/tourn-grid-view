@@ -1,5 +1,5 @@
-import { EventsHandler } from './events-handler';
-import { UiEvent } from './ui-event';
+import { EventsHandler } from 'components/ui-selections/events-handler';
+import { UiEvent } from 'components/ui-selections/ui-event';
 
 describe('EventsHanlder', () => {
 

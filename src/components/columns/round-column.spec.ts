@@ -1,5 +1,5 @@
-import { RoundColumn } from './round-column';
-import { roundColumnStyle } from './column-styles';
+import { RoundColumn } from 'components/columns/round-column';
+import { roundColumnStyle } from 'components/columns/column-styles';
 
 describe('RoundColumn', () => {
 

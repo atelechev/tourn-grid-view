@@ -1,4 +1,4 @@
-import { langSupportEn } from './lang-support-en';
+import { langSupportEn } from 'components/i18n/lang-support-en';
 
 describe('hasWhiteColorMarker', () => {
   it('should return false if value is undefined', () => {

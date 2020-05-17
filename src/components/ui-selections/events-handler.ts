@@ -1,6 +1,6 @@
-import { UiEvent } from './ui-event';
+import { UiEvent } from 'components/ui-selections/ui-event';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Column } from '../columns/column';
+import { Column } from 'components/columns/column';
 
 
 export class EventsHandler {

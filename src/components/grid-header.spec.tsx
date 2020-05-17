@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import GridHeader from './grid-header';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { DataContext } from 'components/context/data-context';
+import GridHeader from 'components/grid-header';
 import {
   ensureElementDisplayed,
   ensureElementHidden
-} from './cell-value/cell-value.spec';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { I18nContext } from './context/i18n-context';
-import { getI18nProvider } from './i18n/i18n-provider';
-import { buildColumn } from './columns/column-factory';
+} from 'components/cell-value/cell-value.spec';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import { I18nContext } from 'components/context/i18n-context';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { buildColumn } from 'components/columns/column-factory';
 
 export const assertExpectedHtmlElement = (
   elt: any,

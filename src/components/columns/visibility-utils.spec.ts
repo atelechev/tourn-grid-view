@@ -1,8 +1,8 @@
 import {
   isRowVisible
-} from './visibility-utils';
-import { SimpleFilter } from '../filters/simple-filter';
-import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+} from 'components/columns/visibility-utils';
+import { SimpleFilter } from 'components/filters/simple-filter';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 describe('isRowVisible', () => {
   const filter = new SimpleFilter('club');

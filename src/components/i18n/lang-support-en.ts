@@ -1,5 +1,5 @@
-import { I18nProvider } from './i18n-provider';
-import { translationsEn } from './translations-en';
+import { I18nProvider } from 'components/i18n/i18n-provider';
+import { translationsEn } from 'components/i18n/translations-en';
 
 export const langSupportEn: I18nProvider = {
   hasWhiteColorMarker: (value: string): boolean => {

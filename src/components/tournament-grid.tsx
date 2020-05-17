@@ -4,22 +4,22 @@ import React, { ReactNode } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
-import GridHeader from './grid-header';
-import GridData from './grid-data';
-import { ControlPanel } from './control-panel/control-panel';
-import { InitialConfig } from './initial-config';
+import GridHeader from 'components/grid-header';
+import GridData from 'components/grid-data';
+import { ControlPanel } from 'components/control-panel/control-panel';
+import { InitialConfig } from 'components/initial-config';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { getI18nProvider } from './i18n/i18n-provider';
-import { loadCsv } from './csv/load-csv';
-import { I18nContext } from './context/i18n-context';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { UiEvent } from './ui-selections/ui-event';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { loadCsv } from 'components/csv/load-csv';
+import { I18nContext } from 'components/context/i18n-context';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { DataContext } from 'components/context/data-context';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import { UiEvent } from 'components/ui-selections/ui-event';
 import { Observable } from 'rxjs';
-import { initUiSelectionsContext } from './ui-selections/context-initializer';
+import { initUiSelectionsContext } from 'components/ui-selections/context-initializer';
 
 const tableStyle = css({
   minWidth: 600
@@ -60,7 +60,7 @@ const theme = createMuiTheme({
   }
 });
 
-export default class TournamentGrid extends React.Component<InitialConfig> {
+export class TournamentGrid extends React.Component<InitialConfig> {
   private readonly _csv: LoadedTournament;
 
   private readonly _i18n: I18nContext;

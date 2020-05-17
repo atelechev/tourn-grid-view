@@ -5,14 +5,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import ShowInfo from './control-panel/show-info';
-import ShowPanel from './control-panel/show-panel';
-import { Column } from './columns/column';
-import { visibleStyle, hiddenStyle } from './columns/column-styles';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { DataContext } from 'components/context/data-context';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import ShowInfo from 'components/control-panel/show-info';
+import ShowPanel from 'components/control-panel/show-panel';
+import { Column } from 'components/columns/column';
+import { visibleStyle, hiddenStyle } from 'components/columns/column-styles';
 
 const headerCellStyle = css({
   textTransform: 'capitalize'

@@ -1,4 +1,4 @@
-import { Column } from './column';
+import { Column } from 'components/columns/column';
 
 
 export class CategoryColumn extends Column {

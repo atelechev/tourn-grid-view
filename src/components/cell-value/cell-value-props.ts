@@ -1,4 +1,4 @@
-import { Column } from '../columns/column';
+import { Column } from 'components/columns/column';
 
 export interface CellValueProps {
   column: Column;

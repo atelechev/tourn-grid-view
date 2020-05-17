@@ -2,10 +2,10 @@
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { I18nContext } from '../context/i18n-context';
-import { UiSelectionsContext } from '../context/ui-selections-context';
-import { NO_FILTER } from '../filters/no-filter';
-import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { I18nContext } from 'components/context/i18n-context';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { NO_FILTER } from 'components/filters/no-filter';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const selectorStyle = css({
   minWidth: '160px',

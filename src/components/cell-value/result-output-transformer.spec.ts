@@ -1,5 +1,5 @@
-import { gameResultForOutput } from './result-output-transformer';
-import { getI18nProvider } from '../i18n/i18n-provider';
+import { gameResultForOutput } from 'components/cell-value/result-output-transformer';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
 
 const lang = 'en';
 

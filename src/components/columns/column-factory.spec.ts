@@ -1,5 +1,5 @@
-import { buildColumn } from './column-factory';
-import { Column } from './column';
+import { buildColumn } from 'components/columns/column-factory';
+import { Column } from 'components/columns/column';
 
 describe('newColumn', () => {
 

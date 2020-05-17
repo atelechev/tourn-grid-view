@@ -2,7 +2,7 @@
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import { I18nContext } from '../context/i18n-context';
+import { I18nContext } from 'components/context/i18n-context';
 import {
   Dialog,
   DialogActions,

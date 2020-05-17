@@ -1,4 +1,4 @@
-import { I18nProvider } from './i18n-provider';
+import { I18nProvider } from 'components/i18n/i18n-provider';
 
 const notInitializedMessage =
   'The language support is not initialized properly.';

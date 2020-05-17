@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { CountryFlag } from './country-flag';
+import { CountryFlag } from 'components/country-flag/country-flag';
 
 describe('CountryFlag component', () => {
   const assertSvgHasExpectedSizeAndChildrenCount = (

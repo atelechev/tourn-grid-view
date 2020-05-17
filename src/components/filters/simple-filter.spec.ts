@@ -1,4 +1,4 @@
-import { SimpleFilter } from './simple-filter';
+import { SimpleFilter } from 'components/filters/simple-filter';
 
 describe('SimpleFilter', () => {
   const sampleRow = [1, 'Test', 'FRA', '+2W', '+3B', '+4W', '=5B', '+6W', 4.5];

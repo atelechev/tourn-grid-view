@@ -1,4 +1,4 @@
-import { Filter, VALUE_NO_FILTER } from './filter';
+import { Filter, VALUE_NO_FILTER } from 'components/filters/filter';
 
 class NoFilter implements Filter {
   public shouldShowRow(_: Array<any>): boolean {

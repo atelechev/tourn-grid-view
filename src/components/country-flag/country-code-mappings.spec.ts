@@ -1,4 +1,4 @@
-import { mapCountryCode } from './country-code-mappings';
+import { mapCountryCode } from 'components/country-flag/country-code-mappings';
 
 describe('mapCountryCode', () => {
   it('should return undefined if the arg is undefined', () => {

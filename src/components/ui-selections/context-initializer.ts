@@ -1,8 +1,8 @@
-import { UiSelectionsManager } from './ui-selections-manager';
-import { NO_FILTER } from '../filters/no-filter';
-import { initializeFilters } from '../filters/filters-initialization-util';
-import { InitialConfig } from '../initial-config';
-import { LoadedTournament } from '../csv/loaded-tournament';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import { NO_FILTER } from 'components/filters/no-filter';
+import { initializeFilters } from 'components/filters/filters-initialization-util';
+import { InitialConfig } from 'components/initial-config';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 
 export const initUiSelectionsContext = (
   initialConfig: InitialConfig,

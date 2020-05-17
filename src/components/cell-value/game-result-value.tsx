@@ -1,10 +1,10 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { GameResultValueProps } from './game-result-value-props';
-import { I18nContext } from '../context/i18n-context';
-import { isForfeitGame } from './game-result-analyzers';
-import { gameResultForOutput } from './result-output-transformer';
+import { GameResultValueProps } from 'components/cell-value/game-result-value-props';
+import { I18nContext } from 'components/context/i18n-context';
+import { isForfeitGame } from 'components/cell-value/game-result-analyzers';
+import { gameResultForOutput } from 'components/cell-value/result-output-transformer';
 
 const cellStyle = css({
   width: '28px',

@@ -1,6 +1,6 @@
-import { Order } from '../ui-selections/order';
-import { compareOptionalValues } from '../ordering/comparators';
-import { Column } from '../columns/column';
+import { Order } from 'components/ui-selections/order';
+import { compareOptionalValues } from 'components/ordering/comparators';
+import { Column } from 'components/columns/column';
 import { RankColumn } from 'components/columns/rank-column';
 
 const EMPTY_SET = new Set<number>();

@@ -1,6 +1,6 @@
-import { Column } from './column';
+import { Column } from 'components/columns/column';
 import { SerializedStyles } from '@emotion/core';
-import { clubColumnStyle } from './column-styles';
+import { clubColumnStyle } from 'components/columns/column-styles';
 
 
 export class ClubColumn extends Column {

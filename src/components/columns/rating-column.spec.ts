@@ -1,5 +1,5 @@
-import { RatingColumn } from './rating-column';
-import { standardNarrowColumnStyle } from './column-styles';
+import { RatingColumn } from 'components/columns/rating-column';
+import { standardNarrowColumnStyle } from 'components/columns/column-styles';
 
 describe('RatingColumn', () => {
 
