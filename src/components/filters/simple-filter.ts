@@ -1,4 +1,4 @@
-import { Filter, VALUE_NO_FILTER } from './filter';
+import { Filter, VALUE_NO_FILTER } from 'components/filters/filter';
 
 export class SimpleFilter implements Filter {
   public readonly name: string;

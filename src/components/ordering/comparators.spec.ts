@@ -1,4 +1,4 @@
-import { compareOptionalValues } from './comparators';
+import { compareOptionalValues } from 'components/ordering/comparators';
 
 describe('compareOptionalValues', () => {
   it('should return 0 if both values are undefined', () => {

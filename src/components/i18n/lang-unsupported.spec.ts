@@ -1,4 +1,4 @@
-import { langUnsupported } from './lang-unsupported';
+import { langUnsupported } from 'components/i18n/lang-unsupported';
 
 describe('langUnsupported', () => {
   const expectedMessage = 'The language support is not initialized properly.';

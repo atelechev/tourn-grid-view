@@ -1,4 +1,4 @@
-import { Filter, VALUE_NO_FILTER } from './filter';
+import { Filter, VALUE_NO_FILTER } from 'components/filters/filter';
 
 export default class RatingFilter implements Filter {
   private readonly _allRatingGroups: Array<string> = [

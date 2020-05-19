@@ -1,6 +1,6 @@
+import { Semantics } from 'components/columns/semantics';
 import { SerializedStyles } from '@emotion/core';
-import { Semantics } from './semantics';
-import { standardNarrowColumnStyle } from './column-styles';
+import { standardNarrowColumnStyle } from 'components/columns/column-styles';
 
 export abstract class Column {
 

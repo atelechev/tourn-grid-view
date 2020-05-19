@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import React, { ReactNode } from 'react';
-import { CellValueProps } from './cell-value-props';
-import { CountryFlag } from '../country-flag/country-flag';
+import { CellValueProps } from 'components/cell-value/cell-value-props';
+import { CountryFlag } from 'components/country-flag/country-flag';
 import { css, jsx, SerializedStyles } from '@emotion/core';
-import { GameResultValue } from './game-result-value';
+import { GameResultValue } from 'components/cell-value/game-result-value';
+import { hiddenStyle, visibleStyle } from 'components/columns/column-styles';
 import { TableCell } from '@material-ui/core';
-import { visibleStyle, hiddenStyle } from '../columns/column-styles';
 
 const dataCellStyle = css({
   fontSize: '11px'

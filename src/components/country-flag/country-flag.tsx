@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { CountryFlagProps } from './country-flag-props';
-import { mapCountryCode } from './country-code-mappings';
+import { CountryFlagProps } from 'components/country-flag/country-flag-props';
+import { mapCountryCode } from 'components/country-flag/country-code-mappings';
 
 const COUNTRY_FLAG_WIDTH = 30;
 

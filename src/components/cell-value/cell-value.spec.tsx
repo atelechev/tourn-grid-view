@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { CellValue } from './cell-value';
-import { getI18nProvider } from '../i18n/i18n-provider';
-import { I18nContext } from '../context/i18n-context';
-import { buildColumn } from '../columns/column-factory';
+import { buildColumn } from 'components/columns/column-factory';
+import { CellValue } from 'components/cell-value/cell-value';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { I18nContext } from 'components/context/i18n-context';
 
 export const getCssClassName = (json: any): string => {
   const allClasses = json.props.className.split(' ') as Array<string>;

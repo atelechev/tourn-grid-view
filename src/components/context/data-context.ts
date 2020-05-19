@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadedTournament } from '../csv/loaded-tournament';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 
 const defaultDataContext = new LoadedTournament();
 

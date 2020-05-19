@@ -1,5 +1,5 @@
-import { RankColumn } from './rank-column';
-import { placeColumnStyle } from './column-styles';
+import { placeColumnStyle } from 'components/columns/column-styles';
+import { RankColumn } from 'components/columns/rank-column';
 
 describe('RankColumn', () => {
 

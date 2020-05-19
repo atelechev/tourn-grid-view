@@ -1,4 +1,4 @@
-import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 export const isRowVisible = (
   row: Array<any>,

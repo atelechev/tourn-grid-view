@@ -1,4 +1,4 @@
-import RatingFilter from './rating-filter';
+import RatingFilter from 'components/filters/rating-filter';
 
 describe('RatingFilter', () => {
   const allOptions = [

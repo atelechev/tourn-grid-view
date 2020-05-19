@@ -1,5 +1,5 @@
-import { getI18nProvider } from '../i18n/i18n-provider';
-import { isForfeitGame, isGameColorKnown } from './game-result-analyzers';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { isForfeitGame, isGameColorKnown } from 'components/cell-value/game-result-analyzers';
 
 const lang = 'en';
 

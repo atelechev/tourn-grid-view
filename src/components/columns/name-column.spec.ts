@@ -1,5 +1,5 @@
-import { NameColumn } from './name-column';
-import { nameColumnStyle } from './column-styles';
+import { NameColumn } from 'components/columns/name-column';
+import { nameColumnStyle } from 'components/columns/column-styles';
 
 describe('NameColumn', () => {
 

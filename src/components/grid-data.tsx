@@ -3,15 +3,13 @@ import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
-import { CellValue } from './cell-value/cell-value';
-import {
-  isRowVisible
-} from './columns/visibility-utils';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import { hiddenStyle, visibleStyle } from './columns/column-styles';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
+import { CellValue } from 'components/cell-value/cell-value';
+import { DataContext } from 'components/context/data-context';
+import { hiddenStyle, visibleStyle } from 'components/columns/column-styles';
+import { isRowVisible } from 'components/columns/visibility-utils';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const rowHoverStyle = css({
   cursor: 'pointer',

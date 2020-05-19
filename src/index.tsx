@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import { InitialConfig } from './components/initial-config';
 import TournamentGrid from './components/tournament-grid';
+import { InitialConfig } from './components/initial-config';
+import './index.css';
 
 const renderGrid = (config: InitialConfig): void => {
   const element = React.createElement(TournamentGrid, config);

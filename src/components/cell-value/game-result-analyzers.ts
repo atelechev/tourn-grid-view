@@ -1,4 +1,4 @@
-import { I18nContext } from '../context/i18n-context';
+import { I18nContext } from 'components/context/i18n-context';
 
 export const isForfeitGame = (result: string, i18n: I18nContext): boolean => {
   return (!!result &&

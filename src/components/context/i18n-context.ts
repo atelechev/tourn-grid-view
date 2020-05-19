@@ -1,6 +1,6 @@
 import React from 'react';
-import { I18nProvider } from '../i18n/i18n-provider';
-import { langUnsupported } from '../i18n/lang-unsupported';
+import { I18nProvider } from 'components/i18n/i18n-provider';
+import { langUnsupported } from 'components/i18n/lang-unsupported';
 
 export interface I18nContext {
   lang: string;

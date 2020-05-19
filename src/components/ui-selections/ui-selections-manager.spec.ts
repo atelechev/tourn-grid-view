@@ -1,9 +1,8 @@
-import { UiSelectionsManager } from './ui-selections-manager';
-import { NO_FILTER } from '../filters/no-filter';
-import { SimpleFilter } from '../filters/simple-filter';
-import { UiEvent } from '../ui-selections/ui-event';
-import { VALUE_NO_FILTER } from '../filters/filter';
-import { buildColumn } from '../columns/column-factory';
+import { buildColumn } from 'components/columns/column-factory';
+import { NO_FILTER } from 'components/filters/no-filter';
+import { SimpleFilter } from 'components/filters/simple-filter';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import { VALUE_NO_FILTER } from 'components/filters/filter';
 
 describe('UiSelectionsManager', () => {
 

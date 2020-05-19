@@ -1,5 +1,5 @@
-import { ClubColumn } from './club-column';
-import { clubColumnStyle } from './column-styles';
+import { ClubColumn } from 'components/columns/club-column';
+import { clubColumnStyle } from 'components/columns/column-styles';
 
 describe('ClubColumn', () => {
 

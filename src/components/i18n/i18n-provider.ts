@@ -1,5 +1,5 @@
-import { langSupportEn } from './lang-support-en';
-import { langSupportFr } from './lang-support-fr';
+import { langSupportEn } from 'components/i18n/lang-support-en';
+import { langSupportFr } from 'components/i18n/lang-support-fr';
 
 export interface I18nProvider {
   hasWhiteColorMarker(value: string): boolean;

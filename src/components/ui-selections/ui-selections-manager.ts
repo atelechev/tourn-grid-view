@@ -1,9 +1,9 @@
-import { Filter } from '../filters/filter';
-import { Order } from './order';
-import { NO_FILTER } from '../filters/no-filter';
+import { Column } from 'components/columns/column';
+import { EventsHandler } from 'components/ui-selections/events-handler';
+import { Filter } from 'components/filters/filter';
+import { NO_FILTER } from 'components/filters/no-filter';
+import { Order } from 'components/ui-selections/order';
 import { SortDirection } from '@material-ui/core';
-import { Column } from '../columns/column';
-import { EventsHandler } from './events-handler';
 
 export class UiSelectionsManager {
   private _interactive: boolean;

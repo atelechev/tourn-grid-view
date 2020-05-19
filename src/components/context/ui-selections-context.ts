@@ -1,5 +1,5 @@
 import React from 'react';
-import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const defaultSelectionsContext = new UiSelectionsManager();
 

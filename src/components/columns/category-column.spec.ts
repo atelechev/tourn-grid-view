@@ -1,5 +1,5 @@
-import { CategoryColumn } from './category-column';
-import { standardNarrowColumnStyle } from './column-styles';
+import { CategoryColumn } from 'components/columns/category-column';
+import { standardNarrowColumnStyle } from 'components/columns/column-styles';
 
 describe('CategoryColumn', () => {
 

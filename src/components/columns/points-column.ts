@@ -1,6 +1,6 @@
-import { Column } from './column';
+import { Column } from 'components/columns/column';
+import { pointsColumnStyle } from 'components/columns/column-styles';
 import { SerializedStyles } from '@emotion/core';
-import { pointsColumnStyle } from './column-styles';
 
 export class PointsColumn extends Column {
 

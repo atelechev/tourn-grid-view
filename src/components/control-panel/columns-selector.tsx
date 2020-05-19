@@ -1,13 +1,18 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { InputLabel, Select, FormControl, MenuItem } from '@material-ui/core';
-import { I18nContext } from '../context/i18n-context';
-import { UiSelectionsContext } from '../context/ui-selections-context';
-import { DataContext } from '../context/data-context';
-import { LoadedTournament } from '../csv/loaded-tournament';
-import { UiSelectionsManager } from '../ui-selections/ui-selections-manager';
-import { Column } from '../columns/column';
+import { Column } from 'components/columns/column';
+import { DataContext } from 'components/context/data-context';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@material-ui/core';
+import { I18nContext } from 'components/context/i18n-context';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const itemStyle = css({
   textTransform: 'capitalize'

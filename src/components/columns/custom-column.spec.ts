@@ -1,5 +1,5 @@
-import { CustomColumn } from './custom-column';
-import { standardNarrowColumnStyle } from './column-styles';
+import { CustomColumn } from 'components/columns/custom-column';
+import { standardNarrowColumnStyle } from 'components/columns/column-styles';
 
 describe('CustomColumn', () => {
 

@@ -1,5 +1,5 @@
-import { FederationColumn } from './federation-column';
-import { standardNarrowColumnStyle } from './column-styles';
+import { FederationColumn } from 'components/columns/federation-column';
+import { standardNarrowColumnStyle } from 'components/columns/column-styles';
 
 describe('FederationColumn', () => {
 

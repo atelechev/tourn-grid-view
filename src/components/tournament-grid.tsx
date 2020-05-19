@@ -1,25 +1,25 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { ReactNode } from 'react';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import GridData from 'components/grid-data';
+import GridHeader from 'components/grid-header';
+import Paper from '@material-ui/core/Paper';
+import React, { ReactNode } from 'react';
 import Table from '@material-ui/core/Table';
-import GridHeader from './grid-header';
-import GridData from './grid-data';
-import { ControlPanel } from './control-panel/control-panel';
-import { InitialConfig } from './initial-config';
+import { ControlPanel } from 'components/control-panel/control-panel';
 import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import { getI18nProvider } from './i18n/i18n-provider';
-import { loadCsv } from './csv/load-csv';
-import { I18nContext } from './context/i18n-context';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { UiEvent } from './ui-selections/ui-event';
+import { DataContext } from 'components/context/data-context';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { I18nContext } from 'components/context/i18n-context';
+import { InitialConfig } from 'components/initial-config';
+import { initUiSelectionsContext } from 'components/ui-selections/context-initializer';
+import { loadCsv } from 'components/csv/load-csv';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { Observable } from 'rxjs';
-import { initUiSelectionsContext } from './ui-selections/context-initializer';
+import { ThemeProvider } from '@material-ui/styles';
+import { UiEvent } from 'components/ui-selections/ui-event';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const tableStyle = css({
   minWidth: 600

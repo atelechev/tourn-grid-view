@@ -1,7 +1,7 @@
-import { initializeFilters } from './filters-initialization-util';
-import { Filter } from './filter';
-import { LoadedTournament } from '../csv/loaded-tournament';
-import { buildColumn } from '../columns/column-factory';
+import { buildColumn } from 'components/columns/column-factory';
+import { Filter } from 'components/filters/filter';
+import { initializeFilters } from 'components/filters/filters-initialization-util';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 
 describe('initializeFilters', () => {
 

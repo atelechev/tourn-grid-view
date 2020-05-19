@@ -1,5 +1,5 @@
-import { PointsColumn } from './points-column';
-import { pointsColumnStyle } from './column-styles';
+import { PointsColumn } from 'components/columns/points-column';
+import { pointsColumnStyle } from 'components/columns/column-styles';
 
 describe('PointsColumn', () => {
 

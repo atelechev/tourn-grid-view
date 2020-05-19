@@ -1,5 +1,5 @@
-import { I18nContext } from '../context/i18n-context';
-import { isGameColorKnown } from './game-result-analyzers';
+import { I18nContext } from 'components/context/i18n-context';
+import { isGameColorKnown } from 'components/cell-value/game-result-analyzers';
 
 export const gameResultForOutput = (
   result: string,

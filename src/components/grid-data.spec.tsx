@@ -1,19 +1,16 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import GridData from './grid-data';
-import { assertExpectedHtmlElement } from './grid-header.spec';
-import { getI18nProvider } from './i18n/i18n-provider';
-import { I18nContext } from './context/i18n-context';
-import { SimpleFilter } from './filters/simple-filter';
-import {
-  ensureElementDisplayed,
-  ensureElementHidden
-} from './cell-value/cell-value.spec';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import { buildColumn } from './columns/column-factory';
+import GridData from 'components/grid-data';
+import { assertExpectedHtmlElement } from 'components/grid-header.spec';
+import { buildColumn } from 'components/columns/column-factory';
+import { DataContext } from 'components/context/data-context';
+import { ensureElementDisplayed, ensureElementHidden } from 'components/cell-value/cell-value.spec';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { I18nContext } from 'components/context/i18n-context';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { SimpleFilter } from 'components/filters/simple-filter';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 describe('GridData', () => {
   const lang = 'en';

@@ -1,4 +1,4 @@
-import { NO_FILTER } from './no-filter';
+import { NO_FILTER } from 'components/filters/no-filter';
 
 describe('NoFilter', () => {
   it('shouldShowRow should return true for undefined arg', () => {

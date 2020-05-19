@@ -1,16 +1,16 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import React, { ReactNode } from 'react';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import { I18nContext } from '../context/i18n-context';
+import React, { ReactNode } from 'react';
 import {
+  Button,
   Dialog,
   DialogActions,
-  Button,
   DialogContent,
   DialogContentText,
   IconButton
 } from '@material-ui/core';
+import { I18nContext } from 'components/context/i18n-context';
 
 export const buttonStyle = css({
   width: '16px',

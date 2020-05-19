@@ -1,15 +1,15 @@
-import { Column } from './column';
-import { Semantics } from './semantics';
-import { CustomColumn } from './custom-column';
-import { PointsColumn } from './points-column';
-import { CategoryColumn } from './category-column';
-import { ClubColumn } from './club-column';
-import { FederationColumn } from './federation-column';
-import { NameColumn } from './name-column';
-import { RatingColumn } from './rating-column';
-import { RankColumn } from './rank-column';
-import { RoundColumn } from './round-column';
-import { TieBreakColumn } from './tiebreak-column';
+import { CategoryColumn } from 'components/columns/category-column';
+import { ClubColumn } from 'components/columns/club-column';
+import { Column } from 'components/columns/column';
+import { CustomColumn } from 'components/columns/custom-column';
+import { FederationColumn } from 'components/columns/federation-column';
+import { NameColumn } from 'components/columns/name-column';
+import { PointsColumn } from 'components/columns/points-column';
+import { RankColumn } from 'components/columns/rank-column';
+import { RatingColumn } from 'components/columns/rating-column';
+import { RoundColumn } from 'components/columns/round-column';
+import { Semantics } from 'components/columns/semantics';
+import { TieBreakColumn } from 'components/columns/tiebreak-column';
 
 const categoryColumnIdentifiers = new Set<string>(['category', 'cat', 'ctg']);
 

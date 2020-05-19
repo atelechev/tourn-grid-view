@@ -1,18 +1,18 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import React, { ReactNode } from 'react';
+import ShowInfo from 'components/control-panel/show-info';
+import ShowPanel from 'components/control-panel/show-panel';
+import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
+import { Column } from 'components/columns/column';
+import { DataContext } from 'components/context/data-context';
+import { hiddenStyle, visibleStyle } from 'components/columns/column-styles';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { TableSortLabel } from '@material-ui/core';
-import { UiSelectionsContext } from './context/ui-selections-context';
-import { DataContext } from './context/data-context';
-import { LoadedTournament } from './csv/loaded-tournament';
-import { UiSelectionsManager } from './ui-selections/ui-selections-manager';
-import ShowInfo from './control-panel/show-info';
-import ShowPanel from './control-panel/show-panel';
-import { Column } from './columns/column';
-import { visibleStyle, hiddenStyle } from './columns/column-styles';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const headerCellStyle = css({
   textTransform: 'capitalize'
