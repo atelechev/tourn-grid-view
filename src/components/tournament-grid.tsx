@@ -60,7 +60,7 @@ const theme = createMuiTheme({
   }
 });
 
-export class TournamentGrid extends React.Component<InitialConfig> {
+export default class TournamentGrid extends React.Component<InitialConfig> {
   private readonly _csv: LoadedTournament;
 
   private readonly _i18n: I18nContext;

@@ -13,12 +13,12 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react",
     "allowJs": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
       "components/*": [
-        "src/components/*"
-      ],
+        "./src/components/*"
+      ]
     }
   }
 }

@@ -7,5 +7,8 @@ module.exports = {
   testRegex: '.*\\.spec\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   reporters: ['default', 'jest-junit'],
-  moduleDirectories: ['node_modules', 'src']
+  moduleDirectories: ['node_modules', 'src'],
+  moduleNameMapper: {
+    "components/(.*)": "<rootDir>/src/components/$1"
+  }
 };
