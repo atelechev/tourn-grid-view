@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
-import React, { ReactNode } from 'react';
-import { I18nContext } from 'components/context/i18n-context';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
+import React, { ReactNode } from 'react';
 import { buttonStyle } from 'components/control-panel/show-info';
+import { I18nContext } from 'components/context/i18n-context';
+import { IconButton } from '@material-ui/core';
 import { UiSelectionsContext } from 'components/context/ui-selections-context';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
-import { IconButton } from '@material-ui/core';
 
 interface ShowPanelProps { }
 

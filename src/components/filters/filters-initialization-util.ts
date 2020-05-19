@@ -1,8 +1,8 @@
-import { Filter } from 'components/filters/filter';
-import { SimpleFilter } from 'components/filters/simple-filter';
 import RatingFilter from 'components/filters/rating-filter';
-import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { Column } from 'components/columns/column';
+import { Filter } from 'components/filters/filter';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
+import { SimpleFilter } from 'components/filters/simple-filter';
 
 const initFilter = (column: Column): SimpleFilter | RatingFilter => {
   if (column.hasSemantics('rating')) {

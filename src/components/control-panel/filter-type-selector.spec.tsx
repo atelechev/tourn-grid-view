@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
+import FilterTypeSelector from 'components/control-panel/filter-type-selector';
 import { getI18nProvider } from 'components/i18n/i18n-provider';
 import { I18nContext } from 'components/context/i18n-context';
-import FilterTypeSelector from 'components/control-panel/filter-type-selector';
 import { SimpleFilter } from 'components/filters/simple-filter';
 import { UiSelectionsContext } from 'components/context/ui-selections-context';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';

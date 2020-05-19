@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
+import { buildColumn } from 'components/columns/column-factory';
+import { ColumnsSelector } from 'components/control-panel/columns-selector';
+import { DataContext } from 'components/context/data-context';
 import { getI18nProvider } from 'components/i18n/i18n-provider';
 import { I18nContext } from 'components/context/i18n-context';
-import { ColumnsSelector } from 'components/control-panel/columns-selector';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { SimpleFilter } from 'components/filters/simple-filter';
 import { UiSelectionsContext } from 'components/context/ui-selections-context';
-import { DataContext } from 'components/context/data-context';
-import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
-import { buildColumn } from 'components/columns/column-factory';
 
 describe('ColumnsSelector', () => {
   const lang = 'en';

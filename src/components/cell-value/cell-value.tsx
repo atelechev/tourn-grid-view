@@ -4,8 +4,8 @@ import { CellValueProps } from 'components/cell-value/cell-value-props';
 import { CountryFlag } from 'components/country-flag/country-flag';
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import { GameResultValue } from 'components/cell-value/game-result-value';
+import { hiddenStyle, visibleStyle } from 'components/columns/column-styles';
 import { TableCell } from '@material-ui/core';
-import { visibleStyle, hiddenStyle } from 'components/columns/column-styles';
 
 const dataCellStyle = css({
   fontSize: '11px'

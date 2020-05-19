@@ -1,6 +1,6 @@
 import { Column } from 'components/columns/column';
-import { SerializedStyles } from '@emotion/core';
 import { placeColumnStyle } from 'components/columns/column-styles';
+import { SerializedStyles } from '@emotion/core';
 
 
 export class RankColumn extends Column {

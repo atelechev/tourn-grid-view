@@ -1,6 +1,6 @@
 import { getI18nProvider } from 'components/i18n/i18n-provider';
-import { langSupportFr } from 'components/i18n/lang-support-fr';
 import { langSupportEn } from 'components/i18n/lang-support-en';
+import { langSupportFr } from 'components/i18n/lang-support-fr';
 
 describe('getI18nProvider', () => {
   it('should throw expected Error if lang arg is not defined', () => {

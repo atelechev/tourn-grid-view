@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as renderer from 'react-test-renderer';
-import { getI18nProvider } from 'components/i18n/i18n-provider';
+import { findCssRule, getCssClassName } from 'components/cell-value/cell-value.spec';
 import { GameResultValue } from 'components/cell-value/game-result-value';
+import { getI18nProvider } from 'components/i18n/i18n-provider';
 import { I18nContext } from 'components/context/i18n-context';
-import { getCssClassName, findCssRule } from 'components/cell-value/cell-value.spec';
 
 describe('GameResultValue', () => {
   const lang = 'en';

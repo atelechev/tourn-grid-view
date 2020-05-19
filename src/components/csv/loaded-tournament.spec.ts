@@ -1,5 +1,5 @@
-import { LoadedTournament } from 'components/csv/loaded-tournament';
 import { buildColumn } from 'components/columns/column-factory';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 
 describe('LoadedTournament', () => {
 

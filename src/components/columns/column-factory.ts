@@ -1,14 +1,14 @@
-import { Column } from 'components/columns/column';
-import { Semantics } from 'components/columns/semantics';
-import { CustomColumn } from 'components/columns/custom-column';
-import { PointsColumn } from 'components/columns/points-column';
 import { CategoryColumn } from 'components/columns/category-column';
 import { ClubColumn } from 'components/columns/club-column';
+import { Column } from 'components/columns/column';
+import { CustomColumn } from 'components/columns/custom-column';
 import { FederationColumn } from 'components/columns/federation-column';
 import { NameColumn } from 'components/columns/name-column';
-import { RatingColumn } from 'components/columns/rating-column';
+import { PointsColumn } from 'components/columns/points-column';
 import { RankColumn } from 'components/columns/rank-column';
+import { RatingColumn } from 'components/columns/rating-column';
 import { RoundColumn } from 'components/columns/round-column';
+import { Semantics } from 'components/columns/semantics';
 import { TieBreakColumn } from 'components/columns/tiebreak-column';
 
 const categoryColumnIdentifiers = new Set<string>(['category', 'cat', 'ctg']);

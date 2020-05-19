@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
+import FilteredItemsSelector from 'components/control-panel/filtered-items-selector';
+import FilterTypeSelector from 'components/control-panel/filter-type-selector';
 import React, { ReactNode } from 'react';
 import { ColumnsSelector } from 'components/control-panel/columns-selector';
-import FilterTypeSelector from 'components/control-panel/filter-type-selector';
-import FilteredItemsSelector from 'components/control-panel/filtered-items-selector';
+import { hiddenStyle } from 'components/columns/column-styles';
 import { UiSelectionsContext } from 'components/context/ui-selections-context';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
-import { hiddenStyle } from 'components/columns/column-styles';
 
 const panelStyle = css({
   display: 'flex',

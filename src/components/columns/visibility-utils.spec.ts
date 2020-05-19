@@ -1,6 +1,4 @@
-import {
-  isRowVisible
-} from 'components/columns/visibility-utils';
+import { isRowVisible } from 'components/columns/visibility-utils';
 import { SimpleFilter } from 'components/filters/simple-filter';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 

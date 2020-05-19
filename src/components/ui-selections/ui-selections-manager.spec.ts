@@ -1,8 +1,8 @@
-import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
+import { buildColumn } from 'components/columns/column-factory';
 import { NO_FILTER } from 'components/filters/no-filter';
 import { SimpleFilter } from 'components/filters/simple-filter';
+import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 import { VALUE_NO_FILTER } from 'components/filters/filter';
-import { buildColumn } from 'components/columns/column-factory';
 
 describe('UiSelectionsManager', () => {
 

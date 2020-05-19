@@ -1,5 +1,5 @@
-import { TieBreakColumn } from 'components/columns/tiebreak-column';
 import { standardNarrowColumnStyle } from 'components/columns/column-styles';
+import { TieBreakColumn } from 'components/columns/tiebreak-column';
 
 describe('TieBreakColumn', () => {
 

@@ -1,10 +1,15 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import React, { ReactNode } from 'react';
-import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select
+} from '@material-ui/core';
 import { I18nContext } from 'components/context/i18n-context';
-import { UiSelectionsContext } from 'components/context/ui-selections-context';
 import { NO_FILTER } from 'components/filters/no-filter';
+import { UiSelectionsContext } from 'components/context/ui-selections-context';
 import { UiSelectionsManager } from 'components/ui-selections/ui-selections-manager';
 
 const selectorStyle = css({

@@ -1,7 +1,7 @@
-import * as d3Select from 'd3-selection';
 import * as d3Dsv from 'd3-dsv';
-import { LoadedTournament } from 'components/csv/loaded-tournament';
+import * as d3Select from 'd3-selection';
 import { buildColumn } from 'components/columns/column-factory';
+import { LoadedTournament } from 'components/csv/loaded-tournament';
 
 const isCsvEmptyLineArray = (row: Array<any>): boolean => {
   return row && row.length === 1 && row[0] === '';
